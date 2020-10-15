@@ -1,4 +1,6 @@
 package com.darq37.android_room.database.dao;
 
-public class ProductDao extends GenericDao {
+import com.darq37.android_room.entity.Product;
+
+public class ProductDao extends GenericDao<Product, Long> {
 }

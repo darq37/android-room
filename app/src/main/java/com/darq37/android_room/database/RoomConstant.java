@@ -7,13 +7,15 @@ import androidx.room.Room;
 import com.darq37.android_room.database.room.AppDatabase;
 
 public class RoomConstant {
-    public static AppDatabase buildDatabase(Context context){
+    public static AppDatabase buildDatabase(Context context) {
         return Room.databaseBuilder(context, AppDatabase.class, "app_db")
                 .fallbackToDestructiveMigration()
                 .build();
 
     }
+
     private static AppDatabase INSTANCE;
+
     public static synchronized AppDatabase getInstance(Context context) {
         if (INSTANCE == null) {
             INSTANCE = buildDatabase(context);

@@ -32,10 +32,10 @@ public class User {
     private String password;
 
     @ColumnInfo(name = "creation_date")
-    private Date creationDate = new Date();
+    private Date creationDate;
 
     @ColumnInfo(name = "modification_date")
-    private Date modificationDate = new Date();
+    private Date modificationDate;
 
     public User() {
     }
@@ -45,6 +45,8 @@ public class User {
         this.login = login;
         this.displayName = displayName;
         this.password = password;
+        this.creationDate = new Date();
+        this.modificationDate = new Date();
     }
 
     public String getLogin() {

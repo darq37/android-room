@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
@@ -27,17 +28,25 @@ public class Product {
     @NonNull
     private String name;
 
-    @ColumnInfo
+    @ColumnInfo(name = "product_description")
     @Nullable
     private String description;
 
     @ColumnInfo(name = "creation_date")
-    private Date creationDate =  new Date();
+    private Date creationDate;
 
     @ColumnInfo(name = "modification_date")
-    private Date modificationDate =  new Date();
+    private Date modificationDate;
 
     public Product() {
+    }
+
+    @Ignore
+    public Product(@NonNull String name, @Nullable String description) {
+        this.name = name;
+        this.description = description;
+        this.modificationDate =  new Date();
+        this.creationDate =  new Date();
     }
 
     public long getId() {
