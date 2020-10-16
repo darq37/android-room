@@ -9,6 +9,7 @@ import com.darq37.android_room.entity.Product;
 
 import java.util.ArrayList;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,7 +25,7 @@ public class ListProductConverter {
             products.add(new Product(s));
         }
 
-        return products;
+        return value.isEmpty() ? Collections.emptyList() : products;
     }
 
     @TypeConverter

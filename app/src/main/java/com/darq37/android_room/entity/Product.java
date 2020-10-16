@@ -22,7 +22,7 @@ public class Product {
     @PrimaryKey(autoGenerate = true)
     @NonNull
     @ColumnInfo(name = "product_id")
-    private Long id;
+    private long id;
 
     @ColumnInfo(name = "product_name")
     @NonNull
