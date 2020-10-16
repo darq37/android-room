@@ -24,7 +24,8 @@ import com.darq37.android_room.entity.User;
         views = {
 
         },
-        version = 1
+        version = 1,
+        exportSchema = false // TO SURPRESS WARNING
 )
 @TypeConverters({
         DateConverter.class,

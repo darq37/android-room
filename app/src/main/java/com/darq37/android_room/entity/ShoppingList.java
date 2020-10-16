@@ -6,15 +6,16 @@ import androidx.room.Embedded;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
+import androidx.room.RoomWarnings;
 import androidx.room.TypeConverters;
 
 import com.darq37.android_room.database.converters.DateConverter;
 import com.darq37.android_room.database.converters.ListProductConverter;
-import com.darq37.android_room.database.converters.ListStringConverter;
 
 import java.util.Date;
 import java.util.List;
 
+@SuppressWarnings({RoomWarnings.INDEX_FROM_EMBEDDED_ENTITY_IS_DROPPED, RoomWarnings.PRIMARY_KEY_FROM_EMBEDDED_IS_DROPPED})
 @Entity(
         tableName = "shopping_lists"
 )
@@ -22,7 +23,7 @@ public class ShoppingList {
     @PrimaryKey(autoGenerate = true)
     @NonNull
     @ColumnInfo(name = "list_id")
-    private Long id;
+    private long id;
 
     @NonNull
     @ColumnInfo(name = "list_name")
