@@ -1,6 +1,7 @@
 package com.darq37.android_room.database.dao;
 
 import androidx.room.Dao;
+import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Transaction;
 
@@ -11,7 +12,6 @@ import java.util.List;
 
 @Dao
 public abstract class ShoppingListDao extends GenericDao<ShoppingList, Long> {
-
 
     @Transaction
     @Query("SELECT * FROM shopping_lists WHERE list_id = :id")

@@ -1,6 +1,8 @@
 package com.darq37.android_room.database.dao;
 
 import androidx.room.Dao;
+import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
 import com.darq37.android_room.entity.User;
@@ -13,12 +15,6 @@ import io.reactivex.Single;
 
 @Dao
 public abstract class UserDao extends GenericDao<User, String> {
-    @Query("DELETE FROM users")
-    public abstract Completable clearAll();
-
-    @Query("DELETE FROM users")
-    public abstract void clearAllSync();
-
     @Query("SELECT * FROM users")
     public abstract Single<List<User>> getAll();
 
@@ -30,5 +26,4 @@ public abstract class UserDao extends GenericDao<User, String> {
 
     @Query("SELECT * FROM users WHERE login = :login")
     public abstract User getByIdSync(String login);
-
 }

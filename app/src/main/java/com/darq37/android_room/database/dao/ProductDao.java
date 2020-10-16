@@ -14,12 +14,6 @@ import io.reactivex.Single;
 
 @Dao
 public abstract class ProductDao extends GenericDao<Product, Long> {
-    @Query("DELETE FROM products")
-    public abstract Completable clearAll();
-
-    @Query("DELETE FROM products")
-    public abstract void clearAllSync();
-
     @Query("SELECT * FROM products")
     public abstract Single<List<Product>> getAll();
 

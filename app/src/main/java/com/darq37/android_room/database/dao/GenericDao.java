@@ -17,10 +17,10 @@ public abstract class GenericDao<T, ID> {
 
     //<editor-fold desc="asynchronicznie">
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    public abstract Single<List<Long>> insert(List<T> list);
+    public abstract Single<Long> insert(T value);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    public abstract Single<Long> insert(T value);
+    public abstract Single<List<Long>> insert(List<T> list);
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
     public abstract Completable update(T value);
@@ -49,5 +49,8 @@ public abstract class GenericDao<T, ID> {
 
     @Delete
     public abstract void deleteSync(T value);
+
+    @Delete
+    public abstract void deleteSync(List<T> values);
 
 }
