@@ -13,7 +13,6 @@ import java.util.List;
 public abstract class ShoppingListDao extends GenericDao<ShoppingList, Long> {
 
 
-
     @Transaction
     @Query("SELECT * FROM shopping_lists WHERE list_id = :id")
     public abstract List<ListWithProducts> loadListWithProducts(Long id);

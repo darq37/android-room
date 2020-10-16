@@ -14,7 +14,7 @@ public class ListStringConverter {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @TypeConverter
-    public List<String> fromString(String value){
+    public List<String> fromString(String value) {
         return value == null || value.isEmpty() ? Collections.emptyList() : Arrays.stream(value.split(", "))
                 .map(String::new)
                 .collect(Collectors.toList());
@@ -22,8 +22,8 @@ public class ListStringConverter {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @TypeConverter
-    public String toString(List<String> list){
-        return list ==null || list.isEmpty() ? null : list
+    public String toString(List<String> list) {
+        return list == null || list.isEmpty() ? null : list
                 .stream()
                 .map(Object::toString)
                 .collect(Collectors.joining(", "));

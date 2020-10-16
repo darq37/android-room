@@ -17,7 +17,7 @@ public class ListProductConverter {
 
     @TypeConverter
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public List<Product> from (String value){
+    public List<Product> from(String value) {
         String[] elements = value.split(", ");
         List<Product> products = new ArrayList<>();
         for (String s :
@@ -30,7 +30,7 @@ public class ListProductConverter {
 
     @TypeConverter
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public String to (List<Product> value) {
+    public String to(List<Product> value) {
         return value == null || value.isEmpty() ? null : value
                 .stream()
                 .map(Product::getName)

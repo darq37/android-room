@@ -24,8 +24,7 @@ import com.darq37.android_room.entity.User;
         views = {
 
         },
-        version = 1,
-        exportSchema = false // TO SURPRESS WARNING
+        version = 1
 )
 @TypeConverters({
         DateConverter.class,
@@ -34,7 +33,9 @@ import com.darq37.android_room.entity.User;
 })
 public abstract class AppDatabase extends RoomDatabase {
     public abstract UserDao userDao();
+
     public abstract ProductDao productDao();
+
     public abstract ShoppingListDao shoppingListDao();
 
 }
