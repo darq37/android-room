@@ -5,11 +5,12 @@ import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 
 import com.darq37.android_room.database.converters.DateConverter;
-import com.darq37.android_room.database.converters.ListConverter;
+import com.darq37.android_room.database.converters.ListProductConverter;
+import com.darq37.android_room.database.converters.ListStringConverter;
 import com.darq37.android_room.database.dao.ProductDao;
+import com.darq37.android_room.database.dao.ShoppingListDao;
 import com.darq37.android_room.database.dao.UserDao;
 import com.darq37.android_room.entity.Product;
-import com.darq37.android_room.entity.SharedShoppingList;
 import com.darq37.android_room.entity.ShoppingList;
 import com.darq37.android_room.entity.User;
 
@@ -19,7 +20,6 @@ import com.darq37.android_room.entity.User;
                 User.class,
                 Product.class,
                 ShoppingList.class,
-                SharedShoppingList.class
         },
         views = {
 
@@ -28,10 +28,12 @@ import com.darq37.android_room.entity.User;
 )
 @TypeConverters({
         DateConverter.class,
-        ListConverter.class
+        ListStringConverter.class,
+        ListProductConverter.class
 })
-public  abstract class AppDatabase extends RoomDatabase {
+public abstract class AppDatabase extends RoomDatabase {
     public abstract UserDao userDao();
     public abstract ProductDao productDao();
+    public abstract ShoppingListDao shoppingListDao();
 
 }

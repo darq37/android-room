@@ -31,10 +31,10 @@ public class User {
     @NonNull
     private String password;
 
-    @ColumnInfo(name = "creation_date")
+    @ColumnInfo(name = "user_creation_date")
     private Date creationDate;
 
-    @ColumnInfo(name = "modification_date")
+    @ColumnInfo(name = "User_modification_date")
     private Date modificationDate;
 
     public User() {

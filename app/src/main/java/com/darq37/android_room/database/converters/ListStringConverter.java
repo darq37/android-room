@@ -11,7 +11,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ListConverter {
+public class ListStringConverter {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @TypeConverter

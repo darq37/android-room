@@ -2,12 +2,15 @@ package com.darq37.android_room.entity;
 
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
+import androidx.room.Embedded;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
 import com.darq37.android_room.database.converters.DateConverter;
-import com.darq37.android_room.database.converters.ListConverter;
+import com.darq37.android_room.database.converters.ListProductConverter;
+import com.darq37.android_room.database.converters.ListStringConverter;
 
 import java.util.Date;
 import java.util.List;
@@ -25,22 +28,32 @@ public class ShoppingList {
     @ColumnInfo(name = "list_name")
     private String name;
 
-    @ColumnInfo(name = "owner")
+    @Embedded
     private User owner;
 
     @ColumnInfo(name = "products")
-    @TypeConverters(ListConverter.class)
+    @TypeConverters(ListProductConverter.class)
     private List<Product> products;
 
-    @ColumnInfo(name = "creation_date")
+    @ColumnInfo(name = "product_creation_date")
     @TypeConverters(DateConverter.class)
     private Date creationDate;
 
-    @ColumnInfo(name = "modification_date")
+    @ColumnInfo(name = "product_modification_date")
     @TypeConverters(DateConverter.class)
     private Date modificationDate;
 
     public ShoppingList() {
+    }
+
+    @Ignore
+    public ShoppingList(@NonNull Long id, @NonNull String name, User owner, List<Product> products, Date creationDate, Date modificationDate) {
+        this.id = id;
+        this.name = name;
+        this.owner = owner;
+        this.products = products;
+        this.creationDate = creationDate;
+        this.modificationDate = modificationDate;
     }
 
     @NonNull
@@ -82,6 +95,15 @@ public class ShoppingList {
 
     public void setModificationDate(Date modificationDate) {
         this.modificationDate = modificationDate;
+    }
+
+    @NonNull
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(@NonNull Long id) {
+        this.id = id;
     }
 }
 

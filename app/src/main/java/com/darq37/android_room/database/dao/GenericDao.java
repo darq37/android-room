@@ -34,26 +34,6 @@ public abstract class GenericDao<T, ID> {
     @Delete
     public abstract Completable delete(List<T> value);
 
-    public abstract Completable clearAll();
-
-    public Single<Long> deleteAndInsert(T _delete, T _insert) {
-        return delete(_delete)
-                .subscribeOn(Schedulers.io())
-                .andThen(insert(_insert)
-                        .subscribeOn(Schedulers.io()));
-    }
-
-    public Single<List<Long>> clearAndInsert(List<T> list) {
-        return clearAll()
-                .subscribeOn(Schedulers.io())
-                .andThen(insert(list)
-                        .subscribeOn(Schedulers.io()));
-    }
-
-    protected abstract Single<List<T>> getAll();
-
-    protected abstract Maybe<T> getById(ID id);
-
     //synchronicznie
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public abstract long insertSync(T value);
@@ -69,23 +49,5 @@ public abstract class GenericDao<T, ID> {
 
     @Delete
     public abstract void deleteSync(T value);
-
-    public abstract void clearAllSync();
-
-    @Transaction
-    public long deleteAndInsertSync(T _delete, T _insert) {
-        deleteSync(_delete);
-        return insertSync(_insert);
-    }
-
-    @Transaction
-    public List<Long> clearAndInsertSync(List<T> _insert) {
-        clearAllSync();
-        return insertSync(_insert);
-    }
-
-    protected abstract List<T> getAllSync();
-
-    protected abstract T getByIdSync(ID id);
 
 }

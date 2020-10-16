@@ -33,20 +33,17 @@ public class Product {
     private String description;
 
     @ColumnInfo(name = "creation_date")
-    private Date creationDate;
+    private Date creationDate = new Date();
 
     @ColumnInfo(name = "modification_date")
-    private Date modificationDate;
+    private Date modificationDate = new Date();
 
     public Product() {
     }
 
     @Ignore
-    public Product(@NonNull String name, @Nullable String description) {
+    public Product(@NonNull String name) {
         this.name = name;
-        this.description = description;
-        this.modificationDate =  new Date();
-        this.creationDate =  new Date();
     }
 
     public long getId() {

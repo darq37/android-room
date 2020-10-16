@@ -9,6 +9,7 @@ import com.darq37.android_room.database.room.AppDatabase;
 public class RoomConstant {
     public static AppDatabase buildDatabase(Context context) {
         return Room.databaseBuilder(context, AppDatabase.class, "app_db")
+                .allowMainThreadQueries()
                 .fallbackToDestructiveMigration()
                 .build();
 
