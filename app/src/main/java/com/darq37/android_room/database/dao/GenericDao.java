@@ -3,17 +3,15 @@ package com.darq37.android_room.database.dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
-import androidx.room.Transaction;
+import androidx.room.SkipQueryVerification;
 import androidx.room.Update;
 
 import java.util.List;
 
 import io.reactivex.Completable;
-import io.reactivex.Maybe;
 import io.reactivex.Single;
-import io.reactivex.schedulers.Schedulers;
 
-public abstract class GenericDao<T, ID> {
+public abstract class GenericDao<T, ID>  {
 
     //<editor-fold desc="asynchronicznie">
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -30,6 +28,10 @@ public abstract class GenericDao<T, ID> {
 
     @Delete
     public abstract Completable delete(T value);
+
+    public abstract Completable clearAll();
+
+    public abstract void clearAllSync();
 
     @Delete
     public abstract Completable delete(List<T> value);

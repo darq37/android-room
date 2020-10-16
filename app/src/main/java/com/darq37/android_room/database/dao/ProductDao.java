@@ -14,6 +14,15 @@ import io.reactivex.Single;
 
 @Dao
 public abstract class ProductDao extends GenericDao<Product, Long> {
+
+    @Override
+    @Query("DELETE FROM products")
+    public abstract void clearAllSync();
+
+    @Override
+    @Query("DELETE FROM products")
+    public abstract Completable clearAll();
+
     @Query("SELECT * FROM products")
     public abstract Single<List<Product>> getAll();
 
@@ -31,5 +40,8 @@ public abstract class ProductDao extends GenericDao<Product, Long> {
 
     @Query("SELECT * FROM products WHERE product_name = :name")
     public abstract Maybe<Product> getProductByName(String name);
+
+
+
 
 }
