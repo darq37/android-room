@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.darq37.android_room.activities.account.AccountActivity;
+import com.darq37.android_room.activities.login.data.LoginRepository;
 import com.darq37.android_room.activities.login.data.model.LoggedInUser;
 import com.darq37.android_room.activities.login.ui.login.LoginActivity;
 import com.darq37.android_room.database.RoomConstant;
@@ -20,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
     private static Context context;
     private AppDatabase appDatabase;
     private LoggedInUser loggedInUser;
+    private LoginRepository loginRepository;
 
     public static Context getContext() {
         return context;
