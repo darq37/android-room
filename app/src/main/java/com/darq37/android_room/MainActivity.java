@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void exitApp(View view){
         finish();
+        onDestroy();
         System.exit(0);
     }
 
