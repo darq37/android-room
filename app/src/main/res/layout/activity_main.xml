@@ -23,7 +23,7 @@
         app:layout_constraintVertical_bias="0.023" />
 
     <Button
-        android:id="@+id/loginButton"
+        android:id="@+id/logOutButton"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
@@ -44,8 +44,10 @@
         app:backgroundTint="#76FF03"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/loginButton"
-        app:srcCompat="@drawable/ic_baseline_add_24" />
+        app:layout_constraintStart_toEndOf="@+id/logOutButton"
+        app:maxImageSize="48dp"
+        app:srcCompat="@drawable/ic_baseline_add_24"
+        android:focusable="true" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/shareButton"
@@ -55,9 +57,11 @@
         android:clickable="true"
         app:backgroundTint="#00E676"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/loginButton"
+        app:layout_constraintEnd_toStartOf="@+id/logOutButton"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/ic_baseline_share_24" />
+        app:maxImageSize="48dp"
+        app:srcCompat="@drawable/ic_baseline_share_24"
+        android:focusable="true" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/settingsButton"
@@ -70,6 +74,8 @@
         app:backgroundTint="#00E676"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_baseline_settings_24" />
+        app:maxImageSize="48dp"
+        app:srcCompat="@drawable/ic_baseline_settings_24"
+        android:focusable="true" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
