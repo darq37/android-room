@@ -9,6 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".activities.shared.SharedActivity"></activity>
         <activity android:name=".activities.product.ProductActivity" />
         <activity android:name=".activities.list.ListActivity" />
         <activity android:name=".activities.account.AccountActivity" />

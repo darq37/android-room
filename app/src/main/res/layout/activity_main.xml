@@ -4,23 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#2979FF"
+    android:background="#651FFF"
     tools:context=".MainActivity">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/welcome"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginTop="16dp"
         android:gravity="center|center_horizontal|center_vertical"
         android:text="@string/welcome"
         android:textColor="@android:color/white"
         android:textSize="30sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.023" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/logOutButton"
@@ -41,13 +40,13 @@
         android:layout_height="wrap_content"
         android:layout_margin="25dp"
         android:clickable="true"
+        android:focusable="true"
         app:backgroundTint="#76FF03"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/logOutButton"
         app:maxImageSize="48dp"
-        app:srcCompat="@drawable/ic_baseline_add_24"
-        android:focusable="true" />
+        app:srcCompat="@drawable/ic_baseline_add_24" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/shareButton"
@@ -55,13 +54,13 @@
         android:layout_height="wrap_content"
         android:layout_margin="25dp"
         android:clickable="true"
+        android:focusable="true"
         app:backgroundTint="#00E676"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/logOutButton"
         app:layout_constraintStart_toStartOf="parent"
         app:maxImageSize="48dp"
-        app:srcCompat="@drawable/ic_baseline_share_24"
-        android:focusable="true" />
+        app:srcCompat="@drawable/ic_baseline_share_24" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/settingsButton"
@@ -71,19 +70,23 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
         android:clickable="true"
+        android:focusable="true"
         app:backgroundTint="#00E676"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:maxImageSize="48dp"
-        app:srcCompat="@drawable/ic_baseline_settings_24"
-        android:focusable="true" />
+        app:srcCompat="@drawable/ic_baseline_settings_24" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="324dp"
-        android:layout_height="473dp"
+        android:id="@+id/shoppingLists"
+        android:layout_width="213dp"
+        android:layout_height="322dp"
+        android:layout_margin="45dp"
         app:layout_constraintBottom_toTopOf="@+id/logOutButton"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/welcome"
+        app:layout_constraintVertical_bias="0.507" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

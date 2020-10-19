@@ -5,11 +5,13 @@ import androidx.room.Query;
 import androidx.room.Transaction;
 
 import com.darq37.android_room.database.crossrefs.ListWithProducts;
+import com.darq37.android_room.entity.Product;
 import com.darq37.android_room.entity.ShoppingList;
 
 import java.util.List;
 
 import io.reactivex.Completable;
+import io.reactivex.Single;
 
 @Dao
 public abstract class ShoppingListDao extends GenericDao<ShoppingList, Long> {
@@ -25,4 +27,10 @@ public abstract class ShoppingListDao extends GenericDao<ShoppingList, Long> {
     @Override
     @Query("DELETE FROM shopping_lists")
     public abstract void clearAllSync();
+
+    @Query("SELECT * FROM shopping_lists")
+    public abstract Single<List<ShoppingList>> getAll();
+
+    @Query("SELECT * FROM shopping_lists")
+    public abstract List<ShoppingList> getAllSync();
 }

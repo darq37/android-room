@@ -10,12 +10,14 @@ import com.darq37.android_room.activities.login.data.LoginRepository;
 import com.darq37.android_room.activities.login.data.Result;
 import com.darq37.android_room.activities.login.data.model.LoggedInUser;
 import com.darq37.android_room.R;
+import com.darq37.android_room.database.RoomConstant;
 
 public class LoginViewModel extends ViewModel {
 
     private MutableLiveData<LoginFormState> loginFormState = new MutableLiveData<>();
     private MutableLiveData<LoginResult> loginResult = new MutableLiveData<>();
     private LoginRepository loginRepository;
+
 
     LoginViewModel(LoginRepository loginRepository) {
         this.loginRepository = loginRepository;

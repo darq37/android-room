@@ -5,6 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#651FFF"
-    tools:context=".activities.product.ProductActivity">
+    tools:context=".activities.shared.SharedActivity">
 
 </androidx.constraintlayout.widget.ConstraintLayout>
