@@ -5,16 +5,16 @@ package com.darq37.android_room.activities.login.data.model;
  */
 public class LoggedInUser {
 
-    private String userId;
+    private String login;
     private String displayName;
 
-    public LoggedInUser(String userId, String displayName) {
-        this.userId = userId;
+    public LoggedInUser(String login, String displayName) {
+        this.login = login;
         this.displayName = displayName;
     }
 
-    public String getUserId() {
-        return userId;
+    public String getLogin() {
+        return login;
     }
 
     public String getDisplayName() {

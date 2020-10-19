@@ -29,12 +29,10 @@ public class MainActivity extends AppCompatActivity {
         appDatabase = RoomConstant.getInstance(this);
         setContentView(R.layout.activity_main);
 
-        Button exitButton = findViewById(R.id.exitButton);
-        Button loginButton = findViewById(R.id.loginButton);
+        Button logOut = findViewById(R.id.loginButton);
 
 
-        loginButton.setOnClickListener(this::toLoginActivity);
-        exitButton.setOnClickListener(this::exitApp);
+        logOut.setOnClickListener(this::toLoginActivity);
     }
 
     public void toLoginActivity(View view) {
@@ -42,11 +40,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void exitApp(View view){
-        finish();
-        onDestroy();
-        System.exit(0);
-    }
+
 
 
     public AppDatabase getAppDatabase() {
