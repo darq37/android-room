@@ -29,7 +29,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     @SuppressLint("StaticFieldLeak")
     private static Context context;
-    private AppDatabase appDatabase;
+    public static AppDatabase appDatabase;
     private RecyclerView.Adapter shoppingListAdapter;
     private RecyclerView.LayoutManager layoutManager;
     private LoggedInUser loggedInUser;
@@ -63,16 +63,6 @@ public class MainActivity extends AppCompatActivity {
         logOut.setOnClickListener(this::toLoginActivity);
         settings.setOnClickListener(this::toAccountActivity);
         share.setOnClickListener(this::toShareActivity);
-
-
-        //Populating DB for testing:
-        Product p  = new Product("Potato", "Just regular potato.");
-        User user =  new User("Admin", "AdminName", "Password");
-        List<Product> products =  new ArrayList<>();
-        products.add(p);
-        ShoppingList list =  new ShoppingList("name", user, products);
-        appDatabase.productDao().insertSync(p);
-
 
     }
 

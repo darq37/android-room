@@ -20,8 +20,7 @@
         android:inputType="text"
         android:text="@string/description"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/productName" />
+        app:layout_constraintStart_toStartOf="parent"/>
 
     <EditText
         android:id="@+id/productName"
@@ -50,8 +49,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/productDescription" />
-
+/>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/productListView"
         android:layout_width="315dp"
@@ -59,10 +57,11 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/productDescription" />
+
+/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/backButton"
+        android:id="@+id/backToListActivity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
