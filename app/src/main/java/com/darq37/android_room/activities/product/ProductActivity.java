@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -21,21 +22,19 @@ import java.util.List;
 
 public class ProductActivity extends AppCompatActivity {
 
-    EditText productName;
-    EditText productDescription;
-    Button addProductButton;
-    Button backButton;
-    RecyclerView productList;
+    private EditText productName;
+    private EditText productDescription;
+    private RecyclerView productList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product);
 
-        addProductButton = findViewById(R.id.addProductButton);
+        Button addProductButton = findViewById(R.id.addProductButton);
+        Button backButton = findViewById(R.id.backToListActivity);
         productName = findViewById(R.id.productName);
         productDescription = findViewById(R.id.productDescription);
-        backButton = findViewById(R.id.backToListActivity);
 
         addProductButton.setOnClickListener(this::addProduct);
         backButton.setOnClickListener(this::goBack);
@@ -49,6 +48,7 @@ public class ProductActivity extends AppCompatActivity {
     }
 
     private void getData() {
+        @SuppressLint("StaticFieldLeak")
         class GetData extends AsyncTask<Void, Void, List<Product>> {
 
             @Override

@@ -13,26 +13,22 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.darq37.android_room.activities.account.AccountActivity;
+import com.darq37.android_room.activities.list.ListActivity;
 import com.darq37.android_room.activities.list.ShoppingListAdapter;
 import com.darq37.android_room.activities.login.data.model.LoggedInUser;
 import com.darq37.android_room.activities.login.ui.login.LoginActivity;
 import com.darq37.android_room.activities.shared.SharedActivity;
 import com.darq37.android_room.database.RoomConstant;
 import com.darq37.android_room.database.room.AppDatabase;
-import com.darq37.android_room.entity.Product;
-import com.darq37.android_room.entity.ShoppingList;
-import com.darq37.android_room.entity.User;
 
-import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     @SuppressLint("StaticFieldLeak")
     private static Context context;
     public static AppDatabase appDatabase;
-    private RecyclerView.Adapter shoppingListAdapter;
-    private RecyclerView.LayoutManager layoutManager;
     private LoggedInUser loggedInUser;
+    private RecyclerView.LayoutManager layoutManager;
+    private ShoppingListAdapter shoppingListAdapter;
 
     public static Context getContext() {
         return context;
@@ -46,16 +42,18 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Button logOut = findViewById(R.id.logOutButton);
-        Button settings =  findViewById(R.id.settingsButton);
-        Button share =  findViewById(R.id.shareButton);
+        Button settings = findViewById(R.id.settingsButton);
+        Button share = findViewById(R.id.shareButton);
+        Button lists = findViewById(R.id.goToListsButton);
+
         TextView welcomeView = findViewById(R.id.welcome);
         String welcomeMsg = "Welcome " + loggedInUser.getDisplayName();
 
         RecyclerView recyclerView = findViewById(R.id.shoppingLists);
-        layoutManager =  new LinearLayoutManager(this.getApplicationContext());
+        layoutManager = new LinearLayoutManager(this.getApplicationContext());
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
-        shoppingListAdapter =  new ShoppingListAdapter(appDatabase.shoppingListDao().getAllSync());
+        shoppingListAdapter = new ShoppingListAdapter(appDatabase.shoppingListDao().getAllSync());
         recyclerView.setAdapter(shoppingListAdapter);
 
 
@@ -63,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
         logOut.setOnClickListener(this::toLoginActivity);
         settings.setOnClickListener(this::toAccountActivity);
         share.setOnClickListener(this::toShareActivity);
+        lists.setOnClickListener(this::toListActivity);
 
     }
 
@@ -72,21 +71,20 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void toAccountActivity(View view){
+    public void toAccountActivity(View view) {
         Intent intent = new Intent(this, AccountActivity.class);
         startActivity(intent);
     }
-    public void toShareActivity(View view){
-        Intent intent =  new Intent(this, SharedActivity.class);
+
+    public void toShareActivity(View view) {
+        Intent intent = new Intent(this, SharedActivity.class);
         startActivity(intent);
     }
 
-
-
-
-
-
-
+    public void toListActivity(View view) {
+        Intent intent = new Intent(this, ListActivity.class);
+        startActivity(intent);
+    }
 
 
     public AppDatabase getAppDatabase() {

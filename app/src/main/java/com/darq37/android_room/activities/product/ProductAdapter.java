@@ -14,8 +14,8 @@ import com.darq37.android_room.entity.Product;
 
 import java.util.List;
 
-public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHolder> {
-    List<Product> productList;
+public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductVievHolder> {
+    private List<Product> productList;
 
     public ProductAdapter(List<Product> productList) {
         this.productList = productList;
@@ -23,14 +23,14 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_product, parent, false);
-        return new ViewHolder(view);
+    public ProductVievHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.product_data, parent, false);
+        return new ProductVievHolder(view);
     }
 
     @SuppressLint("SetTextI18n")
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ProductVievHolder holder, int position) {
         Product p = productList.get(position);
         holder.id.setText(Long.toString(p.getId()));
         holder.description.setText(p.getDescription());
@@ -42,13 +42,13 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         return productList.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder{
+    public static class ProductVievHolder extends RecyclerView.ViewHolder{
         private TextView id;
         private TextView name;
         private TextView description;
 
 
-        public ViewHolder(View view) {
+        public ProductVievHolder(View view) {
             super(view);
             id = view.findViewById(R.id.productIdText);
             name = view.findViewById(R.id.productNameText);
