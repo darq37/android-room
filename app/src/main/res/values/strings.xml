@@ -14,4 +14,8 @@
     <string name="created">Created:</string>
     <string name="change_password">Change password</string>
     <string name="name">Name:</string>
+    <string name="enter_new_password">Enter new password</string>
+    <string name="add_product">Add product</string>
+    <string name="description">Description</string>
+    <string name="product_name">Product name</string>
 </resources>

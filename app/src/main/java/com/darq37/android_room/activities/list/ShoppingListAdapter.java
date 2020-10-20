@@ -15,7 +15,6 @@ import java.util.List;
 public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapter.ListViewHolder> {
 
     private List<ShoppingList> lists;
-    private RoomConstant rm;
 
     public ShoppingListAdapter(List<ShoppingList> lists) {
         this.lists = lists;
@@ -34,7 +33,15 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
 
     @Override
     public int getItemCount() {
-        return 0;
+        return lists.size();
+    }
+
+    public List<ShoppingList> getLists() {
+        return lists;
+    }
+
+    public void setLists(List<ShoppingList> lists) {
+        this.lists = lists;
     }
 
     public static class ListViewHolder extends RecyclerView.ViewHolder {

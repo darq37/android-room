@@ -42,6 +42,11 @@ public class Product {
     }
 
     @Ignore
+    public Product(@NonNull String name, @Nullable String description) {
+        this.name = name;
+        this.description = description;
+    }
+    @Ignore
     public Product(@NonNull String name) {
         this.name = name;
     }

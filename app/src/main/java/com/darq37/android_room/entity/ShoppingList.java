@@ -48,13 +48,10 @@ public class ShoppingList {
     }
 
     @Ignore
-    public ShoppingList(@NonNull Long id, @NonNull String name, User owner, List<Product> products, Date creationDate, Date modificationDate) {
-        this.id = id;
+    public ShoppingList( @NonNull String name, User owner, List<Product> products) {
         this.name = name;
         this.owner = owner;
         this.products = products;
-        this.creationDate = creationDate;
-        this.modificationDate = modificationDate;
     }
 
     @NonNull

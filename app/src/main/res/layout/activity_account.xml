@@ -7,6 +7,18 @@
     android:background="#651FFF"
     tools:context=".activities.account.AccountActivity">
 
+    <EditText
+        android:id="@+id/newPassword"
+        android:layout_width="243dp"
+        android:layout_height="47dp"
+        android:layout_marginTop="196dp"
+        android:text="@string/enter_new_password"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/userNameView"
+        android:importantForAutofill="no"
+        android:inputType="textPassword" />
+
     <TextView
         android:id="@+id/creationDateView"
         android:layout_width="243dp"
@@ -43,9 +55,10 @@
         android:id="@+id/changePasswordButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="76dp"
         android:text="@string/change_password"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/creationDateView" />
 </androidx.constraintlayout.widget.ConstraintLayout>

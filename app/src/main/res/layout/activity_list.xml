@@ -7,4 +7,58 @@
     android:background="#651FFF"
     tools:context=".activities.list.ListActivity">
 
+
+    <fragment
+        android:id="@+id/fragment"
+        android:name="com.darq37.android_room.fragments.ProductFragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:layout_editor_absoluteY="139dp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/productListView"
+        android:layout_width="175dp"
+        android:layout_height="186dp"
+        tools:layout_editor_absoluteX="101dp"
+        tools:layout_editor_absoluteY="83dp" />
+
+    <Button
+        android:id="@+id/addToListButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:text="Add product to List"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="311dp" />
+
+    <Button
+        android:id="@+id/newProductButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add new product"
+        tools:layout_editor_absoluteX="217dp"
+        tools:layout_editor_absoluteY="311dp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/shoppingListsView"
+        android:layout_width="252dp"
+        android:layout_height="221dp"
+        tools:layout_editor_absoluteX="75dp"
+        tools:layout_editor_absoluteY="399dp" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingActionButton2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:clickable="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_baseline_arrow_back_24" />
 </androidx.constraintlayout.widget.ConstraintLayout>

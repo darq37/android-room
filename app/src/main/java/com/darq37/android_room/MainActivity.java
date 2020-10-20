@@ -19,6 +19,12 @@ import com.darq37.android_room.activities.login.ui.login.LoginActivity;
 import com.darq37.android_room.activities.shared.SharedActivity;
 import com.darq37.android_room.database.RoomConstant;
 import com.darq37.android_room.database.room.AppDatabase;
+import com.darq37.android_room.entity.Product;
+import com.darq37.android_room.entity.ShoppingList;
+import com.darq37.android_room.entity.User;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     @SuppressLint("StaticFieldLeak")
@@ -46,15 +52,28 @@ public class MainActivity extends AppCompatActivity {
         String welcomeMsg = "Welcome " + loggedInUser.getDisplayName();
 
         RecyclerView recyclerView = findViewById(R.id.shoppingLists);
-        layoutManager =  new LinearLayoutManager(this);
+        layoutManager =  new LinearLayoutManager(this.getApplicationContext());
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
         shoppingListAdapter =  new ShoppingListAdapter(appDatabase.shoppingListDao().getAllSync());
         recyclerView.setAdapter(shoppingListAdapter);
 
+
         welcomeView.setText(welcomeMsg);
         logOut.setOnClickListener(this::toLoginActivity);
         settings.setOnClickListener(this::toAccountActivity);
+        share.setOnClickListener(this::toShareActivity);
+
+
+        //Populating DB for testing:
+        Product p  = new Product("Potato", "Just regular potato.");
+        User user =  new User("Admin", "AdminName", "Password");
+        List<Product> products =  new ArrayList<>();
+        products.add(p);
+        ShoppingList list =  new ShoppingList("name", user, products);
+        appDatabase.productDao().insertSync(p);
+
+
     }
 
     public void toLoginActivity(View view) {
