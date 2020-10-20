@@ -13,7 +13,9 @@
         android:layout_width="300dp"
         android:layout_height="286dp"
         android:layout_marginTop="32dp"
+        android:layout_marginBottom="64dp"
         android:background="#FFFFFF"
+        app:layout_constraintBottom_toTopOf="@+id/shoppingListsView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/goToMainButton"
         app:layout_constraintTop_toTopOf="parent" />
@@ -34,7 +36,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/shoppingListsView"
         android:layout_width="300dp"
-        android:layout_height="276dp"
+        android:layout_height="0dp"
         android:layout_marginBottom="32dp"
         android:background="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"

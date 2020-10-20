@@ -17,6 +17,7 @@ import com.darq37.android_room.MainActivity;
 import com.darq37.android_room.R;
 import com.darq37.android_room.activities.list.ListActivity;
 import com.darq37.android_room.entity.Product;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
@@ -31,7 +32,7 @@ public class ProductActivity extends AppCompatActivity {
         setContentView(R.layout.activity_product);
 
         Button addProductButton = findViewById(R.id.addProductButton);
-        Button backButton = findViewById(R.id.backToListActivity);
+        FloatingActionButton backButton = findViewById(R.id.backToListActivity);
         productName = findViewById(R.id.productName);
         productDescription = findViewById(R.id.productDescription);
 

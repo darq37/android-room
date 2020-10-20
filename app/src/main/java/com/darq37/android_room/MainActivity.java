@@ -54,6 +54,8 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(shoppingListAdapter);
 
 
+
+
         welcomeView.setText("hi");
         logOut.setOnClickListener(this::toLoginActivity);
         settings.setOnClickListener(this::toAccountActivity);

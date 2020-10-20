@@ -13,7 +13,6 @@ import com.darq37.android_room.MainActivity;
 import com.darq37.android_room.R;
 import com.darq37.android_room.activities.product.ProductActivity;
 import com.darq37.android_room.activities.product.ProductAdapter;
-import com.darq37.android_room.entity.Product;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class ListActivity extends AppCompatActivity {
@@ -41,8 +40,6 @@ public class ListActivity extends AppCompatActivity {
         productRV.setAdapter(productAdapter);
         shoppingListRV.setAdapter(shoppingListAdapter);
 
-        /*productRV.setOnClickListener(this::addToShoppingList);*/
-
         addProductButton.setOnClickListener(this::goToProductActivity);
         toMainActivityButton.setOnClickListener(this::goToMainActivity);
     }
@@ -55,10 +52,4 @@ public class ListActivity extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(intent);
     }
-
-    /*public void addToShoppingList(View view){
-        System.out.println("TODO");
-    }*/
-
-
 }
