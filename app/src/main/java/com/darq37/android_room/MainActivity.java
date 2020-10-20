@@ -20,15 +20,13 @@ import com.darq37.android_room.activities.login.ui.login.LoginActivity;
 import com.darq37.android_room.activities.shared.SharedActivity;
 import com.darq37.android_room.database.RoomConstant;
 import com.darq37.android_room.database.room.AppDatabase;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 
 public class MainActivity extends AppCompatActivity {
     @SuppressLint("StaticFieldLeak")
     private static Context context;
     public static AppDatabase appDatabase;
-    private LoggedInUser loggedInUser;
-    private RecyclerView.LayoutManager layoutManager;
-    private ShoppingListAdapter shoppingListAdapter;
 
     public static Context getContext() {
         return context;
@@ -42,22 +40,21 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Button logOut = findViewById(R.id.logOutButton);
-        Button settings = findViewById(R.id.settingsButton);
-        Button share = findViewById(R.id.shareButton);
-        Button lists = findViewById(R.id.goToListsButton);
+        FloatingActionButton settings = findViewById(R.id.settingsButton);
+        FloatingActionButton share = findViewById(R.id.shareButton);
+        FloatingActionButton lists = findViewById(R.id.goToListsButton);
 
         TextView welcomeView = findViewById(R.id.welcome);
-        String welcomeMsg = "Welcome " + loggedInUser.getDisplayName();
 
         RecyclerView recyclerView = findViewById(R.id.shoppingLists);
-        layoutManager = new LinearLayoutManager(this.getApplicationContext());
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this.getApplicationContext());
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
-        shoppingListAdapter = new ShoppingListAdapter(appDatabase.shoppingListDao().getAllSync());
+        ShoppingListAdapter shoppingListAdapter = new ShoppingListAdapter(appDatabase.shoppingListDao().getAllSync());
         recyclerView.setAdapter(shoppingListAdapter);
 
 
-        welcomeView.setText(welcomeMsg);
+        welcomeView.setText("hi");
         logOut.setOnClickListener(this::toLoginActivity);
         settings.setOnClickListener(this::toAccountActivity);
         share.setOnClickListener(this::toShareActivity);

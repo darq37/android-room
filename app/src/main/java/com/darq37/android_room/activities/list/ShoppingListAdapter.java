@@ -64,5 +64,6 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
             created = v.findViewById(R.id.listCreated_text);
             updated = v.findViewById(R.id.listUpdated_text);
         }
+
     }
 }

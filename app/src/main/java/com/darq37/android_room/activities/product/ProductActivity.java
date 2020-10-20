@@ -24,7 +24,6 @@ public class ProductActivity extends AppCompatActivity {
 
     private EditText productName;
     private EditText productDescription;
-    private RecyclerView productList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,35 +36,15 @@ public class ProductActivity extends AppCompatActivity {
         productDescription = findViewById(R.id.productDescription);
 
         addProductButton.setOnClickListener(this::addProduct);
-        backButton.setOnClickListener(this::goBack);
+        backButton.setOnClickListener(this::goToListActivity);
 
-        productList = findViewById(R.id.productListView);
+        RecyclerView productList = findViewById(R.id.productListView);
         productList.setHasFixedSize(true);
         productList.setLayoutManager(new LinearLayoutManager(this));
 
-        getData();
+        ProductAdapter productAdapter =  new ProductAdapter(MainActivity.appDatabase.productDao().getAllSync());
+        productList.setAdapter(productAdapter);
 
-    }
-
-    private void getData() {
-        @SuppressLint("StaticFieldLeak")
-        class GetData extends AsyncTask<Void, Void, List<Product>> {
-
-            @Override
-            protected List<Product> doInBackground(Void... voids) {
-                return MainActivity.appDatabase.productDao().getAllSync();
-
-            }
-
-            @Override
-            protected void onPostExecute(List<Product> data) {
-                ProductAdapter adapter = new ProductAdapter(data);
-                productList.setAdapter(adapter);
-                super.onPostExecute(data);
-            }
-        }
-        GetData gd = new GetData();
-        gd.execute();
     }
 
     public void addProduct(View view) {
@@ -80,7 +59,7 @@ public class ProductActivity extends AppCompatActivity {
         productDescription.setText("");
     }
 
-    public void goBack(View view) {
+    public void goToListActivity(View view) {
         Intent intent = new Intent(getApplicationContext(), ListActivity.class);
         startActivity(intent);
     }

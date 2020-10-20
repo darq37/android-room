@@ -14,7 +14,7 @@ import com.darq37.android_room.entity.Product;
 
 import java.util.List;
 
-public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductVievHolder> {
+public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
     private List<Product> productList;
 
     public ProductAdapter(List<Product> productList) {
@@ -23,14 +23,14 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
     @NonNull
     @Override
-    public ProductVievHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.product_data, parent, false);
-        return new ProductVievHolder(view);
+        return new ProductViewHolder(view);
     }
 
     @SuppressLint("SetTextI18n")
     @Override
-    public void onBindViewHolder(@NonNull ProductVievHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
         Product p = productList.get(position);
         holder.id.setText(Long.toString(p.getId()));
         holder.description.setText(p.getDescription());
@@ -42,13 +42,13 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         return productList.size();
     }
 
-    public static class ProductVievHolder extends RecyclerView.ViewHolder{
+    public static class ProductViewHolder extends RecyclerView.ViewHolder {
         private TextView id;
         private TextView name;
         private TextView description;
 
 
-        public ProductVievHolder(View view) {
+        public ProductViewHolder(View view) {
             super(view);
             id = view.findViewById(R.id.productIdText);
             name = view.findViewById(R.id.productNameText);
