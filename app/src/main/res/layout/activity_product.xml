@@ -11,54 +11,51 @@
         android:id="@+id/productDescription"
         android:layout_width="246dp"
         android:layout_height="139dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="143dp"
         android:background="#1DE9B6"
         android:cursorVisible="false"
         android:gravity="center"
-        android:hint="@string/description"
+        android:hint="@string/enter_product_description"
         android:importantForAutofill="no"
         android:inputType="text"
-        android:text="@string/description"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/productName"
         android:layout_width="247dp"
         android:layout_height="46dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginBottom="16dp"
         android:background="#1DE9B6"
         android:cursorVisible="false"
         android:gravity="center"
-        android:hint="@string/product_name"
+        android:hint="@string/enter_product_name"
+        android:importantForAutofill="no"
         android:inputType="text"
-        android:text="@string/product_name"
+        app:layout_constraintBottom_toTopOf="@+id/productDescription"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:importantForAutofill="no" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/addProductButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
         android:layout_marginBottom="29dp"
         android:text="@string/add_product"
         app:layout_constraintBottom_toTopOf="@+id/productListView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-/>
+        app:layout_constraintStart_toStartOf="parent" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/productListView"
         android:layout_width="315dp"
         android:layout_height="287dp"
+        android:layout_marginBottom="52dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
 
-/>
+        app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/backToListActivity"
