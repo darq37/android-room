@@ -12,12 +12,13 @@
         android:layout_width="243dp"
         android:layout_height="47dp"
         android:layout_marginTop="196dp"
+        android:hint="@string/enter_new_password"
+        android:importantForAutofill="no"
+        android:inputType="textPassword"
         android:text="@string/enter_new_password"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/userNameView"
-        android:importantForAutofill="no"
-        android:inputType="textPassword" />
+        app:layout_constraintTop_toBottomOf="@+id/userNameView" />
 
     <TextView
         android:id="@+id/creationDateView"
@@ -29,7 +30,7 @@
         app:layout_constraintTop_toBottomOf="@+id/userNameView" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floatingActionButton"
+        android:id="@+id/backToMain"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"

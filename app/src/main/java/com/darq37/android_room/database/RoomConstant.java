@@ -7,8 +7,8 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
+import com.darq37.android_room.R;
 import com.darq37.android_room.database.room.AppDatabase;
-import com.darq37.android_room.entity.User;
 
 public class RoomConstant {
     public static AppDatabase buildDatabase(Context context) {
@@ -18,10 +18,9 @@ public class RoomConstant {
                 .addCallback(new RoomDatabase.Callback() {
                     @Override
                     public void onCreate(@NonNull SupportSQLiteDatabase db) {
-                        db.execSQL("ZAPYTANIE SQL");
-                         //or
-                        new Thread(() -> getInstance(context).userDao().insert(new User())).start();
-                        //or z pliku czytanie linijka po linijce.
+                        db.execSQL("INSERT INTO products(name, description) VALUES('carrot', 'orange')");
+                        db.execSQL("INSERT INTO users(login, display_name) VALUES('testLogin', 'testName')");
+                        db.execSQL("INSERT INTO shopping_lists(list_name, products) VALUES('testListName', 'chips, fish, juice')");
                     }
                 })
                 .build();

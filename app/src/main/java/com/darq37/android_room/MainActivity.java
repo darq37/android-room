@@ -15,28 +15,19 @@ import android.widget.TextView;
 import com.darq37.android_room.activities.account.AccountActivity;
 import com.darq37.android_room.activities.list.ListActivity;
 import com.darq37.android_room.activities.list.ShoppingListAdapter;
-import com.darq37.android_room.activities.login.data.model.LoggedInUser;
 import com.darq37.android_room.activities.login.ui.login.LoginActivity;
 import com.darq37.android_room.activities.shared.SharedActivity;
-import com.darq37.android_room.database.RoomConstant;
-import com.darq37.android_room.database.room.AppDatabase;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import static com.darq37.android_room.activities.SplashScreenActivity.getAppDatabase;
 
 public class MainActivity extends AppCompatActivity {
+
     @SuppressLint("StaticFieldLeak")
-    private static Context context;
-    public static AppDatabase appDatabase;
-
-    public static Context getContext() {
-        return context;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        context = getApplicationContext();
-        appDatabase = RoomConstant.getInstance(this);
+
         setContentView(R.layout.activity_main);
 
         Button logOut = findViewById(R.id.logOutButton);
@@ -50,10 +41,8 @@ public class MainActivity extends AppCompatActivity {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this.getApplicationContext());
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
-        ShoppingListAdapter shoppingListAdapter = new ShoppingListAdapter(appDatabase.shoppingListDao().getAllSync());
+        ShoppingListAdapter shoppingListAdapter = new ShoppingListAdapter(getAppDatabase().shoppingListDao().getAllSync());
         recyclerView.setAdapter(shoppingListAdapter);
-
-
 
 
         welcomeView.setText("hi");
@@ -86,11 +75,4 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public AppDatabase getAppDatabase() {
-        return appDatabase;
-    }
-
-    public void setAppDatabase(AppDatabase appDatabase) {
-        this.appDatabase = appDatabase;
-    }
 }

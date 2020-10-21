@@ -22,19 +22,15 @@ import android.widget.Toast;
 
 import com.darq37.android_room.MainActivity;
 import com.darq37.android_room.R;
-import com.darq37.android_room.database.RoomConstant;
-import com.darq37.android_room.database.room.AppDatabase;
 
 public class LoginActivity extends AppCompatActivity {
 
     private LoginViewModel loginViewModel;
-    private AppDatabase appDb;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        appDb = RoomConstant.getInstance(this);
         loginViewModel = ViewModelProviders.of(this, new LoginViewModelFactory())
                 .get(LoginViewModel.class);
 

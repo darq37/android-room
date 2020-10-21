@@ -13,7 +13,8 @@ import io.reactivex.Single;
 
 public abstract class GenericDao<T, ID>  {
 
-    //<editor-fold desc="asynchronicznie">
+    //asynchronicznie
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public abstract Single<Long> insert(T value);
 

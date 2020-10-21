@@ -16,18 +16,22 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class AccountActivity extends AppCompatActivity {
 
-    private EditText passwordEdit;
-    private TextView userNameText;
-    private TextView createdText;
-    private Button changePasswordButton;
-    private FloatingActionButton toMainActivity;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account);
 
+        Button changePasswordButton = findViewById(R.id.changePasswordButton);
+        FloatingActionButton toMainActivity = findViewById(R.id.backToMain);
+        EditText passwordEdit = findViewById(R.id.newPassword);
+        TextView userNameText = findViewById(R.id.userNameView);
+        TextView createdText = findViewById(R.id.creationDateView);
 
+        userNameText.setText("user");
+        createdText.setText("2020");
+
+
+        changePasswordButton.setOnClickListener(this::changePassword);
         toMainActivity.setOnClickListener(this::goToMainActivity);
     }
 
@@ -36,7 +40,7 @@ public class AccountActivity extends AppCompatActivity {
         startActivity(intent);
     }
     public void changePassword(View view){
-
+        System.out.println("Password changed");
     }
 
 

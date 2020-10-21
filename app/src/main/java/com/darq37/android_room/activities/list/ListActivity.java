@@ -15,6 +15,8 @@ import com.darq37.android_room.activities.product.ProductActivity;
 import com.darq37.android_room.activities.product.ProductAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import static com.darq37.android_room.activities.SplashScreenActivity.getAppDatabase;
+
 public class ListActivity extends AppCompatActivity {
 
     @Override
@@ -34,8 +36,8 @@ public class ListActivity extends AppCompatActivity {
         productRV.setLayoutManager(new LinearLayoutManager(this));
         shoppingListRV.setLayoutManager(new LinearLayoutManager(this));
 
-        ProductAdapter productAdapter =  new ProductAdapter(MainActivity.appDatabase.productDao().getAllSync());
-        ShoppingListAdapter shoppingListAdapter = new ShoppingListAdapter(MainActivity.appDatabase.shoppingListDao().getAllSync());
+        ProductAdapter productAdapter =  new ProductAdapter(getAppDatabase().productDao().getAllSync());
+        ShoppingListAdapter shoppingListAdapter = new ShoppingListAdapter(getAppDatabase().shoppingListDao().getAllSync());
 
         productRV.setAdapter(productAdapter);
         shoppingListRV.setAdapter(shoppingListAdapter);
