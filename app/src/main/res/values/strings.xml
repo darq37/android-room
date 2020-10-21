@@ -21,4 +21,10 @@
     <string name="add_product_to_list">Add to List</string>
     <string name="enter_product_description">Enter product description</string>
     <string name="enter_product_name">Enter product name</string>
+    <string name="create_an_account">Create an Account</string>
+    <string name="password">Password</string>
+    <string name="repeat_password">Repeat Password</string>
+    <string name="login">Login</string>
+    <string name="display_name">Display name</string>
+    <string name="sign_up">Sign Up</string>
 </resources>
