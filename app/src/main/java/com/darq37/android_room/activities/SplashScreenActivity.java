@@ -15,8 +15,9 @@ import com.darq37.android_room.database.room.AppDatabase;
 public class SplashScreenActivity extends AppCompatActivity {
 
     private final static int SPLASH_TIME_OUT = 2000;
-    private  Context context;
+    private Context context;
     private static AppDatabase appDatabase;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,7 +26,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         appDatabase = RoomConstant.getInstance(context);
 
         new Handler().postDelayed(() -> {
-            Intent intent =  new Intent(SplashScreenActivity.this, LoginActivity.class);
+            Intent intent = new Intent(SplashScreenActivity.this, LoginActivity.class);
             startActivity(intent);
         }, SPLASH_TIME_OUT);
     }
