@@ -24,6 +24,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash_screen);
         context = getApplicationContext();
         appDatabase = RoomConstant.getInstance(context);
+        
 
         new Handler().postDelayed(() -> {
             Intent intent = new Intent(SplashScreenActivity.this, LoginActivity.class);

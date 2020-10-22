@@ -5,7 +5,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -15,7 +14,7 @@ import android.widget.TextView;
 import com.darq37.android_room.activities.account.AccountActivity;
 import com.darq37.android_room.activities.list.ListActivity;
 import com.darq37.android_room.activities.list.ShoppingListAdapter;
-import com.darq37.android_room.activities.login.login.LoginActivity;
+import com.darq37.android_room.activities.login.LoginActivity;
 import com.darq37.android_room.activities.shared.SharedActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -45,7 +44,9 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(shoppingListAdapter);
 
 
-        welcomeView.setText("Welcome");
+        Intent intent = getIntent();
+        String message = intent.getStringExtra(LoginActivity.userNAME);
+        welcomeView.setText("Welcome".concat(message));
         logOut.setOnClickListener(this::toLoginActivity);
         settings.setOnClickListener(this::toAccountActivity);
         share.setOnClickListener(this::toShareActivity);

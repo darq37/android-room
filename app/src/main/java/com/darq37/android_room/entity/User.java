@@ -27,7 +27,7 @@ public class User {
     @ColumnInfo(name = "display_name")
     private String displayName;
 
-    @Ignore
+    @ColumnInfo(name = "password")
     @NonNull
     private String password;
 

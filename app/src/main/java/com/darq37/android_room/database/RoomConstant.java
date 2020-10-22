@@ -21,17 +21,14 @@ public class RoomConstant {
                 .addCallback(new RoomDatabase.Callback() {
                     @Override
                     public void onCreate(@NonNull SupportSQLiteDatabase db) {
-                        db.execSQL("INSERT INTO products(name, description) VALUES('carrot', 'orange')");
-
                         Executors.newSingleThreadExecutor().execute(new Runnable() {
                             @Override
                             public void run() {
                                 User user =  new User("testLogin", "password", "displayUser");
                                 INSTANCE.userDao().insert(user);
+
                             }
                         });
-
-                        db.execSQL("INSERT INTO shopping_lists(list_name, products) VALUES('testListName', 'chips, fish, juice')");
                     }
                 })
                 .build();
