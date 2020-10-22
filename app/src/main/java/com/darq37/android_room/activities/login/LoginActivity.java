@@ -28,7 +28,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        userDao = RoomConstant.getInstance(SplashScreenActivity.getContext()).userDao();
+        userDao = RoomConstant.getInstance(this).userDao();
 
         usernameEditText = findViewById(R.id.username);
         passwordEditText = findViewById(R.id.password);

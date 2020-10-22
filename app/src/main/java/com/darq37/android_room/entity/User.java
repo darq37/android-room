@@ -49,6 +49,7 @@ public class User {
         this.modificationDate = new Date();
     }
 
+    @Ignore
     public User(@NonNull String login, @NonNull String password) {
         this.login = login;
         this.password = password;

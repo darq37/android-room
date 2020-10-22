@@ -15,11 +15,11 @@ import android.widget.Toast;
 
 import com.darq37.android_room.R;
 import com.darq37.android_room.activities.list.ListActivity;
+import com.darq37.android_room.database.RoomConstant;
 import com.darq37.android_room.entity.Product;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 
-import static com.darq37.android_room.activities.SplashScreenActivity.getAppDatabase;
 
 public class ProductActivity extends AppCompatActivity {
 
@@ -43,7 +43,7 @@ public class ProductActivity extends AppCompatActivity {
         productList.setHasFixedSize(true);
         productList.setLayoutManager(new LinearLayoutManager(this));
 
-        ProductAdapter productAdapter =  new ProductAdapter(getAppDatabase().productDao().getAllSync());
+        ProductAdapter productAdapter =  new ProductAdapter(RoomConstant.getInstance(this).productDao().getAllSync());
         productList.setAdapter(productAdapter);
 
     }
@@ -54,7 +54,7 @@ public class ProductActivity extends AppCompatActivity {
         Product p = new Product();
         p.setName(name);
         p.setDescription(description);
-        getAppDatabase().productDao().insertSync(p);
+        RoomConstant.getInstance(this).productDao().insertSync(p);
         Toast.makeText(getApplicationContext(), "Product saved", Toast.LENGTH_LONG).show();
         productName.setText("");
         productDescription.setText("");

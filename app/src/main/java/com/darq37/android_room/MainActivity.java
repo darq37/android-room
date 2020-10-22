@@ -16,9 +16,9 @@ import com.darq37.android_room.activities.list.ListActivity;
 import com.darq37.android_room.activities.list.ShoppingListAdapter;
 import com.darq37.android_room.activities.login.LoginActivity;
 import com.darq37.android_room.activities.shared.SharedActivity;
+import com.darq37.android_room.database.RoomConstant;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import static com.darq37.android_room.activities.SplashScreenActivity.getAppDatabase;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this.getApplicationContext());
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
-        ShoppingListAdapter shoppingListAdapter = new ShoppingListAdapter(getAppDatabase().shoppingListDao().getAllSync());
+        ShoppingListAdapter shoppingListAdapter = new ShoppingListAdapter(RoomConstant.getInstance(this).shoppingListDao().getAllSync());
         recyclerView.setAdapter(shoppingListAdapter);
 
 
