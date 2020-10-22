@@ -1,4 +1,4 @@
-package com.darq37.android_room.activities.login.ui.login;
+package com.darq37.android_room.activities.login.login;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -8,17 +8,14 @@ import android.util.Patterns;
 
 import com.darq37.android_room.activities.login.data.LoginRepository;
 import com.darq37.android_room.activities.login.data.Result;
-import com.darq37.android_room.activities.login.data.model.LoggedInUser;
 import com.darq37.android_room.R;
+import com.darq37.android_room.entity.User;
 
 public class LoginViewModel extends ViewModel {
 
     private MutableLiveData<LoginFormState> loginFormState = new MutableLiveData<>();
     private MutableLiveData<LoginResult> loginResult = new MutableLiveData<>();
     private LoginRepository loginRepository;
-    private static final int MINIMUM_PASSWORD_LENGTH = 5;
-
-
 
     LoginViewModel(LoginRepository loginRepository) {
         this.loginRepository = loginRepository;
@@ -33,13 +30,15 @@ public class LoginViewModel extends ViewModel {
     }
 
     public void login(String username, String password) {
-        Result<LoggedInUser> result = loginRepository.login(username, password);
+        // can be launched in a separate asynchronous job
+        Result<User> result = loginRepository.login(username, password);
 
         if (result instanceof Result.Success) {
-            LoggedInUser data = ((Result.Success<LoggedInUser>) result).getData();
-            loginResult.setValue(new LoginResult(new LoggedInUserView(data.getDisplayName())));
+            User data = ((Result.Success<User>) result).getData();
+            loginResult.setValue(new LoginResult(new LoggedInUserView(data.getDisplayName(), data.getCreationDate())));
         } else {
             loginResult.setValue(new LoginResult(R.string.login_failed));
+            System.out.println(result.toString());
         }
     }
 
@@ -67,6 +66,6 @@ public class LoginViewModel extends ViewModel {
 
     // A placeholder password validation check
     private boolean isPasswordValid(String password) {
-        return password != null && password.trim().length() > MINIMUM_PASSWORD_LENGTH;
+        return password != null && password.trim().length() > 5;
     }
 }

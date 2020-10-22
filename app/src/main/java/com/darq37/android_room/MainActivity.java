@@ -15,7 +15,7 @@ import android.widget.TextView;
 import com.darq37.android_room.activities.account.AccountActivity;
 import com.darq37.android_room.activities.list.ListActivity;
 import com.darq37.android_room.activities.list.ShoppingListAdapter;
-import com.darq37.android_room.activities.login.ui.login.LoginActivity;
+import com.darq37.android_room.activities.login.login.LoginActivity;
 import com.darq37.android_room.activities.shared.SharedActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 

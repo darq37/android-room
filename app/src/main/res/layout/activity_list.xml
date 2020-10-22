@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#651FFF"
+    android:background="#FFFFFF"
     tools:context=".activities.list.ListActivity">
 
 
@@ -14,7 +14,7 @@
         android:layout_height="286dp"
         android:layout_marginTop="32dp"
         android:layout_marginBottom="64dp"
-        android:background="#FFFFFF"
+        android:background="#488F8F8F"
         app:layout_constraintBottom_toTopOf="@+id/shoppingListsView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -26,8 +26,9 @@
         android:layout_height="48dp"
         android:layout_marginEnd="32dp"
         android:layout_marginRight="32dp"
-        android:background="#1DE9B6"
+        android:background="@color/colorPrimary"
         android:text="@string/add_product"
+        android:textColor="#FFFFFF"
         app:layout_constraintBottom_toTopOf="@+id/shoppingListsView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/productListView" />
@@ -37,7 +38,7 @@
         android:layout_width="300dp"
         android:layout_height="0dp"
         android:layout_marginBottom="32dp"
-        android:background="#FFFFFF"
+        android:background="#478F8F8F"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -50,10 +51,10 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
         android:clickable="true"
+        android:focusable="true"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_baseline_arrow_back_24"
-        android:focusable="true" />
+        app:srcCompat="@drawable/ic_baseline_arrow_back_24" />
 
     <Button
         android:id="@+id/button"
@@ -61,8 +62,9 @@
         android:layout_height="48dp"
         android:layout_marginStart="32dp"
         android:layout_marginLeft="32dp"
-        android:background="#1DE9B6"
-        android:text="Add new List"
+        android:background="@color/colorPrimary"
+        android:text="@string/add_new_list"
+        android:textColor="#FFFFFF"
         app:layout_constraintBottom_toTopOf="@+id/shoppingListsView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/productListView" />

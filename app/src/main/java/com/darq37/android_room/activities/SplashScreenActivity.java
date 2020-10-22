@@ -8,14 +8,14 @@ import android.os.Bundle;
 import android.os.Handler;
 
 import com.darq37.android_room.R;
-import com.darq37.android_room.activities.login.ui.login.LoginActivity;
+import com.darq37.android_room.activities.login.login.LoginActivity;
 import com.darq37.android_room.database.RoomConstant;
 import com.darq37.android_room.database.room.AppDatabase;
 
 public class SplashScreenActivity extends AppCompatActivity {
 
     private final static int SPLASH_TIME_OUT = 2000;
-    private Context context;
+    private static Context context;
     private static AppDatabase appDatabase;
 
     @Override
@@ -32,8 +32,8 @@ public class SplashScreenActivity extends AppCompatActivity {
     }
 
 
-    public Context getContext() {
-        return this.context;
+    public static Context getContext() {
+        return context;
     }
 
     public static AppDatabase getAppDatabase() {

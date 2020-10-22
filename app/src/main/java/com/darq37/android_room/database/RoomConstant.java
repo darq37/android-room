@@ -9,6 +9,9 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.darq37.android_room.R;
 import com.darq37.android_room.database.room.AppDatabase;
+import com.darq37.android_room.entity.User;
+
+import java.util.concurrent.Executors;
 
 public class RoomConstant {
     public static AppDatabase buildDatabase(Context context) {
@@ -19,7 +22,15 @@ public class RoomConstant {
                     @Override
                     public void onCreate(@NonNull SupportSQLiteDatabase db) {
                         db.execSQL("INSERT INTO products(name, description) VALUES('carrot', 'orange')");
-                        db.execSQL("INSERT INTO users(login, display_name) VALUES('testLogin', 'testName')");
+
+                        Executors.newSingleThreadExecutor().execute(new Runnable() {
+                            @Override
+                            public void run() {
+                                User user =  new User("testLogin", "password", "displayUser");
+                                INSTANCE.userDao().insert(user);
+                            }
+                        });
+
                         db.execSQL("INSERT INTO shopping_lists(list_name, products) VALUES('testListName', 'chips, fish, juice')");
                     }
                 })

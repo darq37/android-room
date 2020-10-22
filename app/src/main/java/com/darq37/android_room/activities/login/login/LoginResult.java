@@ -1,4 +1,4 @@
-package com.darq37.android_room.activities.login.ui.login;
+package com.darq37.android_room.activities.login.login;
 
 import androidx.annotation.Nullable;
 

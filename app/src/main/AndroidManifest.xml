@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.register.RegisterActivity"></activity>
+        <activity android:name=".activities.login.login.LoginActivity" />
+        <activity android:name=".activities.register.RegisterActivity" />
         <activity
             android:name=".activities.SplashScreenActivity"
             android:theme="@style/SplashScreenTheme">
@@ -23,9 +24,6 @@
         <activity android:name=".activities.product.ProductActivity" />
         <activity android:name=".activities.list.ListActivity" />
         <activity android:name=".activities.account.AccountActivity" />
-        <activity
-            android:name=".activities.login.ui.login.LoginActivity"
-            android:label="@string/title_activity_login"></activity>
         <activity android:name=".MainActivity" />
     </application>
 

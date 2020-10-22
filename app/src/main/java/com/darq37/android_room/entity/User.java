@@ -41,12 +41,17 @@ public class User {
     }
 
     @Ignore
-    public User(@NonNull String login, String displayName, @NonNull String password) {
+    public User(@NonNull String login, @NonNull String password, String displayName) {
         this.login = login;
-        this.displayName = displayName;
         this.password = password;
+        this.displayName = displayName;
         this.creationDate = new Date();
         this.modificationDate = new Date();
+    }
+
+    public User(@NonNull String login, @NonNull String password) {
+        this.login = login;
+        this.password = password;
     }
 
     public String getLogin() {
