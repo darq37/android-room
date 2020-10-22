@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         String message = intent.getStringExtra(LoginActivity.userNAME);
-        welcomeView.setText("Welcome".concat(message));
+        welcomeView.setText("Witaj " + message);
         logOut.setOnClickListener(this::toLoginActivity);
         settings.setOnClickListener(this::toAccountActivity);
         share.setOnClickListener(this::toShareActivity);
