@@ -16,6 +16,8 @@ public class LoginViewModel extends ViewModel {
     private MutableLiveData<LoginFormState> loginFormState = new MutableLiveData<>();
     private MutableLiveData<LoginResult> loginResult = new MutableLiveData<>();
     private LoginRepository loginRepository;
+    private static final int MINIMUM_PASSWORD_LENGTH = 5;
+
 
 
     LoginViewModel(LoginRepository loginRepository) {
@@ -65,6 +67,6 @@ public class LoginViewModel extends ViewModel {
 
     // A placeholder password validation check
     private boolean isPasswordValid(String password) {
-        return password != null && password.trim().length() > 5;
+        return password != null && password.trim().length() > MINIMUM_PASSWORD_LENGTH;
     }
 }
