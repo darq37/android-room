@@ -8,17 +8,23 @@
     tools:context=".activities.list.ListActivity">
 
 
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/productListView"
+        tools:listitem="@layout/list_data"
+        tools:itemCount="2"
+        app:layout_constraintBottom_toTopOf="@+id/shoppingListsView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+
         android:layout_width="300dp"
         android:layout_height="286dp"
         android:layout_marginTop="32dp"
         android:layout_marginBottom="64dp"
-        android:background="#488F8F8F"
-        app:layout_constraintBottom_toTopOf="@+id/shoppingListsView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:background="#488F8F8F"/>
+
+
 
     <Button
         android:id="@+id/goToProductActivity"
@@ -35,6 +41,8 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/shoppingListsView"
+        tools:listitem="@layout/list_data"
+        tools:itemCount="2"
         android:layout_width="300dp"
         android:layout_height="0dp"
         android:layout_marginBottom="32dp"

@@ -22,6 +22,10 @@ public class RoomConstant {
                     @Override
                     public void onCreate(@NonNull SupportSQLiteDatabase db) {
                         db.execSQL("INSERT INTO users(login, display_name, password) VALUES ('login', 'Dominik', 'password')");
+                        db.execSQL("INSERT INTO products(product_name, product_description) VALUES ('produkt1', 'produkt1')");
+                        db.execSQL("INSERT INTO products(product_name, product_description) VALUES ('produkt2', 'produkt2')");
+                        db.execSQL("INSERT INTO products(product_name, product_description) VALUES ('produkt3', 'produkt3')");
+                        db.execSQL("INSERT INTO products(product_name, product_description) VALUES ('produkt4', 'produkt4')");
                     }
                 })
                 .build();
