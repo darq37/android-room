@@ -15,7 +15,6 @@
         android:hint="@string/enter_new_password"
         android:importantForAutofill="no"
         android:inputType="textPassword"
-        android:text="@string/enter_new_password"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/userNameView" />

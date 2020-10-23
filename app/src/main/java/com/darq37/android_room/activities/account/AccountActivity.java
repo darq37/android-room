@@ -2,7 +2,7 @@ package com.darq37.android_room.activities.account;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -10,15 +10,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.darq37.android_room.MainActivity;
 import com.darq37.android_room.R;
-import com.darq37.android_room.activities.list.ListActivity;
-import com.darq37.android_room.activities.login.LoginActivity;
-import com.darq37.android_room.activities.register.RegisterActivity;
 import com.darq37.android_room.database.RoomConstant;
 import com.darq37.android_room.database.dao.UserDao;
 import com.darq37.android_room.entity.User;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class AccountActivity extends AppCompatActivity {
     private User user;
@@ -29,21 +24,25 @@ public class AccountActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account);
-        user = (User) getIntent().getExtras().getSerializable("user");
         userDao = RoomConstant.getInstance(this).userDao();
+        user = userDao.getByIdSync(getIntent().getStringExtra("LOGIN"));
 
         Button changePasswordButton = findViewById(R.id.changePasswordButton);
         passwordEdit = findViewById(R.id.newPassword);
         TextView userNameText = findViewById(R.id.userNameView);
 
+        Resources res = getResources();
 
-        userNameText.setText(user.getDisplayName());
+        String username = String.format(res.getString(R.string.accountLogin), user.getDisplayName());
+        userNameText.setText(username);
+
         changePasswordButton.setOnClickListener(this::changePassword);
     }
 
 
     public void changePassword(View view){
         String newPassword = passwordEdit.getText().toString();
+
         if (isPasswordValid(newPassword)){
             user.setPassword(newPassword);
             userDao.update(user);

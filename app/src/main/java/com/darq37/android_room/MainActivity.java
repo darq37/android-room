@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -28,12 +29,12 @@ public class MainActivity extends AppCompatActivity {
     private User loggedInUser;
     private UserDao userDao;
 
-    @SuppressLint({"StaticFieldLeak", "SetTextI18n"})
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
+        Resources res = getResources();
         userDao = RoomConstant.getInstance(this).userDao();
 
         Button logout = findViewById(R.id.logOutButton);
@@ -53,14 +54,13 @@ public class MainActivity extends AppCompatActivity {
 
 
         Intent intent = getIntent();
-        loggedInUser = userDao.getByIdSync(intent.getStringExtra(""))
+        loggedInUser = userDao.getByIdSync(intent.getStringExtra("LOGIN"));
         String displayName = loggedInUser.getDisplayName();
+        intent.putExtra("username", displayName);
 
-        Bundle bundle =  new Bundle();
-        bundle.putSerializable("user", loggedInUser);
-        intent.putExtras(bundle);
+        String welcomeString = String.format(res.getString(R.string.welcomeString), displayName);
+        welcomeView.setText(welcomeString);
 
-        welcomeView.setText("Witaj " + displayName);
         logout.setOnClickListener(this::logout);
         settings.setOnClickListener(this::toAccountActivity);
         share.setOnClickListener(this::toShareActivity);
