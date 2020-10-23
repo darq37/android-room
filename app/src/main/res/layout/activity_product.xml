@@ -9,11 +9,11 @@
 
     <EditText
         android:id="@+id/productDescription"
-        android:layout_width="246dp"
-        android:layout_height="139dp"
+        android:layout_width="300dp"
+        android:layout_height="147dp"
         android:layout_marginTop="143dp"
         android:cursorVisible="false"
-        android:gravity="center"
+        android:gravity="bottom|center_horizontal"
         android:hint="@string/enter_product_description"
         android:importantForAutofill="no"
         android:inputType="text"
@@ -23,8 +23,8 @@
 
     <EditText
         android:id="@+id/productName"
-        android:layout_width="247dp"
-        android:layout_height="46dp"
+        android:layout_width="300dp"
+        android:layout_height="39dp"
         android:layout_marginBottom="16dp"
         android:cursorVisible="false"
         android:gravity="center"
@@ -33,7 +33,8 @@
         android:inputType="text"
         app:layout_constraintBottom_toTopOf="@+id/productDescription"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/addProductButton"
@@ -47,7 +48,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/productListView"
-        android:layout_width="315dp"
+        android:layout_width="300dp"
         android:layout_height="287dp"
         android:layout_marginBottom="52dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -55,17 +56,4 @@
 
         app:layout_constraintStart_toStartOf="parent" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/backToListActivity"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
-        android:clickable="true"
-        android:focusable="true"
-        app:backgroundTint="@color/colorPrimary"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_baseline_arrow_back_24" />
 </androidx.constraintlayout.widget.ConstraintLayout>

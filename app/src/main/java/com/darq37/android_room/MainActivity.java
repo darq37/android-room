@@ -17,19 +17,26 @@ import com.darq37.android_room.activities.list.ShoppingListAdapter;
 import com.darq37.android_room.activities.login.LoginActivity;
 import com.darq37.android_room.activities.shared.SharedActivity;
 import com.darq37.android_room.database.RoomConstant;
+import com.darq37.android_room.database.dao.UserDao;
+import com.darq37.android_room.entity.User;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.function.BiConsumer;
 
 
 public class MainActivity extends AppCompatActivity {
+    private User loggedInUser;
+    private UserDao userDao;
 
-    @SuppressLint("StaticFieldLeak")
+    @SuppressLint({"StaticFieldLeak", "SetTextI18n"})
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
+        userDao = RoomConstant.getInstance(this).userDao();
 
-        Button logOut = findViewById(R.id.logOutButton);
+        Button logout = findViewById(R.id.logOutButton);
         FloatingActionButton settings = findViewById(R.id.settingsButton);
         FloatingActionButton share = findViewById(R.id.shareButton);
         FloatingActionButton lists = findViewById(R.id.goToListsButton);
@@ -44,34 +51,44 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(shoppingListAdapter);
 
 
+
         Intent intent = getIntent();
-        String message = intent.getStringExtra(LoginActivity.userNAME);
-        welcomeView.setText("Witaj " + message);
-        logOut.setOnClickListener(this::toLoginActivity);
+        loggedInUser = userDao.getByIdSync(intent.getStringExtra(""))
+        String displayName = loggedInUser.getDisplayName();
+
+        Bundle bundle =  new Bundle();
+        bundle.putSerializable("user", loggedInUser);
+        intent.putExtras(bundle);
+
+        welcomeView.setText("Witaj " + displayName);
+        logout.setOnClickListener(this::logout);
         settings.setOnClickListener(this::toAccountActivity);
         share.setOnClickListener(this::toShareActivity);
         lists.setOnClickListener(this::toListActivity);
 
     }
 
-    public void toLoginActivity(View view) {
+    public void logout(View view) {
         Intent intent = new Intent(this, LoginActivity.class);
-        //TODO Implement logout
+        loggedInUser = null;
         startActivity(intent);
     }
 
     public void toAccountActivity(View view) {
         Intent intent = new Intent(this, AccountActivity.class);
+        intent.putExtras(this.getIntent());
         startActivity(intent);
     }
 
     public void toShareActivity(View view) {
         Intent intent = new Intent(this, SharedActivity.class);
+        intent.putExtras(this.getIntent());
         startActivity(intent);
     }
 
     public void toListActivity(View view) {
         Intent intent = new Intent(this, ListActivity.class);
+        intent.putExtras(this.getIntent());
         startActivity(intent);
     }
 

@@ -21,7 +21,7 @@ public class RoomConstant {
                 .addCallback(new RoomDatabase.Callback() {
                     @Override
                     public void onCreate(@NonNull SupportSQLiteDatabase db) {
-                        db.execSQL("INSERT INTO users(login, display_name, password) VALUES ('login', 'Dominik', 'password')");
+                        db.execSQL("INSERT INTO users(login, display_name, password, user_creation_date, user_modification_date) VALUES ('login', 'Dominik', 'password', '2020-09-16 12:12:12.122', '2020-09-16 12:12:12.122')");
                         db.execSQL("INSERT INTO products(product_name, product_description) VALUES ('produkt1', 'produkt1')");
                         db.execSQL("INSERT INTO products(product_name, product_description) VALUES ('produkt2', 'produkt2')");
                         db.execSQL("INSERT INTO products(product_name, product_description) VALUES ('produkt3', 'produkt3')");

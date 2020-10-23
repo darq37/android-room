@@ -13,7 +13,7 @@ import com.darq37.android_room.R;
 public class RegisterActivity extends AppCompatActivity {
 
     EditText registerLogin, registerName, registerPassword, registerRepeatPassword;
-    final int MIN_PASSWORD_LENGTH = 6;
+    final static int MIN_PASSWORD_LENGTH = 6;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

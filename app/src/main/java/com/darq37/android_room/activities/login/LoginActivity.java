@@ -18,11 +18,10 @@ import com.darq37.android_room.database.dao.UserDao;
 import com.darq37.android_room.entity.User;
 
 public class LoginActivity extends AppCompatActivity {
-    private static final int MIN_PASSWORD_LENGTH = 5;
-    EditText passwordEditText;
-    EditText usernameEditText;
-    UserDao userDao;
-    public static final String userNAME = "USERNAME_KEY";
+    private EditText passwordEditText;
+    private EditText usernameEditText;
+    private UserDao userDao;
+    public static final String LOGIN = "LOGIN";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,39 +38,39 @@ public class LoginActivity extends AppCompatActivity {
         registerButton.setOnClickListener(this::goToSignUp);
     }
 
-    public void login(View view){
-        if (isInputValid()){
+    public void login(View view) {
+        if (isInputValid()) {
             String login = usernameEditText.getText().toString();
             String password = passwordEditText.getText().toString();
-           try {
-               User user = userDao.getByIdSync(login);
-               if (password.equals(user.getPassword())){
-                   Toast.makeText(this,"Login Success", Toast.LENGTH_SHORT).show();
-                   Intent intent =  new Intent(this, MainActivity.class);
-                   intent.putExtra(userNAME, user.getDisplayName());
-                   startActivity(intent);
-               }
-           }catch (Exception e){
-               e.printStackTrace();
-           }
-
-
+            try {
+                User user = userDao.getByIdSync(login);
+                if (password.equals(user.getPassword())) {
+                    Toast.makeText(this, "Login Success", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(this, MainActivity.class);
+                    intent.putExtra(LOGIN, user.getLogin());
+                    startActivity(intent);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
-    public void goToSignUp(View view){
-        Intent intent =  new Intent(this, RegisterActivity.class);
+
+    public void goToSignUp(View view) {
+        Intent intent = new Intent(this, RegisterActivity.class);
         startActivity(intent);
     }
 
-    private boolean isInputValid(){
-        if (usernameEditText.getText().toString().equals("")){
+    private boolean isInputValid() {
+        if (usernameEditText.getText().toString().equals("")) {
             usernameEditText.setError("Please enter username");
             return false;
         }
-        if (passwordEditText.getText().toString().equals("")){
+        if (passwordEditText.getText().toString().equals("")) {
             passwordEditText.setError("Please enter password");
             return false;
         }
+        int MIN_PASSWORD_LENGTH = 5;
         if (passwordEditText.getText().length() < MIN_PASSWORD_LENGTH) {
             passwordEditText.setError("Password Length must be more than " + MIN_PASSWORD_LENGTH + "characters");
             return false;
@@ -79,5 +78,5 @@ public class LoginActivity extends AppCompatActivity {
         return true;
     }
 
-    
+
 }

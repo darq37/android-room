@@ -8,6 +8,7 @@ import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity(
@@ -19,7 +20,7 @@ import java.util.Date;
                 )
         }
 )
-public class User {
+public class User implements Serializable {
     @PrimaryKey
     @NonNull
     private String login;
@@ -32,10 +33,10 @@ public class User {
     private String password;
 
     @ColumnInfo(name = "user_creation_date")
-    private Date creationDate;
+    private Date creationDate = new Date();
 
     @ColumnInfo(name = "User_modification_date")
-    private Date modificationDate;
+    private Date modificationDate = new Date();
 
     public User() {
     }
@@ -45,8 +46,6 @@ public class User {
         this.login = login;
         this.password = password;
         this.displayName = displayName;
-        this.creationDate = new Date();
-        this.modificationDate = new Date();
     }
 
     @Ignore

@@ -25,7 +25,6 @@ public class ListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_list);
 
         Button addProductButton = findViewById(R.id.goToProductActivity);
-        FloatingActionButton toMainActivityButton = findViewById(R.id.goToMainButton);
 
         RecyclerView productRV = findViewById(R.id.productListView);
         RecyclerView shoppingListRV = findViewById(R.id.shoppingListsView);
@@ -43,15 +42,10 @@ public class ListActivity extends AppCompatActivity {
         shoppingListRV.setAdapter(shoppingListAdapter);
 
         addProductButton.setOnClickListener(this::goToProductActivity);
-        toMainActivityButton.setOnClickListener(this::goToMainActivity);
     }
 
     public void goToProductActivity(View view) {
         Intent intent = new Intent(getApplicationContext(), ProductActivity.class);
-        startActivity(intent);
-    }
-    public void goToMainActivity(View view) {
-        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(intent);
     }
 }

@@ -8,21 +8,19 @@
     tools:context=".activities.list.ListActivity">
 
 
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/productListView"
-        tools:listitem="@layout/list_data"
-        tools:itemCount="2"
+        android:layout_width="300dp"
+        android:layout_height="286dp"
+        android:layout_marginBottom="64dp"
+        android:background="#488F8F8F"
         app:layout_constraintBottom_toTopOf="@+id/shoppingListsView"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-
-        android:layout_width="300dp"
-        android:layout_height="286dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginBottom="64dp"
-        android:background="#488F8F8F"/>
+        tools:itemCount="2"
+        tools:listitem="@layout/list_data" />
 
 
 
@@ -41,28 +39,15 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/shoppingListsView"
-        tools:listitem="@layout/list_data"
-        tools:itemCount="2"
-        android:layout_width="300dp"
-        android:layout_height="0dp"
+        android:layout_width="304dp"
+        android:layout_height="272dp"
         android:layout_marginBottom="32dp"
         android:background="#478F8F8F"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/goToMainButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
-        android:clickable="true"
-        android:focusable="true"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_baseline_arrow_back_24" />
+        tools:itemCount="2"
+        tools:listitem="@layout/list_data" />
 
     <Button
         android:id="@+id/button"

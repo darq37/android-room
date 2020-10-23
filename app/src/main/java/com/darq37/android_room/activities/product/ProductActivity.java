@@ -32,12 +32,10 @@ public class ProductActivity extends AppCompatActivity {
         setContentView(R.layout.activity_product);
 
         Button addProductButton = findViewById(R.id.addProductButton);
-        FloatingActionButton backButton = findViewById(R.id.backToListActivity);
         productName = findViewById(R.id.productName);
         productDescription = findViewById(R.id.productDescription);
 
         addProductButton.setOnClickListener(this::addProduct);
-        backButton.setOnClickListener(this::goToListActivity);
 
         RecyclerView productList = findViewById(R.id.productListView);
         productList.setHasFixedSize(true);
@@ -60,8 +58,4 @@ public class ProductActivity extends AppCompatActivity {
         productDescription.setText("");
     }
 
-    public void goToListActivity(View view) {
-        Intent intent = new Intent(getApplicationContext(), ListActivity.class);
-        startActivity(intent);
-    }
 }
