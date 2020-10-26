@@ -17,6 +17,7 @@ import com.darq37.android_room.R;
 import com.darq37.android_room.activities.product.ProductActivity;
 import com.darq37.android_room.activities.product.ProductAdapter;
 import com.darq37.android_room.database.RoomConstant;
+import com.darq37.android_room.database.dao.UserDao;
 import com.darq37.android_room.entity.ShoppingList;
 import com.darq37.android_room.entity.User;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -26,16 +27,21 @@ import java.util.Date;
 
 public class ListActivity extends AppCompatActivity {
     private EditText listName;
-    private String userLogin;
+    private User loggedInUser;
+    private UserDao userDao;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
-        SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences("app", MODE_PRIVATE);
+        userDao = RoomConstant.getInstance(this).userDao();
+        String user = sharedPreferences.getString("user", null);
+        loggedInUser = userDao.getByIdSync(user);
 
         listName = findViewById(R.id.new_list_name);
-        userLogin = sharedPreferences.getString("userName", "");
+
 
         Button addProductButton = findViewById(R.id.goToProductActivity);
         Button addListButton = findViewById(R.id.new_list_button);
@@ -49,8 +55,8 @@ public class ListActivity extends AppCompatActivity {
         productRV.setLayoutManager(new LinearLayoutManager(this));
         shoppingListRV.setLayoutManager(new LinearLayoutManager(this));
 
-        ProductAdapter productAdapter =  new ProductAdapter(RoomConstant.getInstance(this).productDao().getAllSync());
-        ShoppingListAdapter shoppingListAdapter = new ShoppingListAdapter(RoomConstant.getInstance(this).shoppingListDao().getAllSync());
+        ProductAdapter productAdapter = new ProductAdapter(RoomConstant.getInstance(this).productDao().getAllSync());
+        ShoppingListAdapter shoppingListAdapter = new ShoppingListAdapter(RoomConstant.getInstance(this).shoppingListDao().getAllForUserSync(loggedInUser.getLogin()));
 
         productRV.setAdapter(productAdapter);
         shoppingListRV.setAdapter(shoppingListAdapter);
@@ -67,7 +73,7 @@ public class ListActivity extends AppCompatActivity {
     public void addNewList(View view) {
         String newListName = listName.getText().toString();
         ShoppingList shoppingList = new ShoppingList();
-        User owner = RoomConstant.getInstance(this).userDao().getByIdSync(userLogin);
+        User owner = loggedInUser;
         shoppingList.setName(newListName);
         shoppingList.setOwner(owner);
         shoppingList.setCreationDate(new Date());
