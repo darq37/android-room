@@ -33,4 +33,12 @@
     <string name="products">Products:</string>
     <string name="list_name">List name</string>
     <string name="your_lists">Your lists:</string>
+    <string name="pick_a_user">Pick a user</string>
+    <string name="pick_a_list">Pick a List</string>
+    <string name="share">Share</string>
+    <string name="username">username</string>
+    <string name="share_with">Share with:</string>
+    <string name="settings_wheel">Settings wheel</string>
+    <string name="share_button">Share button</string>
+    <string name="new_list_button">New list button</string>
 </resources>

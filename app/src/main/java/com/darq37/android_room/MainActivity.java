@@ -16,7 +16,6 @@ import com.darq37.android_room.activities.account.AccountActivity;
 import com.darq37.android_room.activities.list.ListActivity;
 import com.darq37.android_room.activities.list.ShoppingListAdapter;
 import com.darq37.android_room.activities.login.LoginActivity;
-import com.darq37.android_room.activities.shared.SharedActivity;
 import com.darq37.android_room.database.RoomConstant;
 import com.darq37.android_room.database.dao.UserDao;
 import com.darq37.android_room.entity.User;
@@ -63,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
 
         logout.setOnClickListener(this::logout);
         settings.setOnClickListener(this::toAccountActivity);
-        share.setOnClickListener(this::toShareActivity);
+        share.setOnClickListener(this::share);
         lists.setOnClickListener(this::toListActivity);
     }
 
@@ -79,10 +78,8 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void toShareActivity(View view) {
-        Intent intent = new Intent(this, SharedActivity.class);
-        intent.putExtras(getIntent());
-        startActivity(intent);
+    public void share(View view) {
+
     }
 
     public void toListActivity(View view) {
