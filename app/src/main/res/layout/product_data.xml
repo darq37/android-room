@@ -1,27 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:layout_weight="1"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="2dp"
+    android:clipToPadding="false"
+    android:dividerPadding="2dp"
+    android:orientation="horizontal"
+    android:padding="2dp"
+    android:weightSum="10">
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/productNameText"
-        tools:text="productNameText"
-        />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/productDescriptionText"
-        tools:text="productDescriptionText"
-        />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
         android:id="@+id/productIdText"
-        tools:text="productIdText"
-        />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="4"
+        tools:text="ID"
+        android:gravity="center" />
+
+    <TextView
+        android:id="@+id/productNameText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="4"
+        tools:text="Name"
+        android:gravity="center" />
+
+    <TextView
+        android:id="@+id/productDescriptionText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        tools:text="Description"
+        android:gravity="center" />
+
 </LinearLayout>
