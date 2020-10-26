@@ -4,44 +4,65 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     tools:context=".activities.listDetails.ListDetailsActivity">
 
     <TextView
         android:id="@+id/text_list_name"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        tools:layout_editor_absoluteX="69dp"
-        tools:layout_editor_absoluteY="91dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="85dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:text="@string/list_name_string" />
 
     <TextView
         android:id="@+id/text_list_owner"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        tools:layout_editor_absoluteX="69dp"
-        tools:layout_editor_absoluteY="141dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_list_name"
         tools:text="@string/list_owner_string" />
 
     <TextView
         android:id="@+id/text_list_date"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        tools:layout_editor_absoluteX="69dp"
-        tools:layout_editor_absoluteY="186dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_list_owner"
         tools:text="@string/list_date_string" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/product_list"
-        android:layout_width="293dp"
-        android:layout_height="352dp"
-        tools:layout_editor_absoluteX="69dp"
-        tools:layout_editor_absoluteY="254dp" />
+        android:layout_width="377dp"
+        android:layout_height="397dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView6"
+        tools:listitem="@layout/product_data" />
 
     <TextView
         android:id="@+id/textView6"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Items:"
-        tools:layout_editor_absoluteX="70dp"
-        tools:layout_editor_absoluteY="224dp" />
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="108dp"
+        android:text="@string/items"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_list_date" />
 </androidx.constraintlayout.widget.ConstraintLayout>
