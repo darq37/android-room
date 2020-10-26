@@ -8,57 +8,86 @@
     tools:context=".activities.list.ListActivity">
 
 
+    <TextView
+        android:id="@+id/text_products"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/products"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/productListView"
         android:layout_width="300dp"
         android:layout_height="286dp"
-        android:layout_marginBottom="64dp"
-        android:background="#488F8F8F"
-        app:layout_constraintBottom_toTopOf="@+id/shoppingListsView"
 
+        android:layout_marginTop="8dp"
+        android:background="#488F8F8F"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_products"
         tools:itemCount="2"
-        tools:listitem="@layout/list_data" />
-
-
+        tools:listitem="@layout/product_data" />
 
     <Button
         android:id="@+id/goToProductActivity"
         android:layout_width="156dp"
         android:layout_height="48dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginRight="32dp"
+        android:layout_marginTop="16dp"
         android:background="@color/colorPrimary"
         android:text="@string/add_product"
         android:textColor="#FFFFFF"
-        app:layout_constraintBottom_toTopOf="@+id/shoppingListsView"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/productListView" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/shoppingListsView"
-        android:layout_width="304dp"
-        android:layout_height="272dp"
-        android:layout_marginBottom="32dp"
+        android:layout_width="316dp"
+        android:layout_height="164dp"
+        android:layout_marginTop="8dp"
         android:background="#478F8F8F"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_lists"
         tools:itemCount="2"
         tools:listitem="@layout/list_data" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/new_list_button"
         android:layout_width="156dp"
         android:layout_height="48dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
+        android:layout_marginTop="16dp"
         android:background="@color/colorPrimary"
         android:text="@string/add_new_list"
         android:textColor="#FFFFFF"
-        app:layout_constraintBottom_toTopOf="@+id/shoppingListsView"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/productListView" />
+        app:layout_constraintTop_toBottomOf="@+id/goToProductActivity" />
+
+    <EditText
+        android:id="@+id/new_list_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:hint="@string/list_name"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/new_list_button"
+        android:importantForAutofill="no" />
+
+    <TextView
+        android:id="@+id/text_lists"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/your_lists"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/new_list_name" />
 </androidx.constraintlayout.widget.ConstraintLayout>

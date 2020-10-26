@@ -30,4 +30,7 @@
     <string name="sign_up">Sign Up</string>
     <string name="add_new_list">Add new List</string>
     <string name="accountLogin">Name: %1$s</string>
+    <string name="products">Products:</string>
+    <string name="list_name">List name</string>
+    <string name="your_lists">Your lists:</string>
 </resources>
