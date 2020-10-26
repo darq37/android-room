@@ -1,17 +1,16 @@
 package com.darq37.android_room.activities.login;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.darq37.android_room.MainActivity;
 import com.darq37.android_room.R;
-import com.darq37.android_room.activities.SplashScreenActivity;
 import com.darq37.android_room.activities.register.RegisterActivity;
 import com.darq37.android_room.database.RoomConstant;
 import com.darq37.android_room.database.dao.UserDao;
@@ -46,7 +45,10 @@ public class LoginActivity extends AppCompatActivity {
                 User user = userDao.getByIdSync(login);
                 if (password.equals(user.getPassword())) {
                     Intent intent = new Intent(this, MainActivity.class);
-                    intent.putExtra(LOGIN, user.getLogin());
+                    SharedPreferences sharedPreferences = getSharedPreferences("app", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("user", user.getLogin());
+                    editor.commit();
                     startActivity(intent);
                 }
             } catch (Exception e) {

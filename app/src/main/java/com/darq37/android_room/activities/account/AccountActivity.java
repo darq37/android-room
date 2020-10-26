@@ -1,7 +1,5 @@
 package com.darq37.android_room.activities.account;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -10,6 +8,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.darq37.android_room.R;
 import com.darq37.android_room.database.RoomConstant;
@@ -26,8 +26,9 @@ public class AccountActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account);
         userDao = RoomConstant.getInstance(this).userDao();
-        SharedPreferences sharedPreferences = this.getPreferences(MODE_PRIVATE);
-        loggedInUser = userDao.getByIdSync(sharedPreferences.getString("user", null));
+        SharedPreferences sharedPreferences = getSharedPreferences("app", MODE_PRIVATE);
+        String user = sharedPreferences.getString("user", null);
+        loggedInUser = userDao.getByIdSync(user);
 
         Button changePasswordButton = findViewById(R.id.changePasswordButton);
         passwordEdit = findViewById(R.id.newPassword);
@@ -42,7 +43,7 @@ public class AccountActivity extends AppCompatActivity {
     }
 
 
-    public void changePassword(View view){
+    public void changePassword(View view) {
         String newPassword = passwordEdit.getText().toString();
 
         if (isPasswordValid(newPassword)) {
@@ -50,7 +51,7 @@ public class AccountActivity extends AppCompatActivity {
             userDao.update(loggedInUser);
             System.out.println(loggedInUser.getPassword());
             Toast.makeText(this, "Password changed", Toast.LENGTH_LONG).show();
-        }else{
+        } else {
             Toast.makeText(this, "Password change failed", Toast.LENGTH_LONG).show();
         }
     }

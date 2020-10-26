@@ -1,11 +1,5 @@
 package com.darq37.android_room;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
@@ -13,6 +7,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.darq37.android_room.activities.account.AccountActivity;
 import com.darq37.android_room.activities.list.ListActivity;
@@ -23,8 +21,6 @@ import com.darq37.android_room.database.RoomConstant;
 import com.darq37.android_room.database.dao.UserDao;
 import com.darq37.android_room.entity.User;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import java.util.function.BiConsumer;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -47,13 +43,15 @@ public class MainActivity extends AppCompatActivity {
         TextView welcomeView = findViewById(R.id.welcome);
 
         RecyclerView recyclerView = findViewById(R.id.shoppingLists);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this.getApplicationContext());
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
-        Intent intent = getIntent();
-        loggedInUser = userDao.getByIdSync(intent.getStringExtra("LOGIN"));
+
+        SharedPreferences sharedPreferences = getSharedPreferences("app", MODE_PRIVATE);
+        String user = sharedPreferences.getString("user", null);
+
+        loggedInUser = userDao.getByIdSync(user);
         String displayName = loggedInUser.getDisplayName();
-        intent.putExtra("username", displayName);
 
         String welcomeString = String.format(res.getString(R.string.welcomeString), displayName);
         welcomeView.setText(welcomeString);
@@ -67,23 +65,6 @@ public class MainActivity extends AppCompatActivity {
         settings.setOnClickListener(this::toAccountActivity);
         share.setOnClickListener(this::toShareActivity);
         lists.setOnClickListener(this::toListActivity);
-
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("user", loggedInUser.getLogin());
-        editor.commit();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
-        loggedInUser = userDao.getByIdSync(sharedPref.getString("user", null));
     }
 
     public void logout(View view) {
@@ -94,19 +75,19 @@ public class MainActivity extends AppCompatActivity {
 
     public void toAccountActivity(View view) {
         Intent intent = new Intent(this, AccountActivity.class);
-        intent.putExtras(this.getIntent());
+        intent.putExtras(getIntent());
         startActivity(intent);
     }
 
     public void toShareActivity(View view) {
         Intent intent = new Intent(this, SharedActivity.class);
-        intent.putExtras(this.getIntent());
+        intent.putExtras(getIntent());
         startActivity(intent);
     }
 
     public void toListActivity(View view) {
         Intent intent = new Intent(this, ListActivity.class);
-        intent.putExtras(this.getIntent());
+        intent.putExtras(getIntent());
         startActivity(intent);
     }
 
