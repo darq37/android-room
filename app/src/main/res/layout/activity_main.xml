@@ -72,7 +72,7 @@
         android:contentDescription="@string/share_button"
         android:focusable="true"
         app:backgroundTint="@color/colorPrimary"
-        app:layout_constraintBottom_toTopOf="@+id/editTextTextPersonName"
+        app:layout_constraintBottom_toTopOf="@+id/userToShare"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/shoppingLists"
         app:maxImageSize="48dp"
@@ -115,7 +115,7 @@
         tools:listitem="@layout/list_data" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName"
+        android:id="@+id/userToShare"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"

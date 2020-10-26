@@ -25,6 +25,9 @@ public abstract class UserDao extends GenericDao<User, String> {
     @Query("SELECT * FROM users WHERE login = :login")
     public abstract User getByIdSync(String login);
 
+    @Query("SELECT * FROM users WHERE display_name = :username")
+    public abstract User getNyNameSync(String username);
+
     @Override
     @Query("DELETE FROM users")
     public abstract Completable clearAll();

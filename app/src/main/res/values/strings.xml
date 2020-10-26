@@ -41,4 +41,7 @@
     <string name="settings_wheel">Settings wheel</string>
     <string name="share_button">Share button</string>
     <string name="new_list_button">New list button</string>
+    <string name="list_owner_string">Owner: %1$s</string>
+    <string name="list_name_string">Name: %1$s</string>
+    <string name="list_date_string">Date: %1$s</string>
 </resources>

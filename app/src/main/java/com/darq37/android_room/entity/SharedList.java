@@ -7,8 +7,8 @@ import androidx.room.Entity;
         primaryKeys = {"list_id", "user_id"}
 )
 public class SharedList {
-    @ColumnInfo(name = "list_id")
-    private User user;
     @ColumnInfo(name = "user_id")
+    private User user;
+    @ColumnInfo(name = "list_id")
     private ShoppingList shoppingList;
 }

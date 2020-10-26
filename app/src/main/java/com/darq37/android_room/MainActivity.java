@@ -6,6 +6,7 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,6 +26,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 public class MainActivity extends AppCompatActivity {
     public User loggedInUser;
     private UserDao userDao;
+    private EditText userToShare;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -38,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
         FloatingActionButton settings = findViewById(R.id.settingsButton);
         FloatingActionButton share = findViewById(R.id.shareButton);
         FloatingActionButton lists = findViewById(R.id.goToListsButton);
+        userToShare = findViewById(R.id.userToShare);
 
         TextView welcomeView = findViewById(R.id.welcome);
 
@@ -79,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void share(View view) {
+        String username = userToShare.getText().toString();
 
     }
 
