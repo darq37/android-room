@@ -35,7 +35,7 @@ public class User implements Serializable {
     @ColumnInfo(name = "user_creation_date")
     private Date creationDate = new Date();
 
-    @ColumnInfo(name = "User_modification_date")
+    @ColumnInfo(name = "user_modification_date")
     private Date modificationDate = new Date();
 
     public User() {

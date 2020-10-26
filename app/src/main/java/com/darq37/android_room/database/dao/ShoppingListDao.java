@@ -5,7 +5,6 @@ import androidx.room.Query;
 import androidx.room.Transaction;
 
 import com.darq37.android_room.database.crossrefs.ListWithProducts;
-import com.darq37.android_room.entity.Product;
 import com.darq37.android_room.entity.ShoppingList;
 
 import java.util.List;
@@ -33,4 +32,7 @@ public abstract class ShoppingListDao extends GenericDao<ShoppingList, Long> {
 
     @Query("SELECT * FROM shopping_lists")
     public abstract List<ShoppingList> getAllSync();
+
+    @Query("SELECT * FROM shopping_lists WHERE login = :owner ")
+    public abstract List<ShoppingList> getAllForUserSync(String owner);
 }

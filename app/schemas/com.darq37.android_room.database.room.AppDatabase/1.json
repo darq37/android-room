@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "06111a23cbaffbb54aed2c70e11d5538",
+    "identityHash": "06231d6c5398b1eb478e16a220974dfe",
     "entities": [
       {
         "tableName": "users",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`login` TEXT NOT NULL, `display_name` TEXT, `password` TEXT NOT NULL, `user_creation_date` INTEGER, `User_modification_date` INTEGER, PRIMARY KEY(`login`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`login` TEXT NOT NULL, `display_name` TEXT, `password` TEXT NOT NULL, `user_creation_date` INTEGER, `user_modification_date` INTEGER, PRIMARY KEY(`login`))",
         "fields": [
           {
             "fieldPath": "login",
@@ -34,7 +34,7 @@
           },
           {
             "fieldPath": "modificationDate",
-            "columnName": "User_modification_date",
+            "columnName": "user_modification_date",
             "affinity": "INTEGER",
             "notNull": false
           }
@@ -59,7 +59,7 @@
       },
       {
         "tableName": "products",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`product_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `product_name` TEXT NOT NULL, `product_description` TEXT, `creation_date` INTEGER, `modification_date` INTEGER)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`product_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `product_name` TEXT NOT NULL, `product_description` TEXT, `product_creation_date` INTEGER, `product_modification_date` INTEGER)",
         "fields": [
           {
             "fieldPath": "id",
@@ -81,13 +81,13 @@
           },
           {
             "fieldPath": "creationDate",
-            "columnName": "creation_date",
+            "columnName": "product_creation_date",
             "affinity": "INTEGER",
             "notNull": false
           },
           {
             "fieldPath": "modificationDate",
-            "columnName": "modification_date",
+            "columnName": "product_modification_date",
             "affinity": "INTEGER",
             "notNull": false
           }
@@ -112,7 +112,7 @@
       },
       {
         "tableName": "shopping_lists",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`list_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `list_name` TEXT NOT NULL, `products` TEXT, `product_creation_date` INTEGER, `product_modification_date` INTEGER, `login` TEXT, `display_name` TEXT, `password` TEXT, `user_creation_date` INTEGER, `User_modification_date` INTEGER)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`list_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `list_name` TEXT NOT NULL, `products` TEXT, `list_creation_date` INTEGER, `list_modification_date` INTEGER, `login` TEXT, `display_name` TEXT, `password` TEXT, `user_creation_date` INTEGER, `user_modification_date` INTEGER)",
         "fields": [
           {
             "fieldPath": "id",
@@ -134,13 +134,13 @@
           },
           {
             "fieldPath": "creationDate",
-            "columnName": "product_creation_date",
+            "columnName": "list_creation_date",
             "affinity": "INTEGER",
             "notNull": false
           },
           {
             "fieldPath": "modificationDate",
-            "columnName": "product_modification_date",
+            "columnName": "list_modification_date",
             "affinity": "INTEGER",
             "notNull": false
           },
@@ -170,7 +170,7 @@
           },
           {
             "fieldPath": "owner.modificationDate",
-            "columnName": "User_modification_date",
+            "columnName": "user_modification_date",
             "affinity": "INTEGER",
             "notNull": false
           }
@@ -188,7 +188,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '06111a23cbaffbb54aed2c70e11d5538')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '06231d6c5398b1eb478e16a220974dfe')"
     ]
   }
 }

@@ -32,10 +32,10 @@ public class Product {
     @Nullable
     private String description;
 
-    @ColumnInfo(name = "creation_date")
+    @ColumnInfo(name = "product_creation_date")
     private Date creationDate = new Date();
 
-    @ColumnInfo(name = "modification_date")
+    @ColumnInfo(name = "product_modification_date")
     private Date modificationDate = new Date();
 
     public Product() {

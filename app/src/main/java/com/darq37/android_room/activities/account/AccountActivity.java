@@ -2,6 +2,7 @@ package com.darq37.android_room.activities.account;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.View;
@@ -16,7 +17,7 @@ import com.darq37.android_room.database.dao.UserDao;
 import com.darq37.android_room.entity.User;
 
 public class AccountActivity extends AppCompatActivity {
-    private User user;
+    private User loggedInUser;
     private UserDao userDao;
     private EditText passwordEdit;
 
@@ -25,7 +26,8 @@ public class AccountActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account);
         userDao = RoomConstant.getInstance(this).userDao();
-        user = userDao.getByIdSync(getIntent().getStringExtra("LOGIN"));
+        SharedPreferences sharedPreferences = this.getPreferences(MODE_PRIVATE);
+        loggedInUser = userDao.getByIdSync(sharedPreferences.getString("user", null));
 
         Button changePasswordButton = findViewById(R.id.changePasswordButton);
         passwordEdit = findViewById(R.id.newPassword);
@@ -33,7 +35,7 @@ public class AccountActivity extends AppCompatActivity {
 
         Resources res = getResources();
 
-        String username = String.format(res.getString(R.string.accountLogin), user.getDisplayName());
+        String username = String.format(res.getString(R.string.accountLogin), loggedInUser.getDisplayName());
         userNameText.setText(username);
 
         changePasswordButton.setOnClickListener(this::changePassword);
@@ -43,10 +45,10 @@ public class AccountActivity extends AppCompatActivity {
     public void changePassword(View view){
         String newPassword = passwordEdit.getText().toString();
 
-        if (isPasswordValid(newPassword)){
-            user.setPassword(newPassword);
-            userDao.update(user);
-            System.out.println(user.getPassword());
+        if (isPasswordValid(newPassword)) {
+            loggedInUser.setPassword(newPassword);
+            userDao.update(loggedInUser);
+            System.out.println(loggedInUser.getPassword());
             Toast.makeText(this, "Password changed", Toast.LENGTH_LONG).show();
         }else{
             Toast.makeText(this, "Password change failed", Toast.LENGTH_LONG).show();
@@ -54,15 +56,15 @@ public class AccountActivity extends AppCompatActivity {
     }
 
     private boolean isPasswordValid(String newPassword) {
-        if (newPassword.isEmpty()){
+        if (newPassword.isEmpty()) {
             Toast.makeText(this, "Enter new password", Toast.LENGTH_SHORT).show();
             return false;
         }
-        if (newPassword.equals(user.getPassword())){
+        if (newPassword.equals(loggedInUser.getPassword())) {
             Toast.makeText(this, "Don't use same password!", Toast.LENGTH_SHORT).show();
             return false;
         }
-        if (newPassword.length() < 5){
+        if (newPassword.length() < 5) {
             Toast.makeText(this, "Use at least 5 characters", Toast.LENGTH_SHORT).show();
             return false;
         }

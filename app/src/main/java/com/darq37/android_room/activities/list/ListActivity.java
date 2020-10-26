@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -31,8 +32,10 @@ public class ListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
+        SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
 
         listName = findViewById(R.id.new_list_name);
+        userLogin = sharedPreferences.getString("userName", "");
 
         Button addProductButton = findViewById(R.id.goToProductActivity);
         Button addListButton = findViewById(R.id.new_list_button);
@@ -69,12 +72,7 @@ public class ListActivity extends AppCompatActivity {
         shoppingList.setOwner(owner);
         shoppingList.setCreationDate(new Date());
         shoppingList.setModificationDate(new Date());
-        //TODO set User for new List
         RoomConstant.getInstance(this).shoppingListDao().insertSync(shoppingList);
         listName.setText("");
-    }
-
-    public void setUserLogin(String userLogin) {
-        this.userLogin = userLogin;
     }
 }

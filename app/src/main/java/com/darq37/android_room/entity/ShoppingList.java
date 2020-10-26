@@ -36,11 +36,11 @@ public class ShoppingList {
     @TypeConverters(ListProductConverter.class)
     private List<Product> products;
 
-    @ColumnInfo(name = "product_creation_date")
+    @ColumnInfo(name = "list_creation_date")
     @TypeConverters(DateConverter.class)
     private Date creationDate;
 
-    @ColumnInfo(name = "product_modification_date")
+    @ColumnInfo(name = "list_modification_date")
     @TypeConverters(DateConverter.class)
     private Date modificationDate;
 

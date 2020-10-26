@@ -45,7 +45,6 @@ public class LoginActivity extends AppCompatActivity {
             try {
                 User user = userDao.getByIdSync(login);
                 if (password.equals(user.getPassword())) {
-                    Toast.makeText(this, "Login Success", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(this, MainActivity.class);
                     intent.putExtra(LOGIN, user.getLogin());
                     startActivity(intent);

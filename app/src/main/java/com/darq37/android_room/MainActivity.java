@@ -5,7 +5,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.View;
@@ -26,7 +28,7 @@ import java.util.function.BiConsumer;
 
 
 public class MainActivity extends AppCompatActivity {
-    private User loggedInUser;
+    public User loggedInUser;
     private UserDao userDao;
 
     @Override
@@ -48,11 +50,6 @@ public class MainActivity extends AppCompatActivity {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this.getApplicationContext());
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
-        ShoppingListAdapter shoppingListAdapter = new ShoppingListAdapter(RoomConstant.getInstance(this).shoppingListDao().getAllSync());
-        recyclerView.setAdapter(shoppingListAdapter);
-
-
-
         Intent intent = getIntent();
         loggedInUser = userDao.getByIdSync(intent.getStringExtra("LOGIN"));
         String displayName = loggedInUser.getDisplayName();
@@ -61,11 +58,32 @@ public class MainActivity extends AppCompatActivity {
         String welcomeString = String.format(res.getString(R.string.welcomeString), displayName);
         welcomeView.setText(welcomeString);
 
+
+        ShoppingListAdapter shoppingListAdapter = new ShoppingListAdapter(RoomConstant.getInstance(this)
+                .shoppingListDao().getAllForUserSync(loggedInUser.getLogin()));
+        recyclerView.setAdapter(shoppingListAdapter);
+
         logout.setOnClickListener(this::logout);
         settings.setOnClickListener(this::toAccountActivity);
         share.setOnClickListener(this::toShareActivity);
         lists.setOnClickListener(this::toListActivity);
 
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("user", loggedInUser.getLogin());
+        editor.commit();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
+        loggedInUser = userDao.getByIdSync(sharedPref.getString("user", null));
     }
 
     public void logout(View view) {
