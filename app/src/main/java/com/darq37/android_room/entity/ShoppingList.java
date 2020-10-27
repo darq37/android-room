@@ -48,9 +48,8 @@ public class ShoppingList {
     }
 
     @Ignore
-    public ShoppingList( @NonNull String name, User owner, List<Product> products) {
+    public ShoppingList(@NonNull String name, List<Product> products) {
         this.name = name;
-        this.owner = owner;
         this.products = products;
     }
 

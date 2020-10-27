@@ -18,14 +18,18 @@ public class ListProductConverter {
     @TypeConverter
     @RequiresApi(api = Build.VERSION_CODES.N)
     public List<Product> from(String value) {
-        String[] elements = value.split(", ");
-        List<Product> products = new ArrayList<>();
-        for (String s :
-                elements) {
-            products.add(new Product(s));
+        if (value == null) {
+            return Collections.emptyList();
+        } else {
+            String[] elements = value.split(", ");
+            List<Product> products = new ArrayList<>();
+            for (String s :
+                    elements) {
+                products.add(new Product(s));
+            }
+            return products;
         }
 
-        return value.isEmpty() ? Collections.emptyList() : products;
     }
 
     @TypeConverter

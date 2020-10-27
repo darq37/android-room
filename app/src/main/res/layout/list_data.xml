@@ -1,66 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
-    android:weightSum="2"
     android:paddingBottom="10dp"
-    >
+    android:state_focused="true"
+    android:state_pressed="true"
+    android:state_selected="true"
+    android:weightSum="5"
+    android:baselineAligned="false">
 
 
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:layout_weight="1"
-        >
+        android:orientation="vertical">
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:id="@+id/listId_text"
-            tools:text="listId_text"
-            />
-        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/listName_text"
-            tools:text="listName_text"
+            tools:text="ID"
+
             />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/listOwner_text"
-            tools:text="listOwner_text"
-            />
+
+
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_weight="1"
-        >
+        android:layout_weight="4"
+        android:orientation="vertical">
 
         <TextView
+            android:id="@+id/listName_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/listProducts_text"
-            tools:text="listProducts_text"
-            />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/listCreated_text"
-            tools:text="listCreated_text"
-            />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/listUpdated_text"
-            tools:text="listUpdated_text"
-            />
+            tools:text="List name" />
+
     </LinearLayout>
 </LinearLayout>

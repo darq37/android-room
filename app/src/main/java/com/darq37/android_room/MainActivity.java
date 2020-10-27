@@ -41,10 +41,10 @@ public class MainActivity extends AppCompatActivity {
         FloatingActionButton share = findViewById(R.id.shareButton);
         FloatingActionButton lists = findViewById(R.id.goToListsButton);
         userToShare = findViewById(R.id.userToShare);
-
         TextView welcomeView = findViewById(R.id.welcome);
-
         RecyclerView recyclerView = findViewById(R.id.shoppingLists);
+
+
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
@@ -60,8 +60,10 @@ public class MainActivity extends AppCompatActivity {
 
 
         ShoppingListAdapter shoppingListAdapter = new ShoppingListAdapter(RoomConstant.getInstance(this)
-                .shoppingListDao().getAllForUserSync(loggedInUser.getLogin()));
+                .shoppingListDao()
+                .getAllForUserSync(loggedInUser.getLogin()));
         recyclerView.setAdapter(shoppingListAdapter);
+
 
         logout.setOnClickListener(this::logout);
         settings.setOnClickListener(this::toAccountActivity);
