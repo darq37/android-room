@@ -1,6 +1,7 @@
 package com.darq37.android_room.adapters;
 
 import android.annotation.SuppressLint;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,10 +13,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.darq37.android_room.R;
 import com.darq37.android_room.entity.Product;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
     private List<Product> productList;
+
+    public void setProductList(ArrayList<Product> productList) {
+        this.productList = new ArrayList<>();
+        this.productList = productList;
+        notifyDataSetChanged();
+    }
 
     public ProductAdapter(List<Product> productList) {
         this.productList = productList;
@@ -25,6 +33,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     @Override
     public ProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.product_data, parent, false);
+
         return new ProductViewHolder(view);
     }
 
@@ -35,6 +44,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         holder.id.setText(Long.toString(p.getId()));
         holder.description.setText(p.getDescription());
         holder.name.setText(p.getName());
+        holder.itemView.setBackgroundColor(p.isChecked() ? Color.LTGRAY : Color.TRANSPARENT);
+        holder.itemView.setOnClickListener(v -> p.setChecked(!p.isChecked()));
     }
 
     @Override
@@ -43,9 +54,9 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     }
 
     public static class ProductViewHolder extends RecyclerView.ViewHolder {
-        private TextView id;
-        private TextView name;
-        private TextView description;
+        private final TextView id;
+        private final TextView name;
+        private final TextView description;
 
 
         public ProductViewHolder(View view) {
@@ -53,6 +64,21 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             id = view.findViewById(R.id.productIdText);
             name = view.findViewById(R.id.productNameText);
             description = view.findViewById(R.id.productDescriptionText);
+
         }
+    }
+
+    public List<Product> getSelected() {
+        List<Product> selected = new ArrayList<>();
+        for (int i = 0; i < productList.size(); i++) {
+            if (productList.get(i).isChecked()) {
+                selected.add(productList.get(i));
+            }
+        }
+        return selected;
+    }
+
+    public List<Product> getAll() {
+        return productList;
     }
 }

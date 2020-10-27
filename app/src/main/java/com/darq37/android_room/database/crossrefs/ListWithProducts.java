@@ -12,13 +12,13 @@ import java.util.List;
 public class ListWithProducts {
 
     @Embedded
-    private ShoppingList shoppingList;
+    private final ShoppingList shoppingList;
 
     @Relation(
             parentColumn = "list_id",
             entityColumn = "product_id"
     )
-    private List<Product> products;
+    private final List<Product> products;
 
     public ListWithProducts(ShoppingList shoppingList, List<Product> products) {
         this.shoppingList = shoppingList;

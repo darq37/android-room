@@ -12,11 +12,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.darq37.android_room.R;
 import com.darq37.android_room.entity.SharedList;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SharedListAdapter extends RecyclerView.Adapter<SharedListAdapter.SharedListViewHolder> {
     private List<SharedList> sharedListList;
     private int checkedPosition = RecyclerView.NO_POSITION;
+
+    public void setSharedListList(ArrayList<SharedList> list) {
+        this.sharedListList = new ArrayList<>();
+        this.sharedListList = list;
+        notifyDataSetChanged();
+    }
 
     public SharedListAdapter(List<SharedList> sharedListList) {
         this.sharedListList = sharedListList;
@@ -36,7 +43,6 @@ public class SharedListAdapter extends RecyclerView.Adapter<SharedListAdapter.Sh
         holder.owner.setText(sharedList.getSharedList_owner().getDisplayName());
         holder.itemView.setSelected(checkedPosition == position);
         holder.itemView.setBackgroundColor(checkedPosition == position ? Color.LTGRAY : Color.TRANSPARENT);
-
     }
 
     @Override
@@ -45,8 +51,8 @@ public class SharedListAdapter extends RecyclerView.Adapter<SharedListAdapter.Sh
     }
 
     public class SharedListViewHolder extends RecyclerView.ViewHolder {
-        private TextView name;
-        private TextView owner;
+        private final TextView name;
+        private final TextView owner;
 
         public SharedListViewHolder(@NonNull View itemView) {
             super(itemView);

@@ -8,6 +8,7 @@ import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity(tableName = "products",
@@ -18,7 +19,7 @@ import java.util.Date;
                 )
         }
 )
-public class Product {
+public class Product implements Serializable {
     @PrimaryKey(autoGenerate = true)
     @NonNull
     @ColumnInfo(name = "product_id")
@@ -38,6 +39,9 @@ public class Product {
     @ColumnInfo(name = "product_modification_date")
     private Date modificationDate = new Date();
 
+    @Ignore
+    private boolean isChecked = false;
+
     public Product() {
     }
 
@@ -46,6 +50,7 @@ public class Product {
         this.name = name;
         this.description = description;
     }
+
     @Ignore
     public Product(@NonNull String name) {
         this.name = name;
@@ -90,5 +95,13 @@ public class Product {
 
     public void setModificationDate(Date modificationDate) {
         this.modificationDate = modificationDate;
+    }
+
+    public boolean isChecked() {
+        return isChecked;
+    }
+
+    public void setChecked(boolean checked) {
+        isChecked = checked;
     }
 }

@@ -13,11 +13,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.darq37.android_room.R;
 import com.darq37.android_room.entity.ShoppingList;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapter.ListViewHolder> {
 
     public void setLists(List<ShoppingList> lists) {
+        this.lists = new ArrayList<>();
         this.lists = lists;
         notifyDataSetChanged();
     }

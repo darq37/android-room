@@ -21,8 +21,8 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/productListView"
-        android:layout_width="325dp"
-        android:layout_height="200dp"
+        android:layout_width="324dp"
+        android:layout_height="74dp"
 
         android:layout_marginTop="8dp"
         android:background="#488F8F8F"
@@ -46,8 +46,8 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/shoppingListsView"
-        android:layout_width="325dp"
-        android:layout_height="200dp"
+        android:layout_width="346dp"
+        android:layout_height="87dp"
         android:layout_marginBottom="32dp"
         android:background="#478F8F8F"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -60,25 +60,27 @@
         android:id="@+id/new_list_button"
         android:layout_width="156dp"
         android:layout_height="48dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"
         android:background="@color/colorPrimary"
         android:text="@string/add_new_list"
         android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toTopOf="@+id/new_list_name"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/goToProductActivity" />
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
         android:id="@+id/new_list_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:ems="10"
         android:hint="@string/list_name"
         android:importantForAutofill="no"
         android:inputType="textPersonName"
+        app:layout_constraintBottom_toTopOf="@+id/text_lists"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/new_list_button" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/text_lists"
