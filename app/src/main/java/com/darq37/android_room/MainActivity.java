@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
             SharedList sharedList = new SharedList();
             sharedList.setShoppingList(toShare);
-            sharedList.setUser(userDao.getNyNameSync(username));
+            sharedList.setSharedList_owner(userDao.getByNameSync(username));
 
         }
 

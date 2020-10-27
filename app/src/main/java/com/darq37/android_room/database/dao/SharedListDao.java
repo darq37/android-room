@@ -25,12 +25,6 @@ public abstract class SharedListDao extends GenericDao<SharedList, String> {
     @Query("DELETE FROM shared_lists")
     public abstract void clearAllSync();
 
-    @Query("SELECT * FROM shared_lists")
-    public abstract Single<List<ShoppingList>> getAll();
-
-    @Query("SELECT * FROM shared_lists")
-    public abstract List<SharedList> getAllSync();
-
-    @Query("SELECT * FROM shared_lists WHERE user_id = :login ")
+    @Query("SELECT * FROM shared_lists WHERE owner_id = :login")
     public abstract List<SharedList> getAllForUserSync(String login);
 }

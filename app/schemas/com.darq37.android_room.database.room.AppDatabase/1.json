@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "06231d6c5398b1eb478e16a220974dfe",
+    "identityHash": "b97f616e6d36f722b41484eacd019070",
     "entities": [
       {
         "tableName": "users",
@@ -183,12 +183,92 @@
         },
         "indices": [],
         "foreignKeys": []
+      },
+      {
+        "tableName": "shared_lists",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`owner_id` TEXT NOT NULL, `list_id` INTEGER, `list_name` TEXT, `products` TEXT, `list_creation_date` INTEGER, `list_modification_date` INTEGER, `login` TEXT, `display_name` TEXT, `password` TEXT, `user_creation_date` INTEGER, `user_modification_date` INTEGER, PRIMARY KEY(`owner_id`))",
+        "fields": [
+          {
+            "fieldPath": "sharedList_owner",
+            "columnName": "owner_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "shoppingList.id",
+            "columnName": "list_id",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "shoppingList.name",
+            "columnName": "list_name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "shoppingList.products",
+            "columnName": "products",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "shoppingList.creationDate",
+            "columnName": "list_creation_date",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "shoppingList.modificationDate",
+            "columnName": "list_modification_date",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "shoppingList.owner.login",
+            "columnName": "login",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "shoppingList.owner.displayName",
+            "columnName": "display_name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "shoppingList.owner.password",
+            "columnName": "password",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "shoppingList.owner.creationDate",
+            "columnName": "user_creation_date",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "shoppingList.owner.modificationDate",
+            "columnName": "user_modification_date",
+            "affinity": "INTEGER",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "owner_id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '06231d6c5398b1eb478e16a220974dfe')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'b97f616e6d36f722b41484eacd019070')"
     ]
   }
 }

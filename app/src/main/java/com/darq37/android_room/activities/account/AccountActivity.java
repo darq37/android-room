@@ -10,31 +10,43 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.darq37.android_room.R;
+import com.darq37.android_room.adapters.SharedListAdapter;
 import com.darq37.android_room.database.RoomConstant;
+import com.darq37.android_room.database.dao.SharedListDao;
 import com.darq37.android_room.database.dao.UserDao;
 import com.darq37.android_room.entity.User;
 
 public class AccountActivity extends AppCompatActivity {
     private User loggedInUser;
     private UserDao userDao;
+    private SharedListDao sharedListDao;
     private EditText passwordEdit;
     private RecyclerView sharedListView;
-
+    private SharedListAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account);
         userDao = RoomConstant.getInstance(this).userDao();
+        sharedListDao = RoomConstant.getInstance(this).sharedListDao();
+
         SharedPreferences sharedPreferences = getSharedPreferences("app", MODE_PRIVATE);
         String user = sharedPreferences.getString("user", null);
         loggedInUser = userDao.getByIdSync(user);
-
-
         sharedListView = findViewById(R.id.shared_list_view);
+
+        sharedListView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        adapter = new SharedListAdapter(RoomConstant
+                .getInstance(this)
+                .sharedListDao()
+                .getAllForUserSync(loggedInUser.getLogin()));
+        sharedListView.setAdapter(adapter);
+
 
         Button changePasswordButton = findViewById(R.id.changePasswordButton);
         passwordEdit = findViewById(R.id.newPassword);
@@ -47,7 +59,6 @@ public class AccountActivity extends AppCompatActivity {
 
         changePasswordButton.setOnClickListener(this::changePassword);
     }
-
 
     public void changePassword(View view) {
         String newPassword = passwordEdit.getText().toString();
@@ -78,6 +89,5 @@ public class AccountActivity extends AppCompatActivity {
         }
         return true;
     }
-
 
 }
