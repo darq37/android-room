@@ -54,8 +54,8 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
     }
 
     public class ListViewHolder extends RecyclerView.ViewHolder {
-        private TextView id;
-        private TextView name;
+        private final TextView id;
+        private final TextView name;
 
         public ListViewHolder(View v) {
             super(v);
@@ -63,6 +63,10 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
             name = v.findViewById(R.id.listName_text);
             name.setOnClickListener(v1 -> {
                 if (getAdapterPosition() == RecyclerView.NO_POSITION) return;
+                if (getAdapterPosition() == checkedPosition) {
+                    checkedPosition = RecyclerView.NO_POSITION;
+                    notifyDataSetChanged();
+                }
                 notifyItemChanged(checkedPosition);
                 checkedPosition = getAdapterPosition();
                 notifyItemChanged(checkedPosition);
