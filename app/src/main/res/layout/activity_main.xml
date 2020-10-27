@@ -12,10 +12,10 @@
         android:layout_width="wrap_content"
         android:layout_height="19dp"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/add_new_list"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/goToListsButton" />
+        android:layout_marginBottom="24dp"
+        android:text="@string/manage_lists"
+        app:layout_constraintBottom_toTopOf="@+id/logOutButton"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/welcome"
@@ -47,34 +47,30 @@
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/goToListsButton"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_margin="25dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginStart="48dp"
         android:clickable="true"
         android:contentDescription="@string/new_list_button"
         android:focusable="true"
         app:backgroundTint="@color/colorPrimary"
-        app:layout_constraintBottom_toTopOf="@+id/logOutButton"
+        app:layout_constraintBottom_toTopOf="@+id/textView2"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/shoppingLists"
         app:maxImageSize="48dp"
-        app:srcCompat="@drawable/ic_baseline_add_24" />
+        app:srcCompat="@drawable/ic_baseline_list_24" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/shareButton"
         android:layout_width="wrap_content"
         android:layout_height="56dp"
         android:layout_margin="25dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="32dp"
+        android:layout_marginEnd="12dp"
         android:clickable="true"
         android:contentDescription="@string/share_button"
         android:focusable="true"
         app:backgroundTint="@color/colorPrimary"
-        app:layout_constraintBottom_toTopOf="@+id/userToShare"
+        app:layout_constraintBottom_toTopOf="@+id/textView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/shoppingLists"
         app:maxImageSize="48dp"
         app:srcCompat="@drawable/ic_baseline_share_24" />
 
@@ -82,11 +78,11 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="24dp"
+        android:layout_marginBottom="24dp"
         android:text="@string/share_with"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/shareButton" />
+        app:layout_constraintBottom_toTopOf="@+id/userToShare"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/settingsButton"
@@ -105,8 +101,8 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/shoppingLists"
-        android:layout_width="341dp"
-        android:layout_height="400dp"
+        android:layout_width="355dp"
+        android:layout_height="0dp"
         android:layout_margin="45dp"
         android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -119,12 +115,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="24dp"
         android:ems="10"
         android:hint="@string/username"
+        android:importantForAutofill="no"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:importantForAutofill="no" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

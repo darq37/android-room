@@ -1,4 +1,4 @@
-package com.darq37.android_room.activities.list;
+package com.darq37.android_room.adapters;
 
 import android.annotation.SuppressLint;
 import android.graphics.Color;
@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.darq37.android_room.R;
 import com.darq37.android_room.entity.ShoppingList;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapter.ListViewHolder> {
@@ -24,7 +23,7 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
     }
 
     private List<ShoppingList> lists;
-    private int checkedPosition = -1;
+    private int checkedPosition = RecyclerView.NO_POSITION;
 
     public ShoppingListAdapter(List<ShoppingList> lists) {
         this.lists = lists;
@@ -45,7 +44,7 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
         holder.id.setText(Long.toString(shoppingList.getId()));
         holder.name.setText(shoppingList.getName());
         holder.name.setSelected(checkedPosition == position);
-        holder.name.setBackgroundColor(checkedPosition == position ? Color.GREEN : Color.TRANSPARENT);
+        holder.itemView.setBackgroundColor(checkedPosition == position ? Color.LTGRAY : Color.TRANSPARENT);
     }
 
     @Override
@@ -57,11 +56,11 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
         private final TextView id;
         private final TextView name;
 
-        public ListViewHolder(View v) {
-            super(v);
-            id = v.findViewById(R.id.listId_text);
-            name = v.findViewById(R.id.listName_text);
-            name.setOnClickListener(v1 -> {
+        public ListViewHolder(View itemView) {
+            super(itemView);
+            id = itemView.findViewById(R.id.listId_text);
+            name = itemView.findViewById(R.id.listName_text);
+            itemView.setOnClickListener(v1 -> {
                 if (getAdapterPosition() == RecyclerView.NO_POSITION) return;
                 if (getAdapterPosition() == checkedPosition) {
                     checkedPosition = RecyclerView.NO_POSITION;
@@ -75,7 +74,7 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
     }
 
     public ShoppingList getSelected() {
-        if (checkedPosition != -1) {
+        if (checkedPosition != RecyclerView.NO_POSITION) {
             return lists.get(checkedPosition);
         }
         return null;

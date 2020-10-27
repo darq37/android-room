@@ -11,20 +11,20 @@
         android:id="@+id/newPassword"
         android:layout_width="243dp"
         android:layout_height="47dp"
-        android:layout_marginTop="196dp"
+        android:layout_marginTop="16dp"
         android:hint="@string/enter_new_password"
         android:importantForAutofill="no"
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/userNameView" />
+        app:layout_constraintTop_toBottomOf="@+id/changePasswordButton" />
 
     <TextView
         android:id="@+id/userNameView"
         android:layout_width="243dp"
         android:layout_height="47dp"
-        android:layout_marginTop="120dp"
-        android:text="@string/name"
+        android:layout_marginTop="16dp"
+        android:text="@string/accountLogin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -33,12 +33,32 @@
         android:id="@+id/changePasswordButton"
         android:layout_width="176dp"
         android:layout_height="44dp"
+        android:layout_marginTop="16dp"
         android:background="@color/colorPrimary"
         android:text="@string/change_password"
         android:textColor="#FFFFFF"
-        app:layout_constraintBottom_toTopOf="@+id/newPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/userNameView" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/shared_list_view"
+        android:layout_width="244dp"
+        android:layout_height="268dp"
+        android:layout_marginBottom="32dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:listitem="@layout/shared_list_data" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="Shared lists:"
+        app:layout_constraintBottom_toTopOf="@+id/shared_list_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

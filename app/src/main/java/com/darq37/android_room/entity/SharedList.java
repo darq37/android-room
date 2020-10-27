@@ -11,4 +11,23 @@ public class SharedList {
     private User user;
     @ColumnInfo(name = "list_id")
     private ShoppingList shoppingList;
+
+    public SharedList() {
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public void setShoppingList(ShoppingList shoppingList) {
+        this.shoppingList = shoppingList;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public ShoppingList getShoppingList() {
+        return shoppingList;
+    }
 }

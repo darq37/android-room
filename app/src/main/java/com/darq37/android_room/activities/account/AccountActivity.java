@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.darq37.android_room.R;
 import com.darq37.android_room.database.RoomConstant;
@@ -20,6 +21,8 @@ public class AccountActivity extends AppCompatActivity {
     private User loggedInUser;
     private UserDao userDao;
     private EditText passwordEdit;
+    private RecyclerView sharedListView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +32,9 @@ public class AccountActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("app", MODE_PRIVATE);
         String user = sharedPreferences.getString("user", null);
         loggedInUser = userDao.getByIdSync(user);
+
+
+        sharedListView = findViewById(R.id.shared_list_view);
 
         Button changePasswordButton = findViewById(R.id.changePasswordButton);
         passwordEdit = findViewById(R.id.newPassword);
@@ -48,7 +54,8 @@ public class AccountActivity extends AppCompatActivity {
 
         if (isPasswordValid(newPassword)) {
             loggedInUser.setPassword(newPassword);
-            userDao.update(loggedInUser);
+            userDao.updateSync(loggedInUser);
+
             System.out.println(loggedInUser.getPassword());
             Toast.makeText(this, "Password changed", Toast.LENGTH_LONG).show();
         } else {

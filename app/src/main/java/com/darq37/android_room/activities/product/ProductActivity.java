@@ -4,9 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.annotation.SuppressLint;
-import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -14,11 +11,9 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.darq37.android_room.R;
-import com.darq37.android_room.activities.list.ListActivity;
+import com.darq37.android_room.adapters.ProductAdapter;
 import com.darq37.android_room.database.RoomConstant;
 import com.darq37.android_room.entity.Product;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
 
 
 public class ProductActivity extends AppCompatActivity {

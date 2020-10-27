@@ -3,16 +3,13 @@ package com.darq37.android_room.activities.listDetails;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Room;
 
 import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.widget.TextView;
 
 import com.darq37.android_room.R;
-import com.darq37.android_room.activities.list.ShoppingListAdapter;
-import com.darq37.android_room.activities.product.ProductAdapter;
+import com.darq37.android_room.adapters.ProductAdapter;
 import com.darq37.android_room.database.RoomConstant;
 import com.darq37.android_room.database.dao.ShoppingListDao;
 import com.darq37.android_room.database.dao.UserDao;

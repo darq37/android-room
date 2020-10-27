@@ -1,4 +1,4 @@
-package com.darq37.android_room.activities.product;
+package com.darq37.android_room.adapters;
 
 import android.annotation.SuppressLint;
 import android.view.LayoutInflater;

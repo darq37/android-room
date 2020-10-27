@@ -10,18 +10,15 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
-import com.darq37.android_room.MainActivity;
 import com.darq37.android_room.R;
 import com.darq37.android_room.activities.product.ProductActivity;
-import com.darq37.android_room.activities.product.ProductAdapter;
+import com.darq37.android_room.adapters.ProductAdapter;
+import com.darq37.android_room.adapters.ShoppingListAdapter;
 import com.darq37.android_room.database.RoomConstant;
 import com.darq37.android_room.database.dao.UserDao;
-import com.darq37.android_room.entity.Product;
 import com.darq37.android_room.entity.ShoppingList;
 import com.darq37.android_room.entity.User;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.Date;

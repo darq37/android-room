@@ -48,11 +48,11 @@
         android:id="@+id/shoppingListsView"
         android:layout_width="325dp"
         android:layout_height="200dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginBottom="32dp"
         android:background="#478F8F8F"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_lists"
         tools:itemCount="5"
         tools:listitem="@layout/list_data" />
 
@@ -72,22 +72,21 @@
         android:id="@+id/new_list_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:ems="10"
         android:hint="@string/list_name"
+        android:importantForAutofill="no"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/new_list_button"
-        android:importantForAutofill="no" />
+        app:layout_constraintTop_toBottomOf="@+id/new_list_button" />
 
     <TextView
         android:id="@+id/text_lists"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
         android:text="@string/your_lists"
+        app:layout_constraintBottom_toTopOf="@+id/shoppingListsView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/new_list_name" />
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
