@@ -19,11 +19,6 @@ import java.util.List;
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
     private List<Product> productList;
 
-    public void setProductList(ArrayList<Product> productList) {
-        this.productList = new ArrayList<>();
-        this.productList = productList;
-        notifyDataSetChanged();
-    }
 
     public ProductAdapter(List<Product> productList) {
         this.productList = productList;
@@ -37,15 +32,9 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         return new ProductViewHolder(view);
     }
 
-    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
-        Product p = productList.get(position);
-        holder.id.setText(Long.toString(p.getId()));
-        holder.description.setText(p.getDescription());
-        holder.name.setText(p.getName());
-        holder.itemView.setOnClickListener(v -> p.setChecked(!p.isChecked()));
-        holder.itemView.setBackgroundColor(p.isChecked() ? Color.LTGRAY : Color.TRANSPARENT);
+        holder.bind(productList.get(position));
     }
 
     @Override
@@ -53,7 +42,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         return productList.size();
     }
 
-    public static class ProductViewHolder extends RecyclerView.ViewHolder {
+    @SuppressLint("SetTextI18n")
+    public class ProductViewHolder extends RecyclerView.ViewHolder {
         private final TextView id;
         private final TextView name;
         private final TextView description;
@@ -64,6 +54,18 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             id = view.findViewById(R.id.productIdText);
             name = view.findViewById(R.id.productNameText);
             description = view.findViewById(R.id.productDescriptionText);
+        }
+
+        void bind(final Product p) {
+            id.setText(Long.toString(p.getId()));
+            description.setText(p.getDescription());
+            name.setText(p.getName());
+
+            itemView.setOnClickListener(v -> {
+                p.setChecked(!p.isChecked());
+                itemView.setBackgroundColor(p.isChecked() ? Color.LTGRAY : Color.TRANSPARENT);
+                notifyDataSetChanged();
+            });
 
         }
     }

@@ -45,7 +45,7 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
         ShoppingList shoppingList = lists.get(position);
         holder.id.setText(Long.toString(shoppingList.getId()));
         holder.name.setText(shoppingList.getName());
-        holder.name.setSelected(checkedPosition == position);
+        holder.itemView.setSelected(checkedPosition == position);
         holder.itemView.setBackgroundColor(checkedPosition == position ? Color.LTGRAY : Color.TRANSPARENT);
     }
 

@@ -1,15 +1,16 @@
 package com.darq37.android_room.activities.list;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.darq37.android_room.R;
 import com.darq37.android_room.activities.product.ProductActivity;
@@ -71,6 +72,7 @@ public class ListActivity extends AppCompatActivity {
         productRV.setAdapter(productAdapter);
         shoppingListRV.setAdapter(shoppingListAdapter);
 
+
         addProductButton.setOnClickListener(this::goToProductActivity);
         addListButton.setOnClickListener(this::addNewList);
         addToListButton.setOnClickListener(this::addToList);
@@ -97,10 +99,13 @@ public class ListActivity extends AppCompatActivity {
     public void addToList(View view) {
         List<Product> selectedProducts = productAdapter.getSelected();
         ShoppingList selectedList = shoppingListAdapter.getSelected();
-
-        selectedList.setProducts(selectedProducts);
-        shoppingListDao.updateSync(selectedList);
-        productAdapter.notifyDataSetChanged();
-        shoppingListAdapter.notifyDataSetChanged();
+        if (productAdapter.getSelected().size() > 0) {
+            selectedList.setProducts(selectedProducts);
+            shoppingListDao.updateSync(selectedList);
+            productAdapter.notifyDataSetChanged();
+            shoppingListAdapter.notifyDataSetChanged();
+        } else {
+            Toast.makeText(this, "No products selected", Toast.LENGTH_SHORT).show();
+        }
     }
 }

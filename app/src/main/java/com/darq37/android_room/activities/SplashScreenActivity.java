@@ -1,16 +1,14 @@
 package com.darq37.android_room.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.darq37.android_room.R;
 import com.darq37.android_room.activities.login.LoginActivity;
-import com.darq37.android_room.database.RoomConstant;
-import com.darq37.android_room.database.room.AppDatabase;
+
 
 public class SplashScreenActivity extends AppCompatActivity {
 

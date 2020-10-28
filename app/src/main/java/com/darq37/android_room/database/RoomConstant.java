@@ -7,11 +7,7 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
-import com.darq37.android_room.R;
 import com.darq37.android_room.database.room.AppDatabase;
-import com.darq37.android_room.entity.User;
-
-import java.util.concurrent.Executors;
 
 public class RoomConstant {
     public static AppDatabase buildDatabase(Context context) {
@@ -21,7 +17,7 @@ public class RoomConstant {
                 .addCallback(new RoomDatabase.Callback() {
                     @Override
                     public void onCreate(@NonNull SupportSQLiteDatabase db) {
-                        db.execSQL("INSERT INTO users(login, display_name, password) VALUES ('login', 'Dominik', 'password')");
+                        db.execSQL("INSERT INTO users(login, display_name, password, user_creation_date, user_modification_date) VALUES ('login', 'Dominik', 'password', 776995200000, 776995200000)");
                         db.execSQL("INSERT INTO products(product_name, product_description) VALUES ('produkt1', 'produkt1')");
                         db.execSQL("INSERT INTO products(product_name, product_description) VALUES ('produkt2', 'produkt2')");
                         db.execSQL("INSERT INTO products(product_name, product_description) VALUES ('produkt3', 'produkt3')");
