@@ -16,18 +16,26 @@ import com.darq37.android_room.activities.product.ProductActivity;
 import com.darq37.android_room.adapters.ProductAdapter;
 import com.darq37.android_room.adapters.ShoppingListAdapter;
 import com.darq37.android_room.database.RoomConstant;
+import com.darq37.android_room.database.dao.ProductDao;
+import com.darq37.android_room.database.dao.ShoppingListDao;
 import com.darq37.android_room.database.dao.UserDao;
+import com.darq37.android_room.entity.Product;
 import com.darq37.android_room.entity.ShoppingList;
 import com.darq37.android_room.entity.User;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 
 public class ListActivity extends AppCompatActivity {
     private EditText listName;
     private User loggedInUser;
     private UserDao userDao;
+    private ShoppingListDao shoppingListDao;
+    private ProductDao productDao;
+    private ShoppingListAdapter shoppingListAdapter;
+    private ProductAdapter productAdapter;
 
 
     @Override
@@ -36,6 +44,8 @@ public class ListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_list);
         SharedPreferences sharedPreferences = getSharedPreferences("app", MODE_PRIVATE);
         userDao = RoomConstant.getInstance(this).userDao();
+        shoppingListDao = RoomConstant.getInstance(this).shoppingListDao();
+        productDao = RoomConstant.getInstance(this).productDao();
         String user = sharedPreferences.getString("user", null);
         loggedInUser = userDao.getByIdSync(user);
 
@@ -44,6 +54,7 @@ public class ListActivity extends AppCompatActivity {
 
         Button addProductButton = findViewById(R.id.goToProductActivity);
         Button addListButton = findViewById(R.id.new_list_button);
+        Button addToListButton = findViewById(R.id.add_products_to_list_button);
 
         RecyclerView productRV = findViewById(R.id.productListView);
         RecyclerView shoppingListRV = findViewById(R.id.shoppingListsView);
@@ -54,14 +65,15 @@ public class ListActivity extends AppCompatActivity {
         productRV.setLayoutManager(new LinearLayoutManager(this));
         shoppingListRV.setLayoutManager(new LinearLayoutManager(this));
 
-        ProductAdapter productAdapter = new ProductAdapter(RoomConstant.getInstance(this).productDao().getAllSync());
-        ShoppingListAdapter shoppingListAdapter = new ShoppingListAdapter(RoomConstant.getInstance(this).shoppingListDao().getAllForUserSync(loggedInUser.getLogin()));
+        productAdapter = new ProductAdapter(productDao.getAllSync());
+        shoppingListAdapter = new ShoppingListAdapter(shoppingListDao.getAllForUserSync(loggedInUser.getLogin()));
 
         productRV.setAdapter(productAdapter);
         shoppingListRV.setAdapter(shoppingListAdapter);
 
         addProductButton.setOnClickListener(this::goToProductActivity);
         addListButton.setOnClickListener(this::addNewList);
+        addToListButton.setOnClickListener(this::addToList);
     }
 
     public void goToProductActivity(View view) {
@@ -72,13 +84,23 @@ public class ListActivity extends AppCompatActivity {
     public void addNewList(View view) {
         String newListName = listName.getText().toString();
         ShoppingList shoppingList = new ShoppingList();
-        User owner = loggedInUser;
         shoppingList.setName(newListName);
         shoppingList.setProducts(new ArrayList<>());
-        shoppingList.setOwner(owner);
+        shoppingList.setOwner(loggedInUser);
         shoppingList.setCreationDate(new Date());
         shoppingList.setModificationDate(new Date());
-        RoomConstant.getInstance(this).shoppingListDao().insertSync(shoppingList);
+        shoppingListDao.insertSync(shoppingList);
+        shoppingListAdapter.notifyDataSetChanged();
         listName.setText("");
+    }
+
+    public void addToList(View view) {
+        List<Product> selectedProducts = productAdapter.getSelected();
+        ShoppingList selectedList = shoppingListAdapter.getSelected();
+
+        selectedList.setProducts(selectedProducts);
+        shoppingListDao.updateSync(selectedList);
+        productAdapter.notifyDataSetChanged();
+        shoppingListAdapter.notifyDataSetChanged();
     }
 }

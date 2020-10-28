@@ -44,8 +44,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         holder.id.setText(Long.toString(p.getId()));
         holder.description.setText(p.getDescription());
         holder.name.setText(p.getName());
-        holder.itemView.setBackgroundColor(p.isChecked() ? Color.LTGRAY : Color.TRANSPARENT);
         holder.itemView.setOnClickListener(v -> p.setChecked(!p.isChecked()));
+        holder.itemView.setBackgroundColor(p.isChecked() ? Color.LTGRAY : Color.TRANSPARENT);
     }
 
     @Override
@@ -76,9 +76,5 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             }
         }
         return selected;
-    }
-
-    public List<Product> getAll() {
-        return productList;
     }
 }

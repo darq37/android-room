@@ -46,4 +46,5 @@
     <string name="list_name_string">Name: %1$s</string>
     <string name="list_date_string">Date: %1$s</string>
     <string name="items">Items:</string>
+    <string name="add_products_to_list">Add products to list</string>
 </resources>

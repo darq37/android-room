@@ -2,18 +2,28 @@ package com.darq37.android_room.activities.register;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.darq37.android_room.R;
+import com.darq37.android_room.activities.login.LoginActivity;
+import com.darq37.android_room.database.RoomConstant;
+import com.darq37.android_room.database.dao.UserDao;
+import com.darq37.android_room.entity.User;
+
+import java.util.Date;
 
 public class RegisterActivity extends AppCompatActivity {
 
     EditText registerLogin, registerName, registerPassword, registerRepeatPassword;
+    Button signUpButton;
     final static int MIN_PASSWORD_LENGTH = 6;
+    private UserDao userDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +31,9 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         viewInitializations();
+        userDao = RoomConstant.getInstance(getApplicationContext()).userDao();
+        signUpButton.setOnClickListener(this::performSignUp);
+
     }
 
     void viewInitializations() {
@@ -28,6 +41,7 @@ public class RegisterActivity extends AppCompatActivity {
         registerName = findViewById(R.id.register_display_name);
         registerPassword = findViewById(R.id.register_password);
         registerRepeatPassword = findViewById(R.id.register_repeat_password);
+        signUpButton = findViewById(R.id.bt_register);
     }
 
     boolean validateInput() {
@@ -63,12 +77,25 @@ public class RegisterActivity extends AppCompatActivity {
     public void performSignUp(View v) {
         if (validateInput()) {
 
-            String firstName = registerLogin.getText().toString();
-            String lastName = registerName.getText().toString();
+            String login = registerLogin.getText().toString();
+            String displayName = registerName.getText().toString();
             String password = registerPassword.getText().toString();
-            String repeatPassword = registerRepeatPassword.getText().toString();
+            Date created = new Date();
+            Date edited = new Date();
 
-            Toast.makeText(this, "Login Success", Toast.LENGTH_SHORT).show();
+            User user = new User();
+            user.setLogin(login);
+            user.setDisplayName(displayName);
+            user.setPassword(password);
+            user.setCreationDate(created);
+            user.setModificationDate(edited);
+
+            userDao.insertSync(user);
+
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+
+            Toast.makeText(this, "User created", Toast.LENGTH_SHORT).show();
 
         }
     }
