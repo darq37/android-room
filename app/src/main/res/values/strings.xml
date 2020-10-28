@@ -41,10 +41,16 @@
     <string name="share_with">Share with:</string>
     <string name="settings_wheel">Settings wheel</string>
     <string name="share_button">Share button</string>
-    <string name="new_list_button">New list button</string>
+    <string name="manage_lists_button">New list button</string>
     <string name="list_owner_string">Owner: %1$s</string>
     <string name="list_name_string">Name: %1$s</string>
     <string name="list_date_string">Date: %1$s</string>
     <string name="items">Items:</string>
     <string name="add_products_to_list">Add products to list</string>
+    <string name="select_products">Select products</string>
+    <string name="enter_list_name">Enter list name</string>
+    <string name="create_list">Create List</string>
+    <string name="add_new_list_button">add_new_list_button</string>
+    <string name="go_to_products_button">go_to_products_button</string>
+    <string name="account">Account</string>
 </resources>

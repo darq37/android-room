@@ -6,9 +6,7 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -16,13 +14,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.darq37.android_room.activities.account.AccountActivity;
 import com.darq37.android_room.activities.list.ListActivity;
-import com.darq37.android_room.adapters.ShoppingListAdapter;
 import com.darq37.android_room.activities.login.LoginActivity;
+import com.darq37.android_room.activities.product.ProductActivity;
+import com.darq37.android_room.adapters.ShoppingListAdapter;
 import com.darq37.android_room.database.RoomConstant;
-import com.darq37.android_room.database.dao.SharedListDao;
 import com.darq37.android_room.database.dao.UserDao;
-import com.darq37.android_room.entity.SharedList;
-import com.darq37.android_room.entity.ShoppingList;
 import com.darq37.android_room.entity.User;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -30,8 +26,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 public class MainActivity extends AppCompatActivity {
     public User loggedInUser;
     private UserDao userDao;
-    private SharedListDao sharedListDao;
-    private EditText userToShare;
     private ShoppingListAdapter shoppingListAdapter;
 
     @Override
@@ -41,13 +35,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Resources res = getResources();
         userDao = RoomConstant.getInstance(this).userDao();
-        sharedListDao = RoomConstant.getInstance(this).sharedListDao();
 
         Button logout = findViewById(R.id.logOutButton);
-        FloatingActionButton settings = findViewById(R.id.settingsButton);
-        FloatingActionButton share = findViewById(R.id.shareButton);
-        FloatingActionButton lists = findViewById(R.id.goToListsButton);
-        userToShare = findViewById(R.id.userToShare);
+        FloatingActionButton settingsButton = findViewById(R.id.settingsButton);
+        FloatingActionButton addNewListButton = findViewById(R.id.to_new_list_button);
+        FloatingActionButton addProductButton = findViewById(R.id.to_products_button);
+
+
         TextView welcomeView = findViewById(R.id.welcome);
         RecyclerView recyclerView = findViewById(R.id.shoppingLists);
 
@@ -64,25 +58,22 @@ public class MainActivity extends AppCompatActivity {
         String welcomeString = String.format(res.getString(R.string.welcomeString), displayName);
         welcomeView.setText(welcomeString);
 
-
         shoppingListAdapter = new ShoppingListAdapter(RoomConstant.getInstance(this)
                 .shoppingListDao()
                 .getAllForUserSync(loggedInUser.getLogin()));
         recyclerView.setAdapter(shoppingListAdapter);
 
-
         logout.setOnClickListener(this::logout);
-        settings.setOnClickListener(this::toAccountActivity);
-        lists.setOnClickListener(this::toListActivity);
-        share.setOnClickListener(this::share);
-
-
+        settingsButton.setOnClickListener(this::toAccountActivity);
+        addNewListButton.setOnClickListener(this::toListActivity);
+        addProductButton.setOnClickListener(this::toProductActivity);
     }
 
 
     public void logout(View view) {
         Intent intent = new Intent(this, LoginActivity.class);
         loggedInUser = null;
+        deleteSharedPreferences("app");
         startActivity(intent);
     }
 
@@ -91,33 +82,14 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void share(View view) {
-        String username = userToShare.getText().toString();
-        ShoppingList toShare = shoppingListAdapter.getSelected();
-        if (toShare == null) {
-            Toast.makeText(this, "Pick a list to share!", Toast.LENGTH_LONG).show();
-        } else {
-            SharedList sharedList = new SharedList();
-            sharedList.setShoppingList(toShare);
-            sharedList.setSharedList_owner(userDao.getByNameSync(username));
-            sharedListDao.insert(sharedList);
-            Toast.makeText(this, "List shared", Toast.LENGTH_LONG).show();
-        }
-    }
-
     public void toListActivity(View view) {
         Intent intent = new Intent(this, ListActivity.class);
-        intent.putExtras(getIntent());
         startActivity(intent);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
+    public void toProductActivity(View view) {
+        Intent intent = new Intent(this, ProductActivity.class);
+        startActivity(intent);
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-    }
 }

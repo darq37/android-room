@@ -34,7 +34,14 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
     @Override
     public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
-        holder.bind(productList.get(position));
+        Product p = productList.get(position);
+        holder.bind(p);
+        holder.itemView.setOnClickListener(v -> {
+            p.setChecked(!p.isChecked());
+            holder.itemView.setBackgroundColor(p.isChecked() ? Color.LTGRAY : Color.TRANSPARENT);
+            notifyItemChanged(position);
+        });
+
     }
 
     @Override
@@ -60,13 +67,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             id.setText(Long.toString(p.getId()));
             description.setText(p.getDescription());
             name.setText(p.getName());
-
-            itemView.setOnClickListener(v -> {
-                p.setChecked(!p.isChecked());
-                itemView.setBackgroundColor(p.isChecked() ? Color.LTGRAY : Color.TRANSPARENT);
-                notifyDataSetChanged();
-            });
-
         }
     }
 
