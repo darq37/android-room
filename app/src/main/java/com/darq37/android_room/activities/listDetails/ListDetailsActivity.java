@@ -1,5 +1,6 @@
 package com.darq37.android_room.activities.listDetails;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -24,12 +25,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class ListDetailsActivity extends AppCompatActivity {
 
-    private TextView textListName;
-    private TextView textListOwner;
-    private TextView textListDate;
-    private RecyclerView productList;
     private UserDao userDao;
-    private ShoppingListDao shoppingListDao;
     private ShoppingList list;
     private User user;
     FloatingActionButton shareButton;
@@ -41,18 +37,21 @@ public class ListDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_details);
         SharedPreferences sharedPreferences = getSharedPreferences("app", MODE_PRIVATE);
+        Intent intent = getIntent();
+        long list_id = intent.getLongExtra("list_id", 1);
 
 
-        shoppingListDao = RoomConstant.getInstance(this).shoppingListDao();
+        ShoppingListDao shoppingListDao = RoomConstant.getInstance(this).shoppingListDao();
         sharedListDao = RoomConstant.getInstance(this).sharedListDao();
         userDao = RoomConstant.getInstance(this).userDao();
         user = userDao.getByIdSync(sharedPreferences.getString("user", null));
-        list = shoppingListDao.getForUserSync(user.getLogin());
+        list = shoppingListDao.getByIdSync(list_id);
+        //TODO Get list data from intent.
 
-        textListName = findViewById(R.id.text_list_name);
-        textListOwner = findViewById(R.id.text_list_owner);
-        textListDate = findViewById(R.id.text_list_date);
-        productList = findViewById(R.id.product_list);
+        TextView textListName = findViewById(R.id.text_list_name);
+        TextView textListOwner = findViewById(R.id.text_list_owner);
+        TextView textListDate = findViewById(R.id.text_list_date);
+        RecyclerView productList = findViewById(R.id.product_list);
         shareButton = findViewById(R.id.shareButton);
         userToShare = findViewById(R.id.userToShare);
 
@@ -63,7 +62,7 @@ public class ListDetailsActivity extends AppCompatActivity {
         String ownerString = String.format(getString(R.string.list_owner_string), owner);
 
         String date = list.getCreationDate().toString();
-        String dateString = String.format(getString(R.string.list_date_string), date);
+        String dateString = String.format(getString(R.string.list_created_date_string), date);
 
 
         productList.setHasFixedSize(true);
@@ -82,11 +81,16 @@ public class ListDetailsActivity extends AppCompatActivity {
 
     public void share(View view) {
         String username = userToShare.getText().toString();
-        SharedList sharedList = new SharedList();
-        sharedList.setShoppingList(list);
-        //TODO try-catch if user doesn't exist
-        sharedList.setSharedList_owner(userDao.getByNameSync(username));
-        sharedListDao.insert(sharedList);
-        Toast.makeText(this, "List shared", Toast.LENGTH_LONG).show();
+        if (userDao.getByNameSync(username) != null) {
+            SharedList sharedList = new SharedList();
+            sharedList.setShoppingList(list);
+            sharedList.setSharedList_owner(userDao.getByNameSync(username));
+            sharedListDao.insertSync(sharedList);
+            Toast.makeText(this, "List shared", Toast.LENGTH_LONG).show();
+        } else {
+            String msg = String.format("User '%s' doesn't exist.", username);
+            Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
+        }
+
     }
 }

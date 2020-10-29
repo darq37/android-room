@@ -38,6 +38,12 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
         ShoppingList shoppingList = lists.get(position);
         holder.id.setText(Long.toString(shoppingList.getId()));
         holder.name.setText(shoppingList.getName());
+        holder.itemView.setOnClickListener(v -> {
+            Context context = v.getContext();
+            Intent intent = new Intent(context, ListDetailsActivity.class);
+            intent.putExtra("list_id", shoppingList.getId());
+            context.startActivity(intent);
+        });
     }
 
     @Override
@@ -53,11 +59,7 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
             super(itemView);
             id = itemView.findViewById(R.id.listId_text);
             name = itemView.findViewById(R.id.listName_text);
-            itemView.setOnClickListener(v -> {
-                Context context = v.getContext();
-                Intent intent = new Intent(context, ListDetailsActivity.class);
-                context.startActivity(intent);
-            });
+
 
         }
     }

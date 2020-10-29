@@ -39,8 +39,8 @@
         android:id="@+id/addProductButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:text="@string/add_product"
-        app:layout_constraintBottom_toTopOf="@+id/your_products"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/productDescription" />
@@ -49,20 +49,20 @@
         android:id="@+id/productListView"
         android:layout_width="300dp"
         android:layout_height="287dp"
-        android:layout_marginBottom="52dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/your_products"
         tools:listitem="@layout/product_data" />
 
     <TextView
         android:id="@+id/your_products"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layout_marginTop="16dp"
         android:text="@string/products"
-        app:layout_constraintBottom_toTopOf="@+id/productListView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addProductButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

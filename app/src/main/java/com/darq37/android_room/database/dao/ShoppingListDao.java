@@ -38,4 +38,9 @@ public abstract class ShoppingListDao extends GenericDao<ShoppingList, Long> {
 
     @Query("SELECT * FROM shopping_lists WHERE login = :owner")
     public abstract ShoppingList getForUserSync(String owner);
+
+    @Transaction
+    @Query("SELECT * FROM shopping_lists WHERE list_id = :id")
+    public abstract ShoppingList getByIdSync(long id);
+
 }
