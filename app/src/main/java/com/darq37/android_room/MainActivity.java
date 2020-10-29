@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     public User loggedInUser;
     private ShoppingListAdapter shoppingListAdapter;
     private ShoppingListDao shoppingListDao;
+    private SharedPreferences sharedPreferences;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -38,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
         Resources res = getResources();
+        sharedPreferences = getSharedPreferences("app", MODE_PRIVATE);
+
         UserDao userDao = RoomConstant.getInstance(this).userDao();
         shoppingListDao = RoomConstant.getInstance(this).shoppingListDao();
 
@@ -45,8 +48,6 @@ public class MainActivity extends AppCompatActivity {
         FloatingActionButton settingsButton = findViewById(R.id.settingsButton);
         FloatingActionButton addNewListButton = findViewById(R.id.to_new_list_button);
         FloatingActionButton addProductButton = findViewById(R.id.to_products_button);
-
-
         TextView welcomeView = findViewById(R.id.welcome);
         RecyclerView recyclerView = findViewById(R.id.shoppingLists);
 
@@ -54,17 +55,28 @@ public class MainActivity extends AppCompatActivity {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
 
-        SharedPreferences sharedPreferences = getSharedPreferences("app", MODE_PRIVATE);
-        String user = sharedPreferences.getString("user", null);
+        String userLogin = sharedPreferences.getString("user", null);
 
-        loggedInUser = userDao.getByIdSync(user);
-        String displayName = loggedInUser.getDisplayName();
+        userDao.getById(userLogin)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSuccess(response -> {
+                    String displayName = response.getDisplayName();
+                    String welcomeString = String.format(res.getString(R.string.welcomeString), displayName);
+                    welcomeView.setText(welcomeString);
+                    shoppingListDao.getAllForUser(response.getLogin())
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .doOnSuccess(resp -> {
+                                shoppingListAdapter = new ShoppingListAdapter(resp);
+                                recyclerView.setAdapter(shoppingListAdapter);
+                            })
+                            .subscribe();
 
-        String welcomeString = String.format(res.getString(R.string.welcomeString), displayName);
-        welcomeView.setText(welcomeString);
 
-        shoppingListAdapter = new ShoppingListAdapter(shoppingListDao.getAllForUserSync(loggedInUser.getLogin()));
-        recyclerView.setAdapter(shoppingListAdapter);
+                })
+                .subscribe();
+
 
         logout.setOnClickListener(this::logout);
         settingsButton.setOnClickListener(this::toAccountActivity);
@@ -72,6 +84,16 @@ public class MainActivity extends AppCompatActivity {
         addProductButton.setOnClickListener(this::toProductActivity);
     }
 
+/*    @Override
+    protected void onResume() {
+        shoppingListDao
+                .getAllForUser(sharedPreferences.getString("user", null))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSuccess(p -> shoppingListAdapter.setLists(p))
+                .subscribe();
+        super.onResume();
+    }*/
 
     public void logout(View view) {
         Intent intent = new Intent(this, LoginActivity.class);
@@ -93,16 +115,5 @@ public class MainActivity extends AppCompatActivity {
     public void toProductActivity(View view) {
         Intent intent = new Intent(this, ProductActivity.class);
         startActivity(intent);
-    }
-
-    @Override
-    protected void onResume() {
-        shoppingListDao
-                .getAllForUser(loggedInUser.getLogin())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSuccess(p -> shoppingListAdapter.setLists(p))
-                .subscribe();
-        super.onResume();
     }
 }
