@@ -40,10 +40,8 @@ public class AccountActivity extends AppCompatActivity {
         RecyclerView sharedListView = findViewById(R.id.shared_list_view);
 
         sharedListView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        SharedListAdapter adapter = new SharedListAdapter(RoomConstant
-                .getInstance(this)
-                .sharedListDao()
-                .getAllForUserSync(loggedInUser.getLogin()));
+        SharedListAdapter adapter = new SharedListAdapter(sharedListDao
+                .getAllForUserSync(loggedInUser.getDisplayName()));
         sharedListView.setAdapter(adapter);
 
 

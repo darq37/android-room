@@ -32,8 +32,7 @@ public class SharedListAdapter extends RecyclerView.Adapter<SharedListAdapter.Sh
     public void onBindViewHolder(@NonNull SharedListViewHolder holder, int position) {
         SharedList sharedList = sharedListList.get(position);
         holder.name.setText(sharedList.getShoppingList().getName());
-        holder.owner.setText(sharedList.getSharedList_owner().getDisplayName());
-        notifyDataSetChanged();
+        holder.from.setText(sharedList.getShoppingList().getOwner().getDisplayName());
     }
 
     @Override
@@ -43,12 +42,12 @@ public class SharedListAdapter extends RecyclerView.Adapter<SharedListAdapter.Sh
 
     public static class SharedListViewHolder extends RecyclerView.ViewHolder {
         private final TextView name;
-        private final TextView owner;
+        private final TextView from;
 
         public SharedListViewHolder(@NonNull View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.shared_list_name);
-            owner = itemView.findViewById(R.id.shared_list_owner);
+            from = itemView.findViewById(R.id.from);
 
         }
     }
