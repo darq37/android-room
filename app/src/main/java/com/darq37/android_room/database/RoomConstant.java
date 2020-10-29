@@ -12,16 +12,15 @@ import com.darq37.android_room.database.room.AppDatabase;
 public class RoomConstant {
     public static AppDatabase buildDatabase(Context context) {
         return Room.databaseBuilder(context, AppDatabase.class, "app_db")
-                .allowMainThreadQueries()
                 .fallbackToDestructiveMigration()
                 .addCallback(new RoomDatabase.Callback() {
                     @Override
                     public void onCreate(@NonNull SupportSQLiteDatabase db) {
                         db.execSQL("INSERT INTO users(login, display_name, password, user_creation_date, user_modification_date) VALUES ('login', 'Dominik', 'password', 776995200000, 776995200000)");
-                        db.execSQL("INSERT INTO products(product_name, product_description) VALUES ('produkt1', 'produkt1')");
-                        db.execSQL("INSERT INTO products(product_name, product_description) VALUES ('produkt2', 'produkt2')");
-                        db.execSQL("INSERT INTO products(product_name, product_description) VALUES ('produkt3', 'produkt3')");
-                        db.execSQL("INSERT INTO products(product_name, product_description) VALUES ('produkt4', 'produkt4')");
+                        db.execSQL("INSERT INTO products(product_name, product_description) VALUES ('Duck', 'Regular rubber duck')");
+                        db.execSQL("INSERT INTO products(product_name, product_description) VALUES ('Carrot', 'Delicious carrot')");
+                        db.execSQL("INSERT INTO products(product_name, product_description) VALUES ('Pistol', 'Deadly weapon')");
+                        db.execSQL("INSERT INTO products(product_name, product_description) VALUES ('Toilet paper', 'Extra soft toilet paper')");
                     }
                 })
                 .build();

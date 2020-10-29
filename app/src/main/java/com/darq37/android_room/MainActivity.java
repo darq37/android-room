@@ -23,6 +23,9 @@ import com.darq37.android_room.database.dao.UserDao;
 import com.darq37.android_room.entity.User;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
+
 
 public class MainActivity extends AppCompatActivity {
     public User loggedInUser;
@@ -94,7 +97,12 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
-        shoppingListAdapter.setLists(shoppingListDao.getAllForUserSync(loggedInUser.getLogin()));
+        shoppingListDao
+                .getAllForUser(loggedInUser.getLogin())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSuccess(p -> shoppingListAdapter.setLists(p))
+                .subscribe();
         super.onResume();
     }
 }
