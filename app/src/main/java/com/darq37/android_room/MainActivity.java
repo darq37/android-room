@@ -18,6 +18,7 @@ import com.darq37.android_room.activities.login.LoginActivity;
 import com.darq37.android_room.activities.product.ProductActivity;
 import com.darq37.android_room.adapters.ShoppingListAdapter;
 import com.darq37.android_room.database.RoomConstant;
+import com.darq37.android_room.database.dao.ShoppingListDao;
 import com.darq37.android_room.database.dao.UserDao;
 import com.darq37.android_room.entity.User;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -25,6 +26,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class MainActivity extends AppCompatActivity {
     public User loggedInUser;
+    private ShoppingListAdapter shoppingListAdapter;
+    private ShoppingListDao shoppingListDao;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -33,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Resources res = getResources();
         UserDao userDao = RoomConstant.getInstance(this).userDao();
+        shoppingListDao = RoomConstant.getInstance(this).shoppingListDao();
 
         Button logout = findViewById(R.id.logOutButton);
         FloatingActionButton settingsButton = findViewById(R.id.settingsButton);
@@ -56,9 +60,7 @@ public class MainActivity extends AppCompatActivity {
         String welcomeString = String.format(res.getString(R.string.welcomeString), displayName);
         welcomeView.setText(welcomeString);
 
-        ShoppingListAdapter shoppingListAdapter = new ShoppingListAdapter(RoomConstant.getInstance(this)
-                .shoppingListDao()
-                .getAllForUserSync(loggedInUser.getLogin()));
+        shoppingListAdapter = new ShoppingListAdapter(shoppingListDao.getAllForUserSync(loggedInUser.getLogin()));
         recyclerView.setAdapter(shoppingListAdapter);
 
         logout.setOnClickListener(this::logout);
@@ -90,4 +92,9 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    @Override
+    protected void onResume() {
+        shoppingListAdapter.setLists(shoppingListDao.getAllForUserSync(loggedInUser.getLogin()));
+        super.onResume();
+    }
 }

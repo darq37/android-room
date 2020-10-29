@@ -19,7 +19,12 @@ import java.util.List;
 
 public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapter.ListViewHolder> {
 
-    private final List<ShoppingList> lists;
+    public void setLists(List<ShoppingList> lists) {
+        this.lists = lists;
+        notifyDataSetChanged();
+    }
+
+    private List<ShoppingList> lists;
 
     public ShoppingListAdapter(List<ShoppingList> lists) {
         this.lists = lists;
@@ -51,7 +56,7 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
         return lists.size();
     }
 
-    public class ListViewHolder extends RecyclerView.ViewHolder {
+    public static class ListViewHolder extends RecyclerView.ViewHolder {
         private final TextView id;
         private final TextView name;
 
@@ -59,8 +64,6 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
             super(itemView);
             id = itemView.findViewById(R.id.listId_text);
             name = itemView.findViewById(R.id.listName_text);
-
-
         }
     }
 }

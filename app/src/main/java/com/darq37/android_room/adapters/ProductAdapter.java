@@ -17,8 +17,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
-    private final List<Product> productList;
+    private List<Product> productList;
 
+    public void setProductList(List<Product> productList) {
+        this.productList = productList;
+        notifyDataSetChanged();
+    }
 
     public ProductAdapter(List<Product> productList) {
         this.productList = productList;
@@ -43,7 +47,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         holder.itemView.setOnClickListener(v -> {
             p.setChecked(!p.isChecked());
             holder.itemView.setBackgroundColor(p.isChecked() ? Color.LTGRAY : Color.TRANSPARENT);
-            notifyItemChanged(position);
+            setProductList(productList);
         });
 
     }

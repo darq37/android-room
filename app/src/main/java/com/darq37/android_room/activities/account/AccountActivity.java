@@ -1,5 +1,6 @@
 package com.darq37.android_room.activities.account;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.darq37.android_room.R;
+import com.darq37.android_room.activities.login.LoginActivity;
 import com.darq37.android_room.adapters.SharedListAdapter;
 import com.darq37.android_room.database.RoomConstant;
 import com.darq37.android_room.database.dao.SharedListDao;
@@ -63,9 +65,11 @@ public class AccountActivity extends AppCompatActivity {
         if (isPasswordValid(newPassword)) {
             loggedInUser.setPassword(newPassword);
             userDao.updateSync(loggedInUser);
-
             System.out.println(loggedInUser.getPassword());
             Toast.makeText(this, "Password changed", Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(this, LoginActivity.class);
+            deleteSharedPreferences("app");
+            startActivity(intent);
         } else {
             Toast.makeText(this, "Password change failed", Toast.LENGTH_LONG).show();
         }

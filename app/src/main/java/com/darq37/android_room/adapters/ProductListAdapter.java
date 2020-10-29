@@ -16,7 +16,12 @@ import java.util.List;
 
 public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.ProductListViewHolder> {
 
-    private final List<Product> productList;
+    private List<Product> productList;
+
+    public void setProductList(List<Product> productList) {
+        this.productList = productList;
+        notifyDataSetChanged();
+    }
 
     public ProductListAdapter(List<Product> productList) {
         this.productList = productList;
