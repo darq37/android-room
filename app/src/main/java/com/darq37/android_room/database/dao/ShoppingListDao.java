@@ -14,10 +14,6 @@ import io.reactivex.Single;
 @Dao
 public abstract class ShoppingListDao extends GenericDao<ShoppingList, Long> {
 
-   /* @Transaction
-    @Query("SELECT * FROM shopping_lists WHERE list_id = :id")
-    public abstract List<ListWithProducts> loadListWithProducts(long id);*/
-
     @Override
     @Query("DELETE FROM shopping_lists")
     public abstract Completable clearAll();

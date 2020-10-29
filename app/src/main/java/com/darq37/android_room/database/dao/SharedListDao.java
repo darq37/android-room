@@ -2,17 +2,12 @@ package com.darq37.android_room.database.dao;
 
 import androidx.room.Dao;
 import androidx.room.Query;
-import androidx.room.Transaction;
 
-import com.darq37.android_room.database.crossrefs.ListWithProducts;
 import com.darq37.android_room.entity.SharedList;
-import com.darq37.android_room.entity.ShoppingList;
-import com.darq37.android_room.entity.User;
 
 import java.util.List;
 
 import io.reactivex.Completable;
-import io.reactivex.Single;
 
 @Dao
 public abstract class SharedListDao extends GenericDao<SharedList, String> {

@@ -29,14 +29,13 @@ public abstract class GenericDao<T, ID>  {
 
     public abstract Completable clearAll();
 
-    public abstract void clearAllSync();
-
     @Delete
     public abstract Completable delete(List<T> value);
 
-    //synchronicznie
+    public abstract void clearAllSync();
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    public abstract long insertSync(T value);
+    public abstract void insertSync(T value);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public abstract List<Long> insertSync(List<T> value);
