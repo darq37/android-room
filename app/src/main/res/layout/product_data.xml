@@ -8,30 +8,44 @@
     android:dividerPadding="2dp"
     android:orientation="horizontal"
     android:padding="2dp"
-    android:weightSum="10">
+    android:weightSum="5">
 
-    <TextView
-        android:id="@+id/productIdText"
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="4"
-        tools:text="ID"
-        android:gravity="center" />
+        android:layout_weight="1"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/productNameText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="4"
-        tools:text="Name"
-        android:gravity="center" />
+        <TextView
+            android:id="@+id/productIdText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="ID" />
+    </LinearLayout>
 
-    <TextView
-        android:id="@+id/productDescriptionText"
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="2"
-        tools:text="Description"
-        android:gravity="center" />
+        android:orientation="vertical">
 
+        <TextView
+            android:id="@+id/productNameText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="Name" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/productDescriptionText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="Description" />
+    </LinearLayout>
 </LinearLayout>

@@ -64,7 +64,8 @@ public class Product implements Serializable {
         this.id = id;
     }
 
-    public String getName() {
+    public @NonNull
+    String getName() {
         return name;
     }
 

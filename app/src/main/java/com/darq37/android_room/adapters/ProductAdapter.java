@@ -32,10 +32,14 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         return new ProductViewHolder(view);
     }
 
+
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
         Product p = productList.get(position);
-        holder.bind(p);
+        holder.id.setText(Long.toString(p.getId()));
+        holder.description.setText(p.getDescription());
+        holder.name.setText(p.getName());
         holder.itemView.setOnClickListener(v -> {
             p.setChecked(!p.isChecked());
             holder.itemView.setBackgroundColor(p.isChecked() ? Color.LTGRAY : Color.TRANSPARENT);
@@ -49,7 +53,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         return productList.size();
     }
 
-    @SuppressLint("SetTextI18n")
+
     public static class ProductViewHolder extends RecyclerView.ViewHolder {
         private final TextView id;
         private final TextView name;
@@ -61,12 +65,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             id = view.findViewById(R.id.productIdText);
             name = view.findViewById(R.id.productNameText);
             description = view.findViewById(R.id.productDescriptionText);
-        }
-
-        void bind(final Product p) {
-            id.setText(Long.toString(p.getId()));
-            description.setText(p.getDescription());
-            name.setText(p.getName());
         }
     }
 
