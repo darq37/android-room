@@ -3,7 +3,6 @@ package com.darq37.android_room.database.dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
-import androidx.room.SkipQueryVerification;
 import androidx.room.Update;
 
 import java.util.List;
@@ -12,8 +11,6 @@ import io.reactivex.Completable;
 import io.reactivex.Single;
 
 public abstract class GenericDao<T, ID>  {
-
-    //asynchronicznie
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public abstract Single<Long> insert(T value);

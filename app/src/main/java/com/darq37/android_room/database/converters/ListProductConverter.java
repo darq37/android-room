@@ -1,14 +1,10 @@
 package com.darq37.android_room.database.converters;
 
-import android.os.Build;
-
-import androidx.annotation.RequiresApi;
 import androidx.room.TypeConverter;
 
 import com.darq37.android_room.entity.Product;
 
 import java.util.ArrayList;
-
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -16,7 +12,6 @@ import java.util.stream.Collectors;
 public class ListProductConverter {
 
     @TypeConverter
-    @RequiresApi(api = Build.VERSION_CODES.N)
     public List<Product> from(String value) {
         if (value == null) {
             return Collections.emptyList();
@@ -33,7 +28,6 @@ public class ListProductConverter {
     }
 
     @TypeConverter
-    @RequiresApi(api = Build.VERSION_CODES.O)
     public String to(List<Product> value) {
         return value == null || value.isEmpty() ? null : value
                 .stream()

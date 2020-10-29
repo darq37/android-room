@@ -25,8 +25,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class MainActivity extends AppCompatActivity {
     public User loggedInUser;
-    private UserDao userDao;
-    private ShoppingListAdapter shoppingListAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -34,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
         Resources res = getResources();
-        userDao = RoomConstant.getInstance(this).userDao();
+        UserDao userDao = RoomConstant.getInstance(this).userDao();
 
         Button logout = findViewById(R.id.logOutButton);
         FloatingActionButton settingsButton = findViewById(R.id.settingsButton);
@@ -58,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         String welcomeString = String.format(res.getString(R.string.welcomeString), displayName);
         welcomeView.setText(welcomeString);
 
-        shoppingListAdapter = new ShoppingListAdapter(RoomConstant.getInstance(this)
+        ShoppingListAdapter shoppingListAdapter = new ShoppingListAdapter(RoomConstant.getInstance(this)
                 .shoppingListDao()
                 .getAllForUserSync(loggedInUser.getLogin()));
         recyclerView.setAdapter(shoppingListAdapter);

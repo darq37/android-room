@@ -23,25 +23,22 @@ import com.darq37.android_room.entity.User;
 public class AccountActivity extends AppCompatActivity {
     private User loggedInUser;
     private UserDao userDao;
-    private SharedListDao sharedListDao;
     private EditText passwordEdit;
-    private RecyclerView sharedListView;
-    private SharedListAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account);
         userDao = RoomConstant.getInstance(this).userDao();
-        sharedListDao = RoomConstant.getInstance(this).sharedListDao();
+        SharedListDao sharedListDao = RoomConstant.getInstance(this).sharedListDao();
 
         SharedPreferences sharedPreferences = getSharedPreferences("app", MODE_PRIVATE);
         String user = sharedPreferences.getString("user", null);
         loggedInUser = userDao.getByIdSync(user);
-        sharedListView = findViewById(R.id.shared_list_view);
+        RecyclerView sharedListView = findViewById(R.id.shared_list_view);
 
         sharedListView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        adapter = new SharedListAdapter(RoomConstant
+        SharedListAdapter adapter = new SharedListAdapter(RoomConstant
                 .getInstance(this)
                 .sharedListDao()
                 .getAllForUserSync(loggedInUser.getLogin()));

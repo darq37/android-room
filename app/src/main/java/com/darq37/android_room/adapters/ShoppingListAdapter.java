@@ -19,7 +19,7 @@ import java.util.List;
 
 public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapter.ListViewHolder> {
 
-    private List<ShoppingList> lists;
+    private final List<ShoppingList> lists;
 
     public ShoppingListAdapter(List<ShoppingList> lists) {
         this.lists = lists;

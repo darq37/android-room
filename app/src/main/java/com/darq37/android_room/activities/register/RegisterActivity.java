@@ -1,14 +1,13 @@
 package com.darq37.android_room.activities.register;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.darq37.android_room.R;
 import com.darq37.android_room.activities.login.LoginActivity;
@@ -20,9 +19,9 @@ import java.util.Date;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    EditText registerLogin, registerName, registerPassword, registerRepeatPassword;
-    Button signUpButton;
-    final static int MIN_PASSWORD_LENGTH = 6;
+    private EditText registerLogin, registerName, registerPassword, registerRepeatPassword;
+    private Button signUpButton;
+    private final static int MIN_PASSWORD_LENGTH = 5;
     private UserDao userDao;
 
     @Override

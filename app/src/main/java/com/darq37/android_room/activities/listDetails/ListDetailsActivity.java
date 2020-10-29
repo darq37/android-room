@@ -20,15 +20,12 @@ import com.darq37.android_room.database.dao.ShoppingListDao;
 import com.darq37.android_room.database.dao.UserDao;
 import com.darq37.android_room.entity.SharedList;
 import com.darq37.android_room.entity.ShoppingList;
-import com.darq37.android_room.entity.User;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class ListDetailsActivity extends AppCompatActivity {
 
     private UserDao userDao;
     private ShoppingList list;
-    private User user;
-    FloatingActionButton shareButton;
     private EditText userToShare;
     private SharedListDao sharedListDao;
 
@@ -44,15 +41,13 @@ public class ListDetailsActivity extends AppCompatActivity {
         ShoppingListDao shoppingListDao = RoomConstant.getInstance(this).shoppingListDao();
         sharedListDao = RoomConstant.getInstance(this).sharedListDao();
         userDao = RoomConstant.getInstance(this).userDao();
-        user = userDao.getByIdSync(sharedPreferences.getString("user", null));
         list = shoppingListDao.getByIdSync(list_id);
-        //TODO Get list data from intent.
 
         TextView textListName = findViewById(R.id.text_list_name);
         TextView textListOwner = findViewById(R.id.text_list_owner);
         TextView textListDate = findViewById(R.id.text_list_date);
         RecyclerView productList = findViewById(R.id.product_list);
-        shareButton = findViewById(R.id.shareButton);
+        FloatingActionButton shareButton = findViewById(R.id.shareButton);
         userToShare = findViewById(R.id.userToShare);
 
         String name = list.getName();

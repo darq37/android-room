@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
-    private List<Product> productList;
+    private final List<Product> productList;
 
 
     public ProductAdapter(List<Product> productList) {
@@ -50,7 +50,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     }
 
     @SuppressLint("SetTextI18n")
-    public class ProductViewHolder extends RecyclerView.ViewHolder {
+    public static class ProductViewHolder extends RecyclerView.ViewHolder {
         private final TextView id;
         private final TextView name;
         private final TextView description;

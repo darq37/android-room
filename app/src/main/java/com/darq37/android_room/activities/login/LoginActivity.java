@@ -20,7 +20,6 @@ public class LoginActivity extends AppCompatActivity {
     private EditText passwordEditText;
     private EditText usernameEditText;
     private UserDao userDao;
-    public static final String LOGIN = "LOGIN";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +47,7 @@ public class LoginActivity extends AppCompatActivity {
                     SharedPreferences sharedPreferences = getSharedPreferences("app", MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putString("user", user.getLogin());
-                    editor.commit();
+                    editor.apply();
                     startActivity(intent);
                 }
             } catch (Exception e) {
