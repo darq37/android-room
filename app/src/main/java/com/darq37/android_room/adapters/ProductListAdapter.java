@@ -24,20 +24,20 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 
     @NonNull
     @Override
-    public ProductListAdapter.ProductListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ProductListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.productlist_data, parent, false);
         return new ProductListViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ProductListAdapter.ProductListViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ProductListViewHolder holder, int position) {
         Product p = productList.get(position);
         holder.name.setText(p.getName());
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return productList.size();
     }
 
     public static class ProductListViewHolder extends RecyclerView.ViewHolder {

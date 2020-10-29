@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.darq37.android_room.R;
-import com.darq37.android_room.adapters.ProductAdapter;
+import com.darq37.android_room.adapters.ProductListAdapter;
 import com.darq37.android_room.database.RoomConstant;
 import com.darq37.android_room.database.dao.SharedListDao;
 import com.darq37.android_room.database.dao.ShoppingListDao;
@@ -62,7 +62,7 @@ public class ListDetailsActivity extends AppCompatActivity {
 
         productList.setHasFixedSize(true);
         productList.setLayoutManager(new LinearLayoutManager(this));
-        ProductAdapter productAdapter = new ProductAdapter(list.getProducts());
+        ProductListAdapter productAdapter = new ProductListAdapter(list.getProducts());
         productList.setAdapter(productAdapter);
 
 
