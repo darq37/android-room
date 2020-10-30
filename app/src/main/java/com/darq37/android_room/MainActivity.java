@@ -22,7 +22,7 @@ import com.darq37.android_room.database.dao.ShoppingListDao;
 import com.darq37.android_room.database.dao.UserDao;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.util.ArrayList;
+import java.util.Collections;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         Resources res = getResources();
         UserDao userDao = RoomConstant.getInstance(this).userDao();
         shoppingListDao = RoomConstant.getInstance(this).shoppingListDao();
-        shoppingListAdapter = new ShoppingListAdapter(new ArrayList<>());
+        shoppingListAdapter = new ShoppingListAdapter(Collections.emptyList());
 
 
         sharedPreferences = getSharedPreferences("app", MODE_PRIVATE);
@@ -104,7 +104,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void logout(View view) {
         Intent intent = new Intent(this, LoginActivity.class);
-        deleteSharedPreferences("app");
         startActivity(intent);
     }
 

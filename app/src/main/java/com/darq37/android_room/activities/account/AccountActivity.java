@@ -22,7 +22,7 @@ import com.darq37.android_room.database.dao.SharedListDao;
 import com.darq37.android_room.database.dao.UserDao;
 import com.darq37.android_room.entity.User;
 
-import java.util.ArrayList;
+import java.util.Collections;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -52,7 +52,7 @@ public class AccountActivity extends AppCompatActivity {
         setContentView(R.layout.activity_account);
         userDao = RoomConstant.getInstance(this).userDao();
         SharedListDao sharedListDao = RoomConstant.getInstance(this).sharedListDao();
-        sharedListAdapter = new SharedListAdapter(new ArrayList<>());
+        sharedListAdapter = new SharedListAdapter(Collections.emptyList());
 
         Resources res = getResources();
 
