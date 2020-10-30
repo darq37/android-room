@@ -22,64 +22,101 @@ import com.darq37.android_room.database.dao.SharedListDao;
 import com.darq37.android_room.database.dao.UserDao;
 import com.darq37.android_room.entity.User;
 
+import java.util.ArrayList;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
+
 public class AccountActivity extends AppCompatActivity {
-    private User loggedInUser;
     private UserDao userDao;
     private EditText passwordEdit;
+    private SharedPreferences sharedPreferences;
+    private TextView userNameText;
+    private Button changePasswordButton;
+    private RecyclerView sharedListView;
+    private SharedListAdapter sharedListAdapter;
+    private User loggedUser;
+
+    private void setLoggedUser(User loggedUser) {
+        this.loggedUser = loggedUser;
+    }
+
+    public User getLoggedUser() {
+        return loggedUser;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account);
         userDao = RoomConstant.getInstance(this).userDao();
         SharedListDao sharedListDao = RoomConstant.getInstance(this).sharedListDao();
-
-        SharedPreferences sharedPreferences = getSharedPreferences("app", MODE_PRIVATE);
-        String user = sharedPreferences.getString("user", null);
-        loggedInUser = userDao.getByIdSync(user);
-        RecyclerView sharedListView = findViewById(R.id.shared_list_view);
-
-        sharedListView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        SharedListAdapter adapter = new SharedListAdapter(sharedListDao
-                .getAllForUserSync(loggedInUser.getDisplayName()));
-        sharedListView.setAdapter(adapter);
-
-
-        Button changePasswordButton = findViewById(R.id.changePasswordButton);
-        passwordEdit = findViewById(R.id.newPassword);
-        TextView userNameText = findViewById(R.id.userNameView);
+        sharedListAdapter = new SharedListAdapter(new ArrayList<>());
 
         Resources res = getResources();
 
-        String username = String.format(res.getString(R.string.accountLogin), loggedInUser.getDisplayName());
-        userNameText.setText(username);
+        initializeViews();
+
+        sharedPreferences = getSharedPreferences("app", MODE_PRIVATE);
+        String userName = sharedPreferences.getString("user", null);
+
+        userDao.getById(userName)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSuccess(user ->
+                {
+                    setLoggedUser(user);
+                    String displayName = user.getDisplayName();
+                    String name = String.format(res.getString(R.string.accountLogin), displayName);
+                    userNameText.setText(name);
+                })
+                .subscribe();
+
+        sharedListDao.getAllForUser(userName)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSuccess(sharedLists -> {
+                    sharedListAdapter.setLists(sharedLists);
+                    sharedListView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                    sharedListView.setAdapter(sharedListAdapter);
+                })
+                .subscribe();
 
         changePasswordButton.setOnClickListener(this::changePassword);
     }
 
+    private void initializeViews() {
+        sharedListView = findViewById(R.id.shared_list_view);
+        changePasswordButton = findViewById(R.id.changePasswordButton);
+        passwordEdit = findViewById(R.id.newPassword);
+        userNameText = findViewById(R.id.userNameView);
+    }
+
     public void changePassword(View view) {
         String newPassword = passwordEdit.getText().toString();
-
         if (isPasswordValid(newPassword)) {
-            loggedInUser.setPassword(newPassword);
-            userDao.updateSync(loggedInUser);
-            System.out.println(loggedInUser.getPassword());
-            Toast.makeText(this, "Password changed", Toast.LENGTH_LONG).show();
-            Intent intent = new Intent(this, LoginActivity.class);
-            deleteSharedPreferences("app");
-            startActivity(intent);
+            User user = getLoggedUser();
+            user.setPassword(newPassword);
+            userDao.update(user)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .doOnComplete(this::logout)
+                    .subscribe();
         } else {
             Toast.makeText(this, "Password change failed", Toast.LENGTH_LONG).show();
         }
     }
 
+    private void logout() {
+        Toast.makeText(this, "Password changed", Toast.LENGTH_LONG).show();
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+    }
+
     private boolean isPasswordValid(String newPassword) {
         if (newPassword.isEmpty()) {
             Toast.makeText(this, "Enter new password", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        if (newPassword.equals(loggedInUser.getPassword())) {
-            Toast.makeText(this, "Don't use same password!", Toast.LENGTH_SHORT).show();
             return false;
         }
         if (newPassword.length() < 5) {

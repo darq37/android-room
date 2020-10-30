@@ -36,4 +36,7 @@ public abstract class UserDao extends GenericDao<User, String> {
     @Override
     @Query("DELETE FROM users")
     public abstract void clearAllSync();
+
+    @Query(value = "UPDATE users SET password = :password WHERE login = :user")
+    public abstract void updateUser(String user, String password);
 }

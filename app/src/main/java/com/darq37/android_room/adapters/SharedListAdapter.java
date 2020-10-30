@@ -17,7 +17,7 @@ import com.darq37.android_room.entity.SharedList;
 import java.util.List;
 
 public class SharedListAdapter extends RecyclerView.Adapter<SharedListAdapter.SharedListViewHolder> {
-    private final List<SharedList> sharedListList;
+    private List<SharedList> sharedListList;
 
 
     public SharedListAdapter(List<SharedList> sharedListList) {
@@ -47,6 +47,11 @@ public class SharedListAdapter extends RecyclerView.Adapter<SharedListAdapter.Sh
     @Override
     public int getItemCount() {
         return sharedListList.size();
+    }
+
+    public void setLists(List<SharedList> lists) {
+        this.sharedListList = lists;
+        notifyDataSetChanged();
     }
 
     public static class SharedListViewHolder extends RecyclerView.ViewHolder {

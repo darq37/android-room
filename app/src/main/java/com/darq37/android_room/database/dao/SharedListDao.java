@@ -8,6 +8,7 @@ import com.darq37.android_room.entity.SharedList;
 import java.util.List;
 
 import io.reactivex.Completable;
+import io.reactivex.Maybe;
 
 @Dao
 public abstract class SharedListDao extends GenericDao<SharedList, String> {
@@ -22,4 +23,9 @@ public abstract class SharedListDao extends GenericDao<SharedList, String> {
 
     @Query("SELECT * FROM shared_lists WHERE owner_id = :login")
     public abstract List<SharedList> getAllForUserSync(String login);
+
+    @Query("SELECT * FROM shared_lists WHERE owner_id = :login")
+    public abstract Maybe<List<SharedList>> getAllForUser(String login);
+
+
 }
