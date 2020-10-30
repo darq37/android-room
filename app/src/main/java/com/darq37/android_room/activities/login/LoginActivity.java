@@ -14,6 +14,7 @@ import com.darq37.android_room.R;
 import com.darq37.android_room.activities.register.RegisterActivity;
 import com.darq37.android_room.database.RoomConstant;
 import com.darq37.android_room.database.dao.UserDao;
+import com.darq37.android_room.entity.User;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -42,24 +43,26 @@ public class LoginActivity extends AppCompatActivity {
         if (isInputValid()) {
             String login = usernameEditText.getText().toString();
             String password = passwordEditText.getText().toString();
-            try {
-                userDao.getById(login).subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .doOnSuccess(user -> {
-                            if (password.equals(user.getPassword())) {
-                                Intent intent = new Intent(this, MainActivity.class);
-                                SharedPreferences sharedPreferences = getSharedPreferences("app", MODE_PRIVATE);
-                                SharedPreferences.Editor editor = sharedPreferences.edit();
-                                editor.putString("user", user.getLogin());
-                                editor.apply();
-                                startActivity(intent);
-                            }
-                        })
-                        .subscribe();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+
+            userDao.getById(login)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .doOnSuccess(user -> {
+                        if (password.equals(user.getPassword())) {
+                            handleRequest(user);
+                        }
+                    })
+                    .subscribe();
         }
+    }
+
+    private void handleRequest(User user) {
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        SharedPreferences sharedPreferences = getSharedPreferences("app", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("user", user.getLogin());
+        editor.apply();
+        startActivity(intent);
     }
 
     public void goToSignUp(View view) {
@@ -83,6 +86,5 @@ public class LoginActivity extends AppCompatActivity {
         }
         return true;
     }
-
 
 }

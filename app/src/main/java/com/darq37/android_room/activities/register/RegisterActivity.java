@@ -17,6 +17,9 @@ import com.darq37.android_room.entity.User;
 
 import java.util.Date;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
+
 public class RegisterActivity extends AppCompatActivity {
 
     private EditText registerLogin, registerName, registerPassword, registerRepeatPassword;
@@ -74,6 +77,8 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     public void performSignUp(View v) {
+
+
         if (validateInput()) {
 
             String login = registerLogin.getText().toString();
@@ -89,7 +94,11 @@ public class RegisterActivity extends AppCompatActivity {
             user.setCreationDate(created);
             user.setModificationDate(edited);
 
-            userDao.insertSync(user);
+            userDao.insert(user)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe();
+
 
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
