@@ -20,17 +20,23 @@ import com.darq37.android_room.adapters.ShoppingListAdapter;
 import com.darq37.android_room.database.RoomConstant;
 import com.darq37.android_room.database.dao.ShoppingListDao;
 import com.darq37.android_room.database.dao.UserDao;
-import com.darq37.android_room.entity.User;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.ArrayList;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 
 public class MainActivity extends AppCompatActivity {
-    public User loggedInUser;
     private ShoppingListAdapter shoppingListAdapter;
     private ShoppingListDao shoppingListDao;
+    private Button logout;
+    private FloatingActionButton settingsButton;
+    private FloatingActionButton addNewListButton;
+    private FloatingActionButton addProductButton;
+    private TextView welcomeView;
+    private RecyclerView recyclerView;
     private SharedPreferences sharedPreferences;
 
     @Override
@@ -38,45 +44,37 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
-        Resources res = getResources();
-        sharedPreferences = getSharedPreferences("app", MODE_PRIVATE);
 
+        initializeViews();
+
+        Resources res = getResources();
         UserDao userDao = RoomConstant.getInstance(this).userDao();
         shoppingListDao = RoomConstant.getInstance(this).shoppingListDao();
-
-        Button logout = findViewById(R.id.logOutButton);
-        FloatingActionButton settingsButton = findViewById(R.id.settingsButton);
-        FloatingActionButton addNewListButton = findViewById(R.id.to_new_list_button);
-        FloatingActionButton addProductButton = findViewById(R.id.to_products_button);
-        TextView welcomeView = findViewById(R.id.welcome);
-        RecyclerView recyclerView = findViewById(R.id.shoppingLists);
+        shoppingListAdapter = new ShoppingListAdapter(new ArrayList<>());
 
 
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
-        recyclerView.setLayoutManager(layoutManager);
+        sharedPreferences = getSharedPreferences("app", MODE_PRIVATE);
+        String userName = sharedPreferences.getString("user", null);
 
-        String userLogin = sharedPreferences.getString("user", null);
-
-        userDao.getById(userLogin)
+        userDao.getById(userName)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSuccess(response -> {
-                    String displayName = response.getDisplayName();
+                .doOnSuccess(user -> {
+                    String displayName = user.getDisplayName();
                     String welcomeString = String.format(res.getString(R.string.welcomeString), displayName);
                     welcomeView.setText(welcomeString);
-                    shoppingListDao.getAllForUser(response.getLogin())
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .doOnSuccess(resp -> {
-                                shoppingListAdapter = new ShoppingListAdapter(resp);
-                                recyclerView.setAdapter(shoppingListAdapter);
-                            })
-                            .subscribe();
-
-
                 })
                 .subscribe();
 
+        shoppingListDao.getAllForUser(userName)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSuccess(list -> {
+                    shoppingListAdapter.setLists(list);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                    recyclerView.setAdapter(shoppingListAdapter);
+                })
+                .subscribe();
 
         logout.setOnClickListener(this::logout);
         settingsButton.setOnClickListener(this::toAccountActivity);
@@ -84,20 +82,28 @@ public class MainActivity extends AppCompatActivity {
         addProductButton.setOnClickListener(this::toProductActivity);
     }
 
-/*    @Override
+    private void initializeViews() {
+        logout = findViewById(R.id.logOutButton);
+        settingsButton = findViewById(R.id.settingsButton);
+        addNewListButton = findViewById(R.id.to_new_list_button);
+        addProductButton = findViewById(R.id.to_products_button);
+        welcomeView = findViewById(R.id.welcome);
+        recyclerView = findViewById(R.id.shoppingLists);
+    }
+
+
+    @Override
     protected void onResume() {
-        shoppingListDao
-                .getAllForUser(sharedPreferences.getString("user", null))
+        shoppingListDao.getAllForUser(sharedPreferences.getString("user", null))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSuccess(p -> shoppingListAdapter.setLists(p))
+                .doOnSuccess(list -> shoppingListAdapter.setLists(list))
                 .subscribe();
         super.onResume();
-    }*/
+    }
 
     public void logout(View view) {
         Intent intent = new Intent(this, LoginActivity.class);
-        loggedInUser = null;
         deleteSharedPreferences("app");
         startActivity(intent);
     }
