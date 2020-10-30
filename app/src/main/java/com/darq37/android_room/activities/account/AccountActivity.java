@@ -37,14 +37,6 @@ public class AccountActivity extends AppCompatActivity {
     private SharedListAdapter sharedListAdapter;
     private User loggedUser;
 
-    private void setLoggedUser(User loggedUser) {
-        this.loggedUser = loggedUser;
-    }
-
-    public User getLoggedUser() {
-        return loggedUser;
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -70,18 +62,17 @@ public class AccountActivity extends AppCompatActivity {
                     String displayName = user.getDisplayName();
                     String name = String.format(res.getString(R.string.accountLogin), displayName);
                     userNameText.setText(name);
-                })
-                .subscribe();
 
-        sharedListDao.getAllForUser(userName)
+                }).flatMap(user -> sharedListDao.getAllForUserDisplayName(user.getDisplayName())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSuccess(sharedLists -> {
                     sharedListAdapter.setLists(sharedLists);
                     sharedListView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                     sharedListView.setAdapter(sharedListAdapter);
-                })
+                }))
                 .subscribe();
+
 
         changePasswordButton.setOnClickListener(this::changePassword);
     }
@@ -126,4 +117,12 @@ public class AccountActivity extends AppCompatActivity {
         return true;
     }
 
+
+    private void setLoggedUser(User loggedUser) {
+        this.loggedUser = loggedUser;
+    }
+
+    public User getLoggedUser() {
+        return loggedUser;
+    }
 }

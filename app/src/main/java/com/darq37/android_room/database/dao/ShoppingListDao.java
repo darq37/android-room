@@ -9,6 +9,7 @@ import com.darq37.android_room.entity.ShoppingList;
 import java.util.List;
 
 import io.reactivex.Completable;
+import io.reactivex.Maybe;
 import io.reactivex.Single;
 
 @Dao
@@ -32,7 +33,7 @@ public abstract class ShoppingListDao extends GenericDao<ShoppingList, Long> {
     public abstract List<ShoppingList> getAllForUserSync(String owner);
 
     @Query("SELECT * FROM shopping_lists WHERE login = :owner ")
-    public abstract Single<List<ShoppingList>> getAllForUser(String owner);
+    public abstract Maybe<List<ShoppingList>> getAllForUser(String owner);
 
     @Query("SELECT * FROM shopping_lists WHERE login = :owner")
     public abstract ShoppingList getForUserSync(String owner);
@@ -40,5 +41,9 @@ public abstract class ShoppingListDao extends GenericDao<ShoppingList, Long> {
     @Transaction
     @Query("SELECT * FROM shopping_lists WHERE list_id = :id")
     public abstract ShoppingList getByIdSync(long id);
+
+    @Query("SELECT * FROM shopping_lists WHERE list_id = :id")
+    public abstract Maybe<ShoppingList> getById(long id);
+
 
 }

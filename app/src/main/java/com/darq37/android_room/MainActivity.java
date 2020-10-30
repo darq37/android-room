@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView welcomeView;
     private RecyclerView recyclerView;
     private SharedPreferences sharedPreferences;
+    private UserDao userDao;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -48,7 +49,8 @@ public class MainActivity extends AppCompatActivity {
         initializeViews();
 
         Resources res = getResources();
-        UserDao userDao = RoomConstant.getInstance(this).userDao();
+
+        userDao = RoomConstant.getInstance(this).userDao();
         shoppingListDao = RoomConstant.getInstance(this).shoppingListDao();
         shoppingListAdapter = new ShoppingListAdapter(Collections.emptyList());
 
@@ -64,16 +66,15 @@ public class MainActivity extends AppCompatActivity {
                     String welcomeString = String.format(res.getString(R.string.welcomeString), displayName);
                     welcomeView.setText(welcomeString);
                 })
-                .subscribe();
-
-        shoppingListDao.getAllForUser(userName)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSuccess(list -> {
-                    shoppingListAdapter.setLists(list);
-                    recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-                    recyclerView.setAdapter(shoppingListAdapter);
-                })
+                .flatMap(user -> shoppingListDao
+                        .getAllForUser(user.getLogin())
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .doOnSuccess(result -> {
+                            shoppingListAdapter.setLists(result);
+                            recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                            recyclerView.setAdapter(shoppingListAdapter);
+                        }))
                 .subscribe();
 
         logout.setOnClickListener(this::logout);
@@ -94,10 +95,13 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
-        shoppingListDao.getAllForUser(sharedPreferences.getString("user", null))
+        String userName = sharedPreferences.getString("user", null);
+        userDao.getById(userName)
                 .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSuccess(list -> shoppingListAdapter.setLists(list))
+                .flatMap(user -> shoppingListDao.getAllForUser(user.getLogin())
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .doOnSuccess(list -> shoppingListAdapter.setLists(list)))
                 .subscribe();
         super.onResume();
     }

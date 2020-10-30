@@ -28,6 +28,8 @@ public abstract class UserDao extends GenericDao<User, String> {
     @Query("SELECT * FROM users WHERE display_name = :username")
     public abstract User getByNameSync(String username);
 
+    @Query("SELECT * FROM users WHERE display_name = :username")
+    public abstract Maybe<User> getByName(String username);
 
     @Override
     @Query("DELETE FROM users")

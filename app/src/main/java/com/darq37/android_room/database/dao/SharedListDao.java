@@ -25,7 +25,7 @@ public abstract class SharedListDao extends GenericDao<SharedList, String> {
     public abstract List<SharedList> getAllForUserSync(String login);
 
     @Query("SELECT * FROM shared_lists WHERE owner_id = :login")
-    public abstract Maybe<List<SharedList>> getAllForUser(String login);
+    public abstract Maybe<List<SharedList>> getAllForUserDisplayName(String login);
 
 
 }
