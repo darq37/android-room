@@ -45,15 +45,24 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/productDescription" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/productListView"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/product_swipe_refresh"
         android:layout_width="300dp"
-        android:layout_height="287dp"
+        android:layout_height="290dp"
         android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/your_products"
-        tools:listitem="@layout/product_data" />
+        app:layout_constraintTop_toBottomOf="@+id/your_products">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/productListView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:listitem="@layout/product_data"
+            tools:itemCount="5" />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
 
     <TextView
         android:id="@+id/your_products"
