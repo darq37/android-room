@@ -20,6 +20,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     private List<Product> productList;
 
     public void setProductList(List<Product> productList) {
+        this.productList = new ArrayList<>();
         this.productList = productList;
         notifyDataSetChanged();
     }

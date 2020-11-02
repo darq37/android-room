@@ -2,6 +2,7 @@ package com.darq37.android_room.activities.list;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -10,6 +11,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.darq37.android_room.R;
 import com.darq37.android_room.adapters.ProductAdapter;
@@ -36,7 +38,9 @@ public class ListActivity extends AppCompatActivity {
     private ProductAdapter productAdapter;
     private Button addToListButton;
     private RecyclerView productRV;
-    private SharedPreferences sharedPreferences;
+    private UserDao userDao;
+    private ProductDao productDao;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
 
     public void setLoggedInUser(User loggedInUser) {
@@ -47,16 +51,13 @@ public class ListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
-        sharedPreferences = getSharedPreferences("app", MODE_PRIVATE);
-        String userName = sharedPreferences.getString("user", null);
-
-        UserDao userDao = RoomConstant.getInstance(this).userDao();
-        shoppingListDao = RoomConstant.getInstance(this).shoppingListDao();
-        ProductDao productDao = RoomConstant.getInstance(this).productDao();
 
         initializeViews();
+        initializeDao();
 
-        productAdapter = new ProductAdapter(Collections.emptyList());
+        SharedPreferences sharedPreferences = getSharedPreferences("app", MODE_PRIVATE);
+        String userName = sharedPreferences.getString("user", null);
+
 
         productDao.getAll()
                 .subscribeOn(Schedulers.io())
@@ -77,12 +78,39 @@ public class ListActivity extends AppCompatActivity {
                 .subscribe();
 
         addToListButton.setOnClickListener(this::createList);
+        swipeRefreshLayout.setOnRefreshListener(this::refreshData);
+    }
+
+
+    private void refreshData() {
+        final Handler handler = new Handler();
+        productDao.getAll()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSuccess(products -> {
+                    productAdapter.setProductList(products);
+                    Toast.makeText(this, "Data refreshed.", Toast.LENGTH_SHORT).show();
+                    swipeRefreshLayout.setRefreshing(false);
+                }).doOnError(error -> handler.postDelayed(() -> {
+            Toast.makeText(this, "Cannot refresh the data.", Toast.LENGTH_SHORT).show();
+            if (swipeRefreshLayout.isRefreshing()) {
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        }, 1500)).subscribe();
+    }
+
+    private void initializeDao() {
+        userDao = RoomConstant.getInstance(this).userDao();
+        shoppingListDao = RoomConstant.getInstance(this).shoppingListDao();
+        productDao = RoomConstant.getInstance(this).productDao();
     }
 
     private void initializeViews() {
         listName = findViewById(R.id.new_list_name);
         addToListButton = findViewById(R.id.create_list_button);
         productRV = findViewById(R.id.productListView);
+        swipeRefreshLayout = findViewById(R.id.account_swipe_refresh);
+        productAdapter = new ProductAdapter(Collections.emptyList());
     }
 
 
