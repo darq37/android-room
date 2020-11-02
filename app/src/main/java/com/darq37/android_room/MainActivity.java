@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -73,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
                         .doOnSuccess(result -> {
                             shoppingListAdapter.setLists(result);
                             recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                            recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
                             recyclerView.setAdapter(shoppingListAdapter);
                         }))
                 .subscribe();

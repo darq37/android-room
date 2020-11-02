@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -69,6 +70,7 @@ public class AccountActivity extends AppCompatActivity {
                 .doOnSuccess(sharedLists -> {
                     sharedListAdapter.setLists(sharedLists);
                     sharedListView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                    sharedListView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
                     sharedListView.setAdapter(sharedListAdapter);
                 }))
                 .subscribe();

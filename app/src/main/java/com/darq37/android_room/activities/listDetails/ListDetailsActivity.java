@@ -8,6 +8,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -73,6 +74,7 @@ public class ListDetailsActivity extends AppCompatActivity {
 
                     productList.setHasFixedSize(true);
                     productList.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                    productList.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
                     productListAdapter.setProductList(list.getProducts());
                     productList.setAdapter(productListAdapter);
 

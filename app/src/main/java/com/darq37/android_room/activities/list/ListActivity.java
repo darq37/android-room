@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -65,8 +66,9 @@ public class ListActivity extends AppCompatActivity {
                 .doOnSuccess(products -> {
                             productAdapter.setProductList(products);
                             productRV.setHasFixedSize(true);
-                            productRV.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-                            productRV.setAdapter(productAdapter);
+                    productRV.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                    productRV.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
+                    productRV.setAdapter(productAdapter);
                         }
                 )
                 .subscribe();
