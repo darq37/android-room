@@ -44,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
     private UserDao userDao;
     private String userName;
+    private boolean sortedAlphabetically;
+    private boolean sortedByID;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,6 +54,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         initializeViews();
+        sortedAlphabetically = false;
+        sortedByID = false;
 
         Resources res = getResources();
 
@@ -104,6 +108,48 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    private void sortByAZ(View view) {
+        userDao.getById(userName)
+                .subscribeOn(Schedulers.io())
+                .flatMap(user -> shoppingListDao.getAllForUser(user.getLogin())
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .doOnSuccess(list -> {
+                            if (!sortedAlphabetically) {
+
+                                list.sort((o1, o2) -> o1.getName().toLowerCase().compareTo(o2.getName().toLowerCase()));
+                                shoppingListAdapter.setLists(list);
+                                sortedAlphabetically = true;
+                            } else {
+                                list.sort((o1, o2) -> o2.getName().toLowerCase().compareTo(o1.getName().toLowerCase()));
+                                shoppingListAdapter.setLists(list);
+                                sortedAlphabetically = false;
+                            }
+                        }))
+                .subscribe();
+    }
+
+    private void sortById(View view) {
+        userDao.getById(userName)
+                .subscribeOn(Schedulers.io())
+                .flatMap(user -> shoppingListDao.getAllForUser(user.getLogin())
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .doOnSuccess(list -> {
+                            if (!sortedByID) {
+
+                                list.sort((o1, o2) -> o1.getId().compareTo(o2.getId()));
+                                shoppingListAdapter.setLists(list);
+                                sortedByID = true;
+                            } else {
+                                list.sort((o1, o2) -> o2.getId().compareTo(o1.getId()));
+                                shoppingListAdapter.setLists(list);
+                                sortedByID = false;
+                            }
+                        }))
+                .subscribe();
+    }
+
     @Override
     protected void onResume() {
         String userName = sharedPreferences.getString("user", null);
@@ -135,32 +181,6 @@ public class MainActivity extends AppCompatActivity {
     private void toProductActivity(View view) {
         Intent intent = new Intent(this, ProductActivity.class);
         startActivity(intent);
-    }
-
-    private void sortByAZ(View view) {
-        userDao.getById(userName)
-                .subscribeOn(Schedulers.io())
-                .flatMap(user -> shoppingListDao.getAllForUser(user.getLogin())
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .doOnSuccess(list -> {
-                            list.sort((o1, o2) -> o1.getName().toLowerCase().compareTo(o2.getName().toLowerCase()));
-                            shoppingListAdapter.setLists(list);
-                        }))
-                .subscribe();
-    }
-
-    private void sortById(View view) {
-        userDao.getById(userName)
-                .subscribeOn(Schedulers.io())
-                .flatMap(user -> shoppingListDao.getAllForUser(user.getLogin())
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .doOnSuccess(list -> {
-                            list.sort((o1, o2) -> o1.getId().compareTo(o2.getId()));
-                            shoppingListAdapter.setLists(list);
-                        }))
-                .subscribe();
     }
 
 }
