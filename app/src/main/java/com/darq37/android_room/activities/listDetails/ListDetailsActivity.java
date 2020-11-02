@@ -36,8 +36,9 @@ public class ListDetailsActivity extends AppCompatActivity {
     private TextView textListOwner;
     private TextView textListDate;
     private RecyclerView productList;
-    private ProductListAdapter productAdapter;
+    private ProductListAdapter productListAdapter;
     private ShoppingList shoppingList;
+    private ShoppingListDao shoppingListDao;
 
     public void setShoppingList(ShoppingList shoppingList) {
         this.shoppingList = shoppingList;
@@ -50,11 +51,7 @@ public class ListDetailsActivity extends AppCompatActivity {
         Intent intent = getIntent();
         long list_id = intent.getLongExtra("list_id", 1);
 
-
-        ShoppingListDao shoppingListDao = RoomConstant.getInstance(this).shoppingListDao();
-        sharedListDao = RoomConstant.getInstance(this).sharedListDao();
-        userDao = RoomConstant.getInstance(this).userDao();
-        productAdapter = new ProductListAdapter(Collections.emptyList());
+        initializeDao();
         initializeViews();
 
         shoppingListDao.getById(list_id)
@@ -76,8 +73,8 @@ public class ListDetailsActivity extends AppCompatActivity {
 
                     productList.setHasFixedSize(true);
                     productList.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-                    productAdapter.setProductList(list.getProducts());
-                    productList.setAdapter(productAdapter);
+                    productListAdapter.setProductList(list.getProducts());
+                    productList.setAdapter(productListAdapter);
 
                     setShoppingList(list);
                 })
@@ -87,6 +84,12 @@ public class ListDetailsActivity extends AppCompatActivity {
 
     }
 
+    private void initializeDao() {
+        shoppingListDao = RoomConstant.getInstance(this).shoppingListDao();
+        sharedListDao = RoomConstant.getInstance(this).sharedListDao();
+        userDao = RoomConstant.getInstance(this).userDao();
+    }
+
     private void initializeViews() {
         textListName = findViewById(R.id.text_list_name);
         textListOwner = findViewById(R.id.text_list_owner);
@@ -94,6 +97,7 @@ public class ListDetailsActivity extends AppCompatActivity {
         productList = findViewById(R.id.product_list);
         shareButton = findViewById(R.id.shareButton);
         userToShare = findViewById(R.id.userToShare);
+        productListAdapter = new ProductListAdapter(Collections.emptyList());
     }
 
     public void share(View view) {
@@ -105,16 +109,16 @@ public class ListDetailsActivity extends AppCompatActivity {
                     .doOnSuccess(res -> {
                         sharedList.setSharedList_owner(res);
                         sharedList.setShoppingList(shoppingList);
-                        sharedListDao.insert(sharedList)
-                                .subscribeOn(Schedulers.io())
-                                .observeOn(AndroidSchedulers.mainThread())
-                                .doOnSuccess(result -> Toast.makeText(this, "List shared", Toast.LENGTH_LONG).show())
-                                .doOnError(response -> {
-                                    String msg = String.format("User '%s' doesn't exist.", username);
-                                    Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
-                                })
-                                .subscribe();
                     })
+                    .toSingle()
+                    .flatMap(res -> sharedListDao.insert(sharedList)
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .doOnSuccess(result -> Toast.makeText(this, "List shared", Toast.LENGTH_LONG).show())
+                            .doOnError(result -> {
+                                String msg = String.format("User '%s' doesn't exist.", username);
+                                Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
+                            }))
                     .subscribe();
         }
     }

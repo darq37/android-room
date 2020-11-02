@@ -100,5 +100,6 @@ public class ProductActivity extends AppCompatActivity {
                     productDescription.setText("");
                 })
                 .subscribe();
+
     }
 }
