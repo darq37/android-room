@@ -27,7 +27,9 @@ public class SharedListAdapter extends RecyclerView.Adapter<SharedListAdapter.Sh
     @NonNull
     @Override
     public SharedListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.shared_list_data, parent, false);
+        View view = LayoutInflater
+                .from(parent.getContext())
+                .inflate(R.layout.shared_list_data, parent, false);
         return new SharedListViewHolder(view);
     }
 

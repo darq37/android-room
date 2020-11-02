@@ -47,8 +47,6 @@
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
-        android:layout_marginBottom="32dp"
-        android:onClick="logout"
         android:text="@string/log_out"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -117,5 +115,26 @@
         app:layout_constraintHorizontal_bias="0.61"
         app:layout_constraintStart_toStartOf="@+id/settingsButton"
         app:layout_constraintTop_toBottomOf="@+id/settingsButton" />
+
+    <ImageButton
+        android:id="@+id/sortByAlphaButton"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="@+id/shoppingLists"
+        app:layout_constraintTop_toBottomOf="@+id/shoppingLists"
+        app:srcCompat="@drawable/ic_baseline_sort_by_alpha_24"
+        android:contentDescription="@string/sort_alphabetically" />
+
+    <ImageButton
+        android:id="@+id/sortByIDButton"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        app:layout_constraintStart_toEndOf="@+id/sortByAlphaButton"
+        app:layout_constraintTop_toBottomOf="@+id/shoppingLists"
+        app:srcCompat="@drawable/ic_baseline_sort_24"
+        android:contentDescription="@string/sort_by_id" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

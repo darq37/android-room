@@ -6,6 +6,7 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -33,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
     private ShoppingListAdapter shoppingListAdapter;
     private ShoppingListDao shoppingListDao;
     private Button logout;
+    private ImageButton sortByAZButton;
+    private ImageButton sortByIdButton;
     private FloatingActionButton settingsButton;
     private FloatingActionButton addNewListButton;
     private FloatingActionButton addProductButton;
@@ -83,6 +86,9 @@ public class MainActivity extends AppCompatActivity {
         settingsButton.setOnClickListener(this::toAccountActivity);
         addNewListButton.setOnClickListener(this::toListActivity);
         addProductButton.setOnClickListener(this::toProductActivity);
+        sortByIdButton.setOnClickListener(this::sortById);
+        sortByAZButton.setOnClickListener(this::sortByAZ);
+
     }
 
     private void initializeViews() {
@@ -90,6 +96,8 @@ public class MainActivity extends AppCompatActivity {
         settingsButton = findViewById(R.id.settingsButton);
         addNewListButton = findViewById(R.id.to_new_list_button);
         addProductButton = findViewById(R.id.to_products_button);
+        sortByAZButton = findViewById(R.id.sortByAlphaButton);
+        sortByIdButton = findViewById(R.id.sortByIDButton);
         welcomeView = findViewById(R.id.welcome);
         recyclerView = findViewById(R.id.shoppingLists);
     }
@@ -108,23 +116,31 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
     }
 
-    public void logout(View view) {
+    private void logout(View view) {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
     }
 
-    public void toAccountActivity(View view) {
+    private void toAccountActivity(View view) {
         Intent intent = new Intent(this, AccountActivity.class);
         startActivity(intent);
     }
 
-    public void toListActivity(View view) {
+    private void toListActivity(View view) {
         Intent intent = new Intent(this, ListActivity.class);
         startActivity(intent);
     }
 
-    public void toProductActivity(View view) {
+    private void toProductActivity(View view) {
         Intent intent = new Intent(this, ProductActivity.class);
         startActivity(intent);
     }
+
+    private void sortByAZ(View view) {
+    }
+
+    private void sortById(View view) {
+        System.out.println("SORT");
+    }
+
 }

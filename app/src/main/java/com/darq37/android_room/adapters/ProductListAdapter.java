@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.darq37.android_room.R;
 import com.darq37.android_room.entity.Product;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.ProductListViewHolder> {
@@ -19,6 +20,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
     private List<Product> productList;
 
     public void setProductList(List<Product> productList) {
+        this.productList = new ArrayList<>();
         this.productList = productList;
         notifyDataSetChanged();
     }
@@ -30,7 +32,9 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
     @NonNull
     @Override
     public ProductListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.productlist_data, parent, false);
+        View view = LayoutInflater
+                .from(parent.getContext())
+                .inflate(R.layout.productlist_data, parent, false);
         return new ProductListViewHolder(view);
     }
 

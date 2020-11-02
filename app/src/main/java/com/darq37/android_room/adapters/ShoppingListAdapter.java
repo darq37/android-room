@@ -15,11 +15,13 @@ import com.darq37.android_room.R;
 import com.darq37.android_room.activities.listDetails.ListDetailsActivity;
 import com.darq37.android_room.entity.ShoppingList;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapter.ListViewHolder> {
 
     public void setLists(List<ShoppingList> lists) {
+        this.lists = new ArrayList<>();
         this.lists = lists;
         notifyDataSetChanged();
     }
@@ -33,7 +35,9 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
     @NonNull
     @Override
     public ListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_data, parent, false);
+        View view = LayoutInflater
+                .from(parent.getContext())
+                .inflate(R.layout.list_data, parent, false);
         return new ListViewHolder(view);
     }
 
