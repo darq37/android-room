@@ -69,8 +69,8 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/shoppingLists"
-        android:layout_width="357dp"
-        android:layout_height="384dp"
+        android:layout_width="366dp"
+        android:layout_height="115dp"
         android:layout_margin="45dp"
         android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -120,21 +120,19 @@
         android:id="@+id/sortByAlphaButton"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_marginTop="10dp"
+        android:contentDescription="@string/sort_alphabetically"
+        app:layout_constraintBottom_toTopOf="@+id/shoppingLists"
         app:layout_constraintStart_toStartOf="@+id/shoppingLists"
-        app:layout_constraintTop_toBottomOf="@+id/shoppingLists"
-        app:srcCompat="@drawable/ic_baseline_sort_by_alpha_24"
-        android:contentDescription="@string/sort_alphabetically" />
+        app:srcCompat="@drawable/ic_baseline_sort_by_alpha_24" />
 
     <ImageButton
         android:id="@+id/sortByIDButton"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_marginTop="10dp"
         android:layout_marginStart="10dp"
+        android:contentDescription="@string/sort_by_id"
+        app:layout_constraintBottom_toTopOf="@+id/shoppingLists"
         app:layout_constraintStart_toEndOf="@+id/sortByAlphaButton"
-        app:layout_constraintTop_toBottomOf="@+id/shoppingLists"
-        app:srcCompat="@drawable/ic_baseline_sort_24"
-        android:contentDescription="@string/sort_by_id" />
+        app:srcCompat="@drawable/ic_baseline_sort_24" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

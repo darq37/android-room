@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private SharedPreferences sharedPreferences;
     private UserDao userDao;
+    private String userName;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -60,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         sharedPreferences = getSharedPreferences("app", MODE_PRIVATE);
-        String userName = sharedPreferences.getString("user", null);
+        userName = sharedPreferences.getString("user", null);
 
         userDao.getById(userName)
                 .subscribeOn(Schedulers.io())
@@ -137,10 +138,29 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void sortByAZ(View view) {
+        userDao.getById(userName)
+                .subscribeOn(Schedulers.io())
+                .flatMap(user -> shoppingListDao.getAllForUser(user.getLogin())
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .doOnSuccess(list -> {
+                            list.sort((o1, o2) -> o1.getName().toLowerCase().compareTo(o2.getName().toLowerCase()));
+                            shoppingListAdapter.setLists(list);
+                        }))
+                .subscribe();
     }
 
     private void sortById(View view) {
-        System.out.println("SORT");
+        userDao.getById(userName)
+                .subscribeOn(Schedulers.io())
+                .flatMap(user -> shoppingListDao.getAllForUser(user.getLogin())
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .doOnSuccess(list -> {
+                            list.sort((o1, o2) -> o1.getId().compareTo(o2.getId()));
+                            shoppingListAdapter.setLists(list);
+                        }))
+                .subscribe();
     }
 
 }
