@@ -7,6 +7,9 @@ import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
+import com.google.gson.annotations.SerializedName;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -21,24 +24,32 @@ import java.util.Date;
         }
 )
 public class User implements Serializable {
+
     @PrimaryKey
     @NonNull
+    @SerializedName("login")
     private String login;
 
     @ColumnInfo(name = "display_name")
+    @SerializedName("displayName")
     private String displayName;
 
     @ColumnInfo(name = "password")
     @NonNull
+    @SerializedName("password")
     private String password;
 
     @ColumnInfo(name = "user_creation_date")
+    @SerializedName("created")
     private Date creationDate = new Date();
 
     @ColumnInfo(name = "user_modification_date")
+    @SerializedName("edited")
     private Date modificationDate = new Date();
 
     public User() {
+        login = null;
+        password = null;
     }
 
     @Ignore
@@ -54,11 +65,12 @@ public class User implements Serializable {
         this.password = password;
     }
 
+    @NotNull
     public String getLogin() {
         return login;
     }
 
-    public void setLogin(String login) {
+    public void setLogin(@NotNull String login) {
         this.login = login;
     }
 
@@ -70,11 +82,12 @@ public class User implements Serializable {
         this.displayName = displayName;
     }
 
+    @NotNull
     public String getPassword() {
         return password;
     }
 
-    public void setPassword(String password) {
+    public void setPassword(@NotNull String password) {
         this.password = password;
     }
 

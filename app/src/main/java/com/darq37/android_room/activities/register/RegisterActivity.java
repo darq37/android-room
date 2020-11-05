@@ -14,6 +14,7 @@ import com.darq37.android_room.activities.login.LoginActivity;
 import com.darq37.android_room.database.RoomConstant;
 import com.darq37.android_room.database.dao.UserDao;
 import com.darq37.android_room.entity.User;
+import com.darq37.android_room.service.ApiService;
 
 import java.util.Date;
 
@@ -77,8 +78,6 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     public void performSignUp(View v) {
-
-
         if (validateInput()) {
 
             String login = registerLogin.getText().toString();
@@ -95,6 +94,12 @@ public class RegisterActivity extends AppCompatActivity {
             user.setModificationDate(edited);
 
             userDao.insert(user)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe();
+
+            ApiService service = new ApiService(getApplicationContext());
+            service.createUser(user)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe();

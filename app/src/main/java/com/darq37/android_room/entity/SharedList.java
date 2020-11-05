@@ -8,6 +8,7 @@ import androidx.room.RoomWarnings;
 import androidx.room.TypeConverters;
 
 import com.darq37.android_room.database.converters.UserConverter;
+import com.google.gson.annotations.SerializedName;
 
 @SuppressWarnings({RoomWarnings.INDEX_FROM_EMBEDDED_ENTITY_IS_DROPPED, RoomWarnings.PRIMARY_KEY_FROM_EMBEDDED_IS_DROPPED})
 @Entity(tableName = "shared_lists",
@@ -17,7 +18,10 @@ public class SharedList {
     @TypeConverters(UserConverter.class)
     @ColumnInfo(name = "owner_id")
     @NonNull
+    @SerializedName("owner")
     private User sharedList_owner;
+
+    @SerializedName("")
     @Embedded
     private ShoppingList shoppingList;
 

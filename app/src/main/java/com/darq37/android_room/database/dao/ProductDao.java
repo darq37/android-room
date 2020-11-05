@@ -4,7 +4,6 @@ import androidx.room.Dao;
 import androidx.room.Query;
 
 import com.darq37.android_room.entity.Product;
-import com.darq37.android_room.entity.User;
 
 import java.util.List;
 

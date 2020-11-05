@@ -11,6 +11,7 @@ import androidx.room.TypeConverters;
 
 import com.darq37.android_room.database.converters.DateConverter;
 import com.darq37.android_room.database.converters.ListProductConverter;
+import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
 import java.util.List;
@@ -23,25 +24,31 @@ public class ShoppingList {
     @PrimaryKey(autoGenerate = true)
     @NonNull
     @ColumnInfo(name = "list_id")
+    @SerializedName("id")
     private long id;
 
     @NonNull
     @ColumnInfo(name = "list_name")
+    @SerializedName("name")
     private String name;
 
     @Embedded
+    @SerializedName("owner")
     private User owner;
 
     @ColumnInfo(name = "products")
     @TypeConverters(ListProductConverter.class)
+    @SerializedName("products")
     private List<Product> products;
 
     @ColumnInfo(name = "list_creation_date")
     @TypeConverters(DateConverter.class)
+    @SerializedName("created")
     private Date creationDate;
 
     @ColumnInfo(name = "list_modification_date")
     @TypeConverters(DateConverter.class)
+    @SerializedName("edited")
     private Date modificationDate;
 
     public ShoppingList() {

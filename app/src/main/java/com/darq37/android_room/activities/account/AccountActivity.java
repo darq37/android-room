@@ -31,7 +31,6 @@ import io.reactivex.schedulers.Schedulers;
 public class AccountActivity extends AppCompatActivity {
     private UserDao userDao;
     private EditText passwordEdit;
-    private SharedPreferences sharedPreferences;
     private TextView userNameText;
     private Button changePasswordButton;
     private RecyclerView sharedListView;
@@ -51,7 +50,7 @@ public class AccountActivity extends AppCompatActivity {
 
         initializeViews();
 
-        sharedPreferences = getSharedPreferences("app", MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences("app", MODE_PRIVATE);
         String userName = sharedPreferences.getString("user", null);
 
         userDao.getById(userName)
