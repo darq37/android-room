@@ -12,7 +12,10 @@ import com.google.gson.JsonSerializer;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Maybe;
@@ -27,6 +30,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiService {
     private final Api api;
+    private final String LOCALHOST = "http://10.0.2.2:8080";
     private final Context context;
 
     public ApiService(Context context) {
@@ -36,7 +40,7 @@ public class ApiService {
         clientBuilder.addInterceptor(new HttpLoggingInterceptor()
                 .setLevel(HttpLoggingInterceptor.Level.BODY));
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://localhost:8080")
+                .baseUrl(LOCALHOST)
                 .addConverterFactory(GsonConverterFactory.create(getGson()))
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(clientBuilder
@@ -57,8 +61,14 @@ public class ApiService {
 
 
     public JsonObject createUserSync(User user) throws IOException {
+
         JsonElement body = new GsonBuilder()
-                .registerTypeAdapter(Date.class, (JsonSerializer<Date>) (src, typeOfSrc, context) -> new JsonPrimitive(src.toString()))
+                .registerTypeAdapter(Date.class,
+                        (JsonSerializer<Date>) (src, typeOfSrc, context) -> {
+                            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US);
+                            String dateFormatAsString = dateFormat.format(src);
+                            return new JsonPrimitive(dateFormatAsString);
+                        })
                 .create()
                 .toJsonTree(user);
 
@@ -81,6 +91,8 @@ public class ApiService {
             }
         }).subscribeOn(Schedulers.io());
     }
+
+
 
 
 }

@@ -93,13 +93,16 @@ public class RegisterActivity extends AppCompatActivity {
             user.setCreationDate(created);
             user.setModificationDate(edited);
 
-            userDao.insert(user)
+
+            ApiService service = new ApiService(getApplicationContext());
+
+            service.createUser(user)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe();
 
-            ApiService service = new ApiService(getApplicationContext());
-            service.createUser(user)
+
+            userDao.insert(user)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe();
