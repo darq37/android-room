@@ -15,6 +15,7 @@ import com.darq37.android_room.activities.register.RegisterActivity;
 import com.darq37.android_room.database.RoomConstant;
 import com.darq37.android_room.database.dao.UserDao;
 import com.darq37.android_room.entity.User;
+import com.darq37.android_room.service.ApiService;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -26,14 +27,18 @@ public class LoginActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
     private Button loginButton;
     private Button registerButton;
+    private ApiService apiService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         initializeViews();
+
         userDao = RoomConstant.getInstance(this).userDao();
         sharedPreferences = getSharedPreferences("app", MODE_PRIVATE);
+        apiService = new ApiService(getApplicationContext());
+
         skipLoginIfLogged();
 
         loginButton.setOnClickListener(this::login);
@@ -57,6 +62,7 @@ public class LoginActivity extends AppCompatActivity {
         if (isInputValid()) {
             String login = usernameEditText.getText().toString();
             String password = passwordEditText.getText().toString();
+
 
             userDao.getById(login)
                     .subscribeOn(Schedulers.io())

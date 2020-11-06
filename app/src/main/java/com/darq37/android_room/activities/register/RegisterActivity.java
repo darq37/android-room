@@ -101,24 +101,27 @@ public class RegisterActivity extends AppCompatActivity {
             service.createUser(user)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .toSingle()
                     .doOnError(Log::getStackTraceString)
                     .doOnSuccess(jsonObject -> {
                         Gson g = new Gson();
                         User u = g.fromJson(jsonObject, User.class);
                         userDao.insert(u)
                                 .subscribeOn(Schedulers.io())
-                                .observeOn(AndroidSchedulers.mainThread()).subscribe();
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .doOnSuccess(aLong -> goToLoginActivity())
+                                .subscribe();
                     })
-
+                    .doOnComplete(() -> Toast.makeText(this, "Cannot save user to the back-end", Toast.LENGTH_SHORT).show())
+                    .ignoreElement()
+                    .onErrorComplete(throwable -> true)
                     .subscribe();
 
-
-            Intent intent = new Intent(this, LoginActivity.class);
-            startActivity(intent);
-
-            Toast.makeText(this, "User created", Toast.LENGTH_SHORT).show();
-
         }
+    }
+
+    private void goToLoginActivity() {
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+        Toast.makeText(this, "User created", Toast.LENGTH_SHORT).show();
     }
 }

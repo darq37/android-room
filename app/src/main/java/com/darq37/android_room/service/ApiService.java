@@ -30,7 +30,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiService {
     private final Api api;
-    private final String LOCALHOST = "http://10.0.2.2:8080";
     private final Context context;
 
     public ApiService(Context context) {
@@ -40,7 +39,7 @@ public class ApiService {
         clientBuilder.addInterceptor(new HttpLoggingInterceptor()
                 .setLevel(HttpLoggingInterceptor.Level.BODY));
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(LOCALHOST)
+                .baseUrl("http://10.0.2.2:8080")
                 .addConverterFactory(GsonConverterFactory.create(getGson()))
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(clientBuilder
