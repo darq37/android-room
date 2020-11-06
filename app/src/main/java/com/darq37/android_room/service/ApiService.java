@@ -30,9 +30,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiService {
     private final Api api;
-    private final Context context;
+    private Context context;
+    private static ApiService INSTANCE;
 
-    public ApiService(Context context) {
+    private ApiService(Context context) {
         this.context = context;
 
         OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
@@ -52,6 +53,13 @@ public class ApiService {
 
         this.api = retrofit.create(Api.class);
 
+    }
+
+    public static synchronized ApiService getApiService(Context context) {
+        if (INSTANCE == null) {
+            INSTANCE = new ApiService(context);
+        }
+        return INSTANCE;
     }
 
     private Gson getGson() {

@@ -96,7 +96,7 @@ public class RegisterActivity extends AppCompatActivity {
             user.setModificationDate(edited);
 
 
-            ApiService service = new ApiService(getApplicationContext());
+            ApiService service = ApiService.getApiService(getApplicationContext());
 
             service.createUser(user)
                     .subscribeOn(Schedulers.io())

@@ -6,16 +6,16 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.darq37.android_room.MainActivity;
 import com.darq37.android_room.R;
 import com.darq37.android_room.activities.register.RegisterActivity;
-import com.darq37.android_room.database.RoomConstant;
-import com.darq37.android_room.database.dao.UserDao;
 import com.darq37.android_room.entity.User;
 import com.darq37.android_room.service.ApiService;
+import com.google.gson.Gson;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -23,7 +23,6 @@ import io.reactivex.schedulers.Schedulers;
 public class LoginActivity extends AppCompatActivity {
     private EditText passwordEditText;
     private EditText usernameEditText;
-    private UserDao userDao;
     private SharedPreferences sharedPreferences;
     private Button loginButton;
     private Button registerButton;
@@ -35,9 +34,8 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         initializeViews();
 
-        userDao = RoomConstant.getInstance(this).userDao();
         sharedPreferences = getSharedPreferences("app", MODE_PRIVATE);
-        apiService = new ApiService(getApplicationContext());
+        apiService = ApiService.getApiService(getApplicationContext());
 
         skipLoginIfLogged();
 
@@ -61,18 +59,20 @@ public class LoginActivity extends AppCompatActivity {
     public void login(View view) {
         if (isInputValid()) {
             String login = usernameEditText.getText().toString();
-            String password = passwordEditText.getText().toString();
-
-
-            userDao.getById(login)
-                    .subscribeOn(Schedulers.io())
+            apiService.getUser(login).subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .doOnSuccess(user -> {
-                        if (password.equals(user.getPassword())) {
-                            preparePreferences(user);
+                    .doOnSuccess(jsonObject -> {
+                        Gson g = new Gson();
+                        User u = g.fromJson(jsonObject, User.class);
+                        String password = passwordEditText.getText().toString();
+                        if (password.equals(u.getPassword())) {
+                            preparePreferences(u);
                             goToMainActivity();
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Wrong password", Toast.LENGTH_SHORT).show();
                         }
                     })
+                    .doOnError(throwable -> Toast.makeText(getApplicationContext(), "Cannot get user from database", Toast.LENGTH_SHORT).show())
                     .subscribe();
         }
     }

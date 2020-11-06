@@ -12,9 +12,7 @@ import com.darq37.android_room.database.room.AppDatabase;
 public class RoomConstant {
     public static AppDatabase buildDatabase(Context context) {
         return Room.databaseBuilder(context, AppDatabase.class, "app_db")
-                /*.allowMainThreadQueries()*/
                 .fallbackToDestructiveMigration()
-
                 .addCallback(new RoomDatabase.Callback() {
                     @Override
                     public void onCreate(@NonNull SupportSQLiteDatabase db) {

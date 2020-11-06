@@ -62,10 +62,9 @@ public class MainActivity extends AppCompatActivity {
         userDao = RoomConstant.getInstance(this).userDao();
         shoppingListDao = RoomConstant.getInstance(this).shoppingListDao();
         shoppingListAdapter = new ShoppingListAdapter(Collections.emptyList());
-
-
         sharedPreferences = getSharedPreferences("app", MODE_PRIVATE);
         userName = sharedPreferences.getString("user", null);
+
 
         userDao.getById(userName)
                 .subscribeOn(Schedulers.io())
