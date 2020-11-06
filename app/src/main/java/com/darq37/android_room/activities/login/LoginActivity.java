@@ -23,20 +23,34 @@ public class LoginActivity extends AppCompatActivity {
     private EditText passwordEditText;
     private EditText usernameEditText;
     private UserDao userDao;
+    private SharedPreferences sharedPreferences;
+    private Button loginButton;
+    private Button registerButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        initializeViews();
         userDao = RoomConstant.getInstance(this).userDao();
-
-        usernameEditText = findViewById(R.id.username);
-        passwordEditText = findViewById(R.id.password);
-        Button loginButton = findViewById(R.id.button_login);
-        Button registerButton = findViewById(R.id.goToSignUpButton);
+        sharedPreferences = getSharedPreferences("app", MODE_PRIVATE);
+        skipLoginIfLogged();
 
         loginButton.setOnClickListener(this::login);
         registerButton.setOnClickListener(this::goToSignUp);
+    }
+
+    private void skipLoginIfLogged() {
+        if (sharedPreferences.getBoolean("logged", false)) {
+            goToMainActivity();
+        }
+    }
+
+    private void initializeViews() {
+        usernameEditText = findViewById(R.id.username);
+        passwordEditText = findViewById(R.id.password);
+        loginButton = findViewById(R.id.button_login);
+        registerButton = findViewById(R.id.goToSignUpButton);
     }
 
     public void login(View view) {
@@ -49,19 +63,25 @@ public class LoginActivity extends AppCompatActivity {
                     .observeOn(AndroidSchedulers.mainThread())
                     .doOnSuccess(user -> {
                         if (password.equals(user.getPassword())) {
-                            handleRequest(user);
+                            preparePreferences(user);
+                            goToMainActivity();
                         }
                     })
                     .subscribe();
         }
     }
 
-    private void handleRequest(User user) {
-        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-        SharedPreferences sharedPreferences = getSharedPreferences("app", MODE_PRIVATE);
+    private void preparePreferences(User user) {
+
+        sharedPreferences = getSharedPreferences("app", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("logged", true);
         editor.putString("user", user.getLogin());
         editor.apply();
+    }
+
+    public void goToMainActivity() {
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(intent);
     }
 

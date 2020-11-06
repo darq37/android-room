@@ -165,6 +165,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void logout(View view) {
         Intent intent = new Intent(this, LoginActivity.class);
+        sharedPreferences.edit().putBoolean("logged", false).apply();
         startActivity(intent);
     }
 
