@@ -3,6 +3,7 @@ package com.darq37.android_room.service;
 import com.darq37.android_room.entity.Product;
 import com.darq37.android_room.entity.SharedList;
 import com.darq37.android_room.entity.ShoppingList;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import java.util.List;
@@ -18,13 +19,14 @@ public interface Api {
     /*<---------- Users ----------->*/
 
     @GET("/users")
-    Call<List<JsonObject>> getUsers();
+    Call<JsonArray> getUsers();
 
     @GET("/users/{login}")
     Call<JsonObject> getUser(@Path("login") String login);
 
     @POST("/users")
     Call<JsonObject> addUser(@Body JsonObject jsonObject);
+
 
     /*<---------- Products ----------->*/
 

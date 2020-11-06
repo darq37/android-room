@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -22,8 +23,12 @@ import com.darq37.android_room.adapters.ShoppingListAdapter;
 import com.darq37.android_room.database.RoomConstant;
 import com.darq37.android_room.database.dao.ShoppingListDao;
 import com.darq37.android_room.database.dao.UserDao;
+import com.darq37.android_room.entity.User;
+import com.darq37.android_room.service.ApiService;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.gson.Gson;
 
+import java.util.Arrays;
 import java.util.Collections;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -39,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
     private FloatingActionButton settingsButton;
     private FloatingActionButton addNewListButton;
     private FloatingActionButton addProductButton;
+    private FloatingActionButton syncButton;
     private TextView welcomeView;
     private RecyclerView recyclerView;
     private SharedPreferences sharedPreferences;
@@ -46,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
     private String userName;
     private boolean sortedAlphabetically;
     private boolean sortedByID;
+    private ApiService apiService;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -64,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
         shoppingListAdapter = new ShoppingListAdapter(Collections.emptyList());
         sharedPreferences = getSharedPreferences("app", MODE_PRIVATE);
         userName = sharedPreferences.getString("user", null);
+        apiService = ApiService.getApiService(getApplicationContext());
 
 
         userDao.getById(userName)
@@ -92,6 +100,7 @@ public class MainActivity extends AppCompatActivity {
         addProductButton.setOnClickListener(this::toProductActivity);
         sortByIdButton.setOnClickListener(this::sortById);
         sortByAZButton.setOnClickListener(this::sortByAZ);
+        syncButton.setOnClickListener(this::syncUsers);
 
     }
 
@@ -102,8 +111,28 @@ public class MainActivity extends AppCompatActivity {
         addProductButton = findViewById(R.id.to_products_button);
         sortByAZButton = findViewById(R.id.sortByAlphaButton);
         sortByIdButton = findViewById(R.id.sortByIDButton);
+        syncButton = findViewById(R.id.syncButton);
         welcomeView = findViewById(R.id.welcome);
         recyclerView = findViewById(R.id.shoppingLists);
+    }
+
+
+    private void syncUsers(View view) {
+
+        apiService.getUsers()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSuccess(jsonArray -> {
+                    Gson gson = new Gson();
+                    User[] usersFromDB = gson.fromJson(jsonArray, User[].class);
+                    userDao.insert(Arrays.asList(usersFromDB)).subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .doOnSuccess(longs -> System.out.println("Users synced"))
+                            .subscribe();
+                })
+                .doOnError(Log::getStackTraceString)
+                .subscribe();
+
     }
 
 

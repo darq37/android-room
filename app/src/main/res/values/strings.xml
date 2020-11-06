@@ -56,4 +56,5 @@
     <string name="sort_alphabetically">Sort alphabetically</string>
     <string name="sort_by_id">Sort by ID</string>
     <string name="shared_lists">Shared lists:</string>
+    <string name="synchronize">Synchronize</string>
 </resources>

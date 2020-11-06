@@ -5,6 +5,7 @@ import android.content.Context;
 import com.darq37.android_room.entity.User;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
@@ -121,4 +122,24 @@ public class ApiService {
     }
 
 
+    public Maybe<JsonArray> getUsers() {
+        return Maybe.create((MaybeOnSubscribe<JsonArray>) emitter -> {
+            JsonArray result = getUsersSync();
+            if (result == null) {
+                emitter.onComplete();
+            } else {
+                emitter.onSuccess(result);
+            }
+        }).subscribeOn(Schedulers.io());
+    }
+
+    public JsonArray getUsersSync() throws IOException {
+        Call<JsonArray> call = api.getUsers();
+        Response<JsonArray> response = call.execute();
+        if (response.isSuccessful()) {
+            return response.body();
+        } else {
+            return null;
+        }
+    }
 }
