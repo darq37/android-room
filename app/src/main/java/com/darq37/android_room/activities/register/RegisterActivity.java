@@ -2,6 +2,7 @@ package com.darq37.android_room.activities.register;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,6 +16,7 @@ import com.darq37.android_room.database.RoomConstant;
 import com.darq37.android_room.database.dao.UserDao;
 import com.darq37.android_room.entity.User;
 import com.darq37.android_room.service.ApiService;
+import com.google.gson.Gson;
 
 import java.util.Date;
 
@@ -99,12 +101,16 @@ public class RegisterActivity extends AppCompatActivity {
             service.createUser(user)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe();
+                    .toSingle()
+                    .doOnError(Log::getStackTraceString)
+                    .doOnSuccess(jsonObject -> {
+                        Gson g = new Gson();
+                        User u = g.fromJson(jsonObject, User.class);
+                        userDao.insert(u)
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread()).subscribe();
+                    })
 
-
-            userDao.insert(user)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
                     .subscribe();
 
 

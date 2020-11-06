@@ -92,7 +92,26 @@ public class ApiService {
         }).subscribeOn(Schedulers.io());
     }
 
+    public JsonObject getUserSync(String login) throws IOException {
+        Call<JsonObject> call = api.getUser(login);
+        Response<JsonObject> response = call.execute();
+        if (response.isSuccessful()) {
+            return response.body();
+        } else {
+            return null;
+        }
+    }
 
+    public Maybe<JsonObject> getUser(String login) {
+        return Maybe.create((MaybeOnSubscribe<JsonObject>) emitter -> {
+            JsonObject result = getUserSync(login);
+            if (result == null) {
+                emitter.onComplete();
+            } else {
+                emitter.onSuccess(result);
+            }
+        }).subscribeOn(Schedulers.io());
+    }
 
 
 }

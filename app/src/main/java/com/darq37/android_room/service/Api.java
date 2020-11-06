@@ -3,7 +3,6 @@ package com.darq37.android_room.service;
 import com.darq37.android_room.entity.Product;
 import com.darq37.android_room.entity.SharedList;
 import com.darq37.android_room.entity.ShoppingList;
-import com.darq37.android_room.entity.User;
 import com.google.gson.JsonObject;
 
 import java.util.List;
@@ -19,10 +18,10 @@ public interface Api {
     /*<---------- Users ----------->*/
 
     @GET("/users")
-    Call<List<User>> getUsers();
+    Call<List<JsonObject>> getUsers();
 
     @GET("/users/{login}")
-    Call<User> getUser(@Path("login") String login);
+    Call<JsonObject> getUser(@Path("login") String login);
 
     @POST("/users")
     Call<JsonObject> addUser(@Body JsonObject jsonObject);
@@ -30,34 +29,34 @@ public interface Api {
     /*<---------- Products ----------->*/
 
     @GET("/products")
-    Call<List<Product>> getProducts();
+    Call<List<JsonObject>> getProducts();
 
     @GET("/products/{id}")
-    Call<Product> getProduct(@Path("id") Long id);
+    Call<JsonObject> getProduct(@Path("id") Long id);
 
     @POST("/products")
-    Call<Product> addProduct(@Body Product product);
+    Call<JsonObject> addProduct(@Body Product product);
 
     /*<---------- Shopping lists ----------->*/
 
     @GET("/lists")
-    Call<List<ShoppingList>> getShoppingLists();
+    Call<List<JsonObject>> getShoppingLists();
 
     @GET("/lists/{id}")
-    Call<ShoppingList> getShoppingList(@Path("id") Long id);
+    Call<JsonObject> getShoppingList(@Path("id") Long id);
 
     @POST("/lists")
-    Call<ShoppingList> addShoppingList(@Body ShoppingList list);
+    Call<JsonObject> addShoppingList(@Body ShoppingList list);
 
     /*<---------- Shared lists ----------->*/
 
     @GET("/shared")
-    Call<List<SharedList>> getSharedLists();
+    Call<List<JsonObject>> getSharedLists();
 
     @GET("/shared/{id}")
-    Call<SharedList> getSharedList(@Path("id") Long id);
+    Call<JsonObject> getSharedList(@Path("id") Long id);
 
     @POST("/shared")
-    Call<SharedList> addSharedList(@Body SharedList list);
+    Call<JsonObject> addSharedList(@Body SharedList list);
 
 }

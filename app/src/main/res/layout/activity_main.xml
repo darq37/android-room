@@ -103,8 +103,8 @@
         app:layout_constraintBottom_toTopOf="@+id/to_products_text"
         app:layout_constraintEnd_toStartOf="@+id/to_products_button"
         app:layout_constraintStart_toStartOf="parent"
-        app:maxImageSize="36dp"
-        app:srcCompat="@drawable/app_logo" />
+        app:maxImageSize="46dp"
+        app:srcCompat="@drawable/store" />
 
     <TextView
         android:id="@+id/account_text"
