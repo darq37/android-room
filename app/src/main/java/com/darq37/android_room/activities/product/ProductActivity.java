@@ -74,7 +74,8 @@ public class ProductActivity extends AppCompatActivity {
             if (swipeRefreshLayout.isRefreshing()) {
                 swipeRefreshLayout.setRefreshing(false);
             }
-        }, 1500)).subscribe();
+        }, 1500))
+                .subscribe();
     }
 
     private void initializeViews() {

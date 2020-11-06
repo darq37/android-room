@@ -66,19 +66,18 @@ public class ListActivity extends AppCompatActivity {
                 .doOnSuccess(products -> {
                             productAdapter.setProductList(products);
                             productRV.setHasFixedSize(true);
-                    productRV.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-                    productRV.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
-                    productRV.setAdapter(productAdapter);
+                            productRV.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                            productRV.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
+                            productRV.setAdapter(productAdapter);
+
+                            userDao.getById(userName)
+                                    .subscribeOn(Schedulers.io())
+                                    .observeOn(AndroidSchedulers.mainThread())
+                                    .doOnSuccess(this::setLoggedInUser)
+                                    .subscribe();
                         }
                 )
                 .subscribe();
-
-        userDao.getById(userName)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSuccess(this::setLoggedInUser)
-                .subscribe();
-
         addToListButton.setOnClickListener(this::createList);
         swipeRefreshLayout.setOnRefreshListener(this::refreshData);
     }

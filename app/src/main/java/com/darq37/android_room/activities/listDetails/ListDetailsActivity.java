@@ -105,23 +105,30 @@ public class ListDetailsActivity extends AppCompatActivity {
     public void share(View view) {
         String username = userToShare.getText().toString();
         if (!username.isEmpty()) {
-            SharedList sharedList = new SharedList();
             userDao.getByName(username)
                     .subscribeOn(Schedulers.io())
                     .doOnSuccess(res -> {
+                        SharedList sharedList = new SharedList();
                         sharedList.setSharedList_owner(res);
                         sharedList.setShoppingList(shoppingList);
+                        sharedListDao.insert(sharedList)
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .doOnSuccess(result -> Toast.makeText(this, "List shared", Toast.LENGTH_LONG).show())
+                                .doOnError(throwable -> failedToInsertMsg()
+                                )
+                                .subscribe();
                     })
-                    .toSingle()
-                    .flatMap(res -> sharedListDao.insert(sharedList)
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .doOnSuccess(result -> Toast.makeText(this, "List shared", Toast.LENGTH_LONG).show())
-                            .doOnError(result -> {
-                                String msg = String.format("User '%s' doesn't exist.", username);
-                                Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
-                            }))
+                    .doOnError(throwable -> noUserMsg())
                     .subscribe();
         }
+    }
+
+    private void noUserMsg() {
+        Toast.makeText(this, "User  doesn't exist.", Toast.LENGTH_LONG).show();
+    }
+
+    private void failedToInsertMsg() {
+        Toast.makeText(this, "Cannot share that list.", Toast.LENGTH_LONG).show();
     }
 }

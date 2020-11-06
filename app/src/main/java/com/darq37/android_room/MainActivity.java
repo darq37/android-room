@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
                     String welcomeString = String.format(res.getString(R.string.welcomeString), displayName);
                     welcomeView.setText(welcomeString);
                 })
-                .flatMap(user -> shoppingListDao
+                .doOnSuccess(user -> shoppingListDao
                         .getAllForUser(user.getLogin())
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
                             recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                             recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
                             recyclerView.setAdapter(shoppingListAdapter);
-                        }))
+                        }).subscribe())
                 .subscribe();
 
         logout.setOnClickListener(this::logout);
@@ -111,12 +111,11 @@ public class MainActivity extends AppCompatActivity {
     private void sortByAZ(View view) {
         userDao.getById(userName)
                 .subscribeOn(Schedulers.io())
-                .flatMap(user -> shoppingListDao.getAllForUser(user.getLogin())
+                .doOnSuccess(user -> shoppingListDao.getAllForUser(user.getLogin())
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .doOnSuccess(list -> {
                             if (!sortedAlphabetically) {
-
                                 list.sort((o1, o2) -> o1.getName().toLowerCase().compareTo(o2.getName().toLowerCase()));
                                 shoppingListAdapter.setLists(list);
                                 sortedAlphabetically = true;
@@ -125,19 +124,18 @@ public class MainActivity extends AppCompatActivity {
                                 shoppingListAdapter.setLists(list);
                                 sortedAlphabetically = false;
                             }
-                        }))
+                        }).subscribe())
                 .subscribe();
     }
 
     private void sortById(View view) {
         userDao.getById(userName)
                 .subscribeOn(Schedulers.io())
-                .flatMap(user -> shoppingListDao.getAllForUser(user.getLogin())
+                .doOnSuccess(user -> shoppingListDao.getAllForUser(user.getLogin())
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .doOnSuccess(list -> {
                             if (!sortedByID) {
-
                                 list.sort((o1, o2) -> o1.getId().compareTo(o2.getId()));
                                 shoppingListAdapter.setLists(list);
                                 sortedByID = true;
@@ -146,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
                                 shoppingListAdapter.setLists(list);
                                 sortedByID = false;
                             }
-                        }))
+                        }).subscribe())
                 .subscribe();
     }
 
@@ -155,10 +153,11 @@ public class MainActivity extends AppCompatActivity {
         String userName = sharedPreferences.getString("user", null);
         userDao.getById(userName)
                 .subscribeOn(Schedulers.io())
-                .flatMap(user -> shoppingListDao.getAllForUser(user.getLogin())
+                .doOnSuccess(user -> shoppingListDao.getAllForUser(user.getLogin())
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .doOnSuccess(list -> shoppingListAdapter.setLists(list)))
+                        .doOnSuccess(list -> shoppingListAdapter.setLists(list))
+                        .subscribe())
                 .subscribe();
         super.onResume();
     }
