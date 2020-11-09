@@ -25,6 +25,9 @@ public interface Api {
     @POST("/users")
     Call<JsonObject> addUser(@Body JsonObject jsonObject);
 
+    @POST("/users")
+    Call<JsonArray> addUsers(@Body JsonArray array);
+
 
     /*<---------- Products ----------->*/
 
@@ -37,6 +40,9 @@ public interface Api {
     @POST("/products")
     Call<JsonObject> addProduct(@Body Product product);
 
+    @POST("/products")
+    Call<JsonArray> addProducts(@Body JsonArray array);
+
     /*<---------- Shopping lists ----------->*/
 
     @GET("/lists")
@@ -48,6 +54,9 @@ public interface Api {
     @POST("/lists")
     Call<JsonObject> addShoppingList(@Body ShoppingList list);
 
+    @POST("/lists")
+    Call<JsonArray> addShoppingLists(@Body JsonArray array);
+
     /*<---------- Shared lists ----------->*/
 
     @GET("/shared")
@@ -58,5 +67,8 @@ public interface Api {
 
     @POST("/shared")
     Call<JsonObject> addSharedList(@Body SharedList list);
+
+    @POST("/shared")
+    Call<JsonArray> addSharedLists(@Body JsonArray array);
 
 }
