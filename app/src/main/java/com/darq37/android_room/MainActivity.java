@@ -21,8 +21,13 @@ import com.darq37.android_room.activities.login.LoginActivity;
 import com.darq37.android_room.activities.product.ProductActivity;
 import com.darq37.android_room.adapters.ShoppingListAdapter;
 import com.darq37.android_room.database.RoomConstant;
+import com.darq37.android_room.database.dao.ProductDao;
+import com.darq37.android_room.database.dao.SharedListDao;
 import com.darq37.android_room.database.dao.ShoppingListDao;
 import com.darq37.android_room.database.dao.UserDao;
+import com.darq37.android_room.entity.Product;
+import com.darq37.android_room.entity.SharedList;
+import com.darq37.android_room.entity.ShoppingList;
 import com.darq37.android_room.entity.User;
 import com.darq37.android_room.service.ApiService;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -37,7 +42,6 @@ import io.reactivex.schedulers.Schedulers;
 
 public class MainActivity extends AppCompatActivity {
     private ShoppingListAdapter shoppingListAdapter;
-    private ShoppingListDao shoppingListDao;
     private Button logout;
     private ImageButton sortByAZButton;
     private ImageButton sortByIdButton;
@@ -49,6 +53,9 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private SharedPreferences sharedPreferences;
     private UserDao userDao;
+    private ShoppingListDao shoppingListDao;
+    private ProductDao productDao;
+    private SharedListDao sharedListDao;
     private String userName;
     private boolean sortedAlphabetically;
     private boolean sortedByID;
@@ -67,7 +74,11 @@ public class MainActivity extends AppCompatActivity {
         Resources res = getResources();
 
         userDao = RoomConstant.getInstance(this).userDao();
+        productDao = RoomConstant.getInstance(this).productDao();
+        sharedListDao = RoomConstant.getInstance(this).sharedListDao();
         shoppingListDao = RoomConstant.getInstance(this).shoppingListDao();
+
+
         shoppingListAdapter = new ShoppingListAdapter(Collections.emptyList());
         sharedPreferences = getSharedPreferences("app", MODE_PRIVATE);
         userName = sharedPreferences.getString("user", null);
@@ -100,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
         addProductButton.setOnClickListener(this::toProductActivity);
         sortByIdButton.setOnClickListener(this::sortById);
         sortByAZButton.setOnClickListener(this::sortByAZ);
-        syncButton.setOnClickListener(this::syncUsers);
+        syncButton.setOnClickListener(this::syncData);
 
     }
 
@@ -118,7 +129,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void syncUsers(View view) {
-
         apiService.getUsers()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -132,7 +142,72 @@ public class MainActivity extends AppCompatActivity {
                 })
                 .doOnError(Log::getStackTraceString)
                 .subscribe();
+    }
 
+
+    private void syncData(View view) {
+        syncUsers(view);
+        syncProducts(view);
+        syncShoppingLists(view);
+        syncSharedLists(view);
+    }
+
+
+    private void syncProducts(View view) {
+        apiService.getProducts()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSuccess(jsonArray -> {
+                    Gson gson = new Gson();
+                    Product[] products = gson.fromJson(jsonArray, Product[].class);
+                    productDao.insert(Arrays.asList(products)).subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .doOnSuccess(longs -> System.out.println("Products synced"))
+                            .subscribe();
+                })
+                .doOnError(Log::getStackTraceString)
+                .subscribe();
+    }
+
+    private void syncShoppingLists(View view) {
+        apiService.getShoppingLists()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSuccess(jsonArray -> {
+                    Gson gson = new Gson();
+                    ShoppingList[] shoppingLists = gson.fromJson(jsonArray, ShoppingList[].class);
+                    shoppingListDao.insert(Arrays.asList(shoppingLists)).subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .doOnSuccess(longs -> {
+                                System.out.println("Shopping lists synced");
+                                shoppingListDao.getAllForUser(userName)
+                                        .subscribeOn(Schedulers.io())
+                                        .observeOn(AndroidSchedulers.mainThread())
+                                        .doOnSuccess(lists -> shoppingListAdapter.setLists(lists))
+                                        .subscribe();
+                            })
+                            .subscribe();
+                })
+                .doOnError(Log::getStackTraceString)
+                .subscribe();
+
+
+    }
+
+    private void syncSharedLists(View view) {
+        apiService.getSharedLists()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSuccess(jsonArray -> {
+                    Gson gson = new Gson();
+                    SharedList[] sharedLists = gson.fromJson(jsonArray, SharedList[].class);
+                    sharedListDao.insert(Arrays.asList(sharedLists)).subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .doOnSuccess(longs -> System.out.println("Shared lists synced"))
+                            .subscribe();
+                })
+                .doOnError(Log::getStackTraceString)
+                .subscribe();
     }
 
 

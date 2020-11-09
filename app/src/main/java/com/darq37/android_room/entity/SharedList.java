@@ -21,7 +21,7 @@ public class SharedList {
     @SerializedName("owner")
     private User sharedList_owner;
 
-    @SerializedName("")
+    @SerializedName("shoppingList")
     @Embedded
     private ShoppingList shoppingList;
 

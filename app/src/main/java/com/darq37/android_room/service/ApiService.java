@@ -142,4 +142,69 @@ public class ApiService {
             return null;
         }
     }
+
+    public Maybe<JsonArray> getProducts() {
+        return Maybe.create((MaybeOnSubscribe<JsonArray>) emitter -> {
+            JsonArray result = getProductsSync();
+            if (result == null) {
+                emitter.onComplete();
+            } else {
+                emitter.onSuccess(result);
+            }
+        }).subscribeOn(Schedulers.io());
+    }
+
+    private JsonArray getProductsSync() throws IOException {
+        Call<JsonArray> call = api.getProducts();
+        Response<JsonArray> response = call.execute();
+        if (response.isSuccessful()) {
+            return response.body();
+        } else {
+            return null;
+        }
+    }
+
+
+    public Maybe<JsonArray> getShoppingLists() {
+        return Maybe.create((MaybeOnSubscribe<JsonArray>) emitter -> {
+            JsonArray result = getShoppingListsSync();
+            if (result == null) {
+                emitter.onComplete();
+            } else {
+                emitter.onSuccess(result);
+            }
+        }).subscribeOn(Schedulers.io());
+    }
+
+    private JsonArray getShoppingListsSync() throws IOException {
+        Call<JsonArray> call = api.getShoppingLists();
+        Response<JsonArray> response = call.execute();
+        if (response.isSuccessful()) {
+            return response.body();
+        } else {
+            return null;
+        }
+    }
+
+
+    public Maybe<JsonArray> getSharedLists() {
+        return Maybe.create((MaybeOnSubscribe<JsonArray>) emitter -> {
+            JsonArray result = getSharedListsSync();
+            if (result == null) {
+                emitter.onComplete();
+            } else {
+                emitter.onSuccess(result);
+            }
+        }).subscribeOn(Schedulers.io());
+    }
+
+    private JsonArray getSharedListsSync() throws IOException {
+        Call<JsonArray> call = api.getSharedLists();
+        Response<JsonArray> response = call.execute();
+        if (response.isSuccessful()) {
+            return response.body();
+        } else {
+            return null;
+        }
+    }
 }

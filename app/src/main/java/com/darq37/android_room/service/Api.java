@@ -6,8 +6,6 @@ import com.darq37.android_room.entity.ShoppingList;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
-import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -31,7 +29,7 @@ public interface Api {
     /*<---------- Products ----------->*/
 
     @GET("/products")
-    Call<List<JsonObject>> getProducts();
+    Call<JsonArray> getProducts();
 
     @GET("/products/{id}")
     Call<JsonObject> getProduct(@Path("id") Long id);
@@ -42,7 +40,7 @@ public interface Api {
     /*<---------- Shopping lists ----------->*/
 
     @GET("/lists")
-    Call<List<JsonObject>> getShoppingLists();
+    Call<JsonArray> getShoppingLists();
 
     @GET("/lists/{id}")
     Call<JsonObject> getShoppingList(@Path("id") Long id);
@@ -53,7 +51,7 @@ public interface Api {
     /*<---------- Shared lists ----------->*/
 
     @GET("/shared")
-    Call<List<JsonObject>> getSharedLists();
+    Call<JsonArray> getSharedLists();
 
     @GET("/shared/{id}")
     Call<JsonObject> getSharedList(@Path("id") Long id);
