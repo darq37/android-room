@@ -55,7 +55,7 @@ public class ApiService {
                 ).build();
 
 
-        this.api = retrofit.create(Api.class);
+        api = retrofit.create(Api.class);
 
     }
 
@@ -185,7 +185,9 @@ public class ApiService {
     }
 
     private JsonArray postProductsSync(List<Product> productList) throws IOException {
-        JsonArray body = new GsonBuilder()
+        JsonArray body = Product.getGson().toJsonTree(productList).getAsJsonArray();
+
+        /*JsonArray body = new GsonBuilder()
                 .registerTypeAdapter(Date.class,
                         (JsonSerializer<Date>) (src, typeOfSrc, context) -> {
                             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US);
@@ -194,7 +196,7 @@ public class ApiService {
                         })
                 .excludeFieldsWithoutExposeAnnotation()
                 .create()
-                .toJsonTree(productList).getAsJsonArray();
+                .toJsonTree(productList).getAsJsonArray();*/
 
         Call<JsonArray> call = api.addProducts(body);
         Response<JsonArray> response = call.execute();

@@ -8,11 +8,21 @@ import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSerializer;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.Serializable;
+import java.lang.reflect.Type;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 @Entity(tableName = "products",
         indices = {
@@ -23,6 +33,7 @@ import java.util.Date;
         }
 )
 public class Product implements Serializable {
+    private static final long serialVersionUID = -2316417636992806867L;
     @PrimaryKey(autoGenerate = true)
     @NonNull
     @ColumnInfo(name = "product_id")
@@ -117,5 +128,20 @@ public class Product implements Serializable {
 
     public void setChecked(boolean checked) {
         isChecked = checked;
+    }
+
+    public static final Type LIST_TYPE = new TypeToken<List<Product>>() {
+    }.getType();
+
+    public static Gson getGson() {
+        return new GsonBuilder()
+                .registerTypeAdapter(Date.class,
+                        (JsonSerializer<Date>) (src, typeOfSrc, context) -> {
+                            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US);
+                            String dateFormatAsString = dateFormat.format(src);
+                            return new JsonPrimitive(dateFormatAsString);
+                        })
+                .excludeFieldsWithoutExposeAnnotation()
+                .create();
     }
 }
