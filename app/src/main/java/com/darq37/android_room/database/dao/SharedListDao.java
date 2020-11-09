@@ -9,6 +9,7 @@ import java.util.List;
 
 import io.reactivex.Completable;
 import io.reactivex.Maybe;
+import io.reactivex.Single;
 
 @Dao
 public abstract class SharedListDao extends GenericDao<SharedList, String> {
@@ -26,6 +27,9 @@ public abstract class SharedListDao extends GenericDao<SharedList, String> {
 
     @Query("SELECT * FROM shared_lists WHERE owner_id = :login")
     public abstract Maybe<List<SharedList>> getAllForUserDisplayName(String login);
+
+    @Query("SELECT * FROM shared_lists")
+    public abstract Single<List<SharedList>> getAll();
 
 
 }

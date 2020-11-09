@@ -9,7 +9,6 @@ import com.darq37.android_room.entity.User;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializer;
@@ -95,9 +94,9 @@ public class ApiService {
         }).subscribeOn(Schedulers.io());
     }
 
-    public Maybe<JsonObject> createUser(User user) {
-        return Maybe.create((MaybeOnSubscribe<JsonObject>) emitter -> {
-            JsonObject result = createUserSync(user);
+    public Maybe<JsonArray> postUsers(List<User> users) {
+        return Maybe.create((MaybeOnSubscribe<JsonArray>) emitter -> {
+            JsonArray result = postUsersSync(users);
             if (result == null) {
                 emitter.onComplete();
             } else {
@@ -128,9 +127,9 @@ public class ApiService {
         }
     }
 
-    private JsonObject createUserSync(User user) throws IOException {
 
-        JsonElement body = new GsonBuilder()
+    private JsonArray postUsersSync(List<User> users) throws IOException {
+        JsonArray body = new GsonBuilder()
                 .registerTypeAdapter(Date.class,
                         (JsonSerializer<Date>) (src, typeOfSrc, context) -> {
                             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US);
@@ -138,10 +137,10 @@ public class ApiService {
                             return new JsonPrimitive(dateFormatAsString);
                         })
                 .create()
-                .toJsonTree(user);
+                .toJsonTree(users).getAsJsonArray();
 
-        Call<JsonObject> call = api.addUser(body.getAsJsonObject());
-        Response<JsonObject> response = call.execute();
+        Call<JsonArray> call = api.addUsers(body);
+        Response<JsonArray> response = call.execute();
         if (response.isSuccessful()) {
             return response.body();
         } else {
@@ -193,6 +192,7 @@ public class ApiService {
                             String dateFormatAsString = dateFormat.format(src);
                             return new JsonPrimitive(dateFormatAsString);
                         })
+                .excludeFieldsWithoutExposeAnnotation()
                 .create()
                 .toJsonTree(productList).getAsJsonArray();
 

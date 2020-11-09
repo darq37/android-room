@@ -1,8 +1,5 @@
 package com.darq37.android_room.service;
 
-import com.darq37.android_room.entity.Product;
-import com.darq37.android_room.entity.SharedList;
-import com.darq37.android_room.entity.ShoppingList;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
@@ -22,8 +19,6 @@ public interface Api {
     @GET("/users/{login}")
     Call<JsonObject> getUser(@Path("login") String login);
 
-    @POST("/users")
-    Call<JsonObject> addUser(@Body JsonObject jsonObject);
 
     @POST("/users")
     Call<JsonArray> addUsers(@Body JsonArray array);
@@ -38,9 +33,6 @@ public interface Api {
     Call<JsonObject> getProduct(@Path("id") Long id);
 
     @POST("/products")
-    Call<JsonObject> addProduct(@Body Product product);
-
-    @POST("/products")
     Call<JsonArray> addProducts(@Body JsonArray array);
 
     /*<---------- Shopping lists ----------->*/
@@ -52,9 +44,6 @@ public interface Api {
     Call<JsonObject> getShoppingList(@Path("id") Long id);
 
     @POST("/lists")
-    Call<JsonObject> addShoppingList(@Body ShoppingList list);
-
-    @POST("/lists")
     Call<JsonArray> addShoppingLists(@Body JsonArray array);
 
     /*<---------- Shared lists ----------->*/
@@ -64,9 +53,6 @@ public interface Api {
 
     @GET("/shared/{id}")
     Call<JsonObject> getSharedList(@Path("id") Long id);
-
-    @POST("/shared")
-    Call<JsonObject> addSharedList(@Body SharedList list);
 
     @POST("/shared")
     Call<JsonArray> addSharedLists(@Body JsonArray array);

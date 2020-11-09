@@ -115,8 +115,7 @@ public class ListDetailsActivity extends AppCompatActivity {
                                 .subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .doOnSuccess(result -> Toast.makeText(this, "List shared", Toast.LENGTH_LONG).show())
-                                .doOnError(throwable -> failedToInsertMsg()
-                                )
+                                .doOnError(throwable -> failedToInsertMsg())
                                 .subscribe();
                     })
                     .doOnError(throwable -> noUserMsg())
@@ -125,7 +124,7 @@ public class ListDetailsActivity extends AppCompatActivity {
     }
 
     private void noUserMsg() {
-        Toast.makeText(this, "User  doesn't exist.", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "User doesn't exist.", Toast.LENGTH_LONG).show();
     }
 
     private void failedToInsertMsg() {

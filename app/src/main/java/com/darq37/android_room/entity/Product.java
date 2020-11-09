@@ -8,6 +8,7 @@ import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
@@ -26,24 +27,29 @@ public class Product implements Serializable {
     @NonNull
     @ColumnInfo(name = "product_id")
     @SerializedName("id")
+    @Expose
     private long id;
 
     @ColumnInfo(name = "product_name")
     @NonNull
     @SerializedName("name")
+    @Expose
     private String name;
 
     @ColumnInfo(name = "product_description")
     @Nullable
     @SerializedName("description")
+    @Expose
     private String description;
 
     @ColumnInfo(name = "product_creation_date")
     @SerializedName("created")
+    @Expose
     private Date creationDate = new Date();
 
     @ColumnInfo(name = "product_modification_date")
     @SerializedName("edited")
+    @Expose
     private Date modificationDate = new Date();
 
     @Ignore

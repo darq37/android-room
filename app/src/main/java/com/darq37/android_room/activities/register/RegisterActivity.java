@@ -18,7 +18,9 @@ import com.darq37.android_room.entity.User;
 import com.darq37.android_room.service.ApiService;
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -97,14 +99,16 @@ public class RegisterActivity extends AppCompatActivity {
 
 
             ApiService service = ApiService.getApiService(getApplicationContext());
-
-            service.createUser(user)
+            List<User> userList = new ArrayList<>();
+            userList.add(user);
+            service.postUsers(userList)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .doOnError(Log::getStackTraceString)
                     .doOnSuccess(jsonObject -> {
                         Gson g = new Gson();
-                        User u = g.fromJson(jsonObject, User.class);
+                        User[] userArray = g.fromJson(jsonObject, User[].class);
+                        User u = userArray[0];
                         userDao.insert(u)
                                 .subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
