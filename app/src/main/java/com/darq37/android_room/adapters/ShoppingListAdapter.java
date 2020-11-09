@@ -57,7 +57,7 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
 
     @Override
     public int getItemCount() {
-        return lists.size();
+        return lists == null ? 0 : lists.size();
     }
 
     public static class ListViewHolder extends RecyclerView.ViewHolder {

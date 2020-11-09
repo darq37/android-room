@@ -48,7 +48,7 @@ public class SharedListAdapter extends RecyclerView.Adapter<SharedListAdapter.Sh
 
     @Override
     public int getItemCount() {
-        return sharedListList.size();
+        return sharedListList == null ? 0 : sharedListList.size();
     }
 
     public void setLists(List<SharedList> lists) {
