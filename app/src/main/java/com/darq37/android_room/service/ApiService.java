@@ -2,6 +2,9 @@ package com.darq37.android_room.service;
 
 import android.content.Context;
 
+import com.darq37.android_room.entity.Product;
+import com.darq37.android_room.entity.SharedList;
+import com.darq37.android_room.entity.ShoppingList;
 import com.darq37.android_room.entity.User;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -16,6 +19,7 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
@@ -67,8 +71,64 @@ public class ApiService {
         return new GsonBuilder().serializeNulls().create();
     }
 
+    /* -----ASYNC USER------*/
 
-    public JsonObject createUserSync(User user) throws IOException {
+    public Maybe<JsonObject> getUser(String login) {
+        return Maybe.create((MaybeOnSubscribe<JsonObject>) emitter -> {
+            JsonObject result = getUserSync(login);
+            if (result == null) {
+                emitter.onComplete();
+            } else {
+                emitter.onSuccess(result);
+            }
+        }).subscribeOn(Schedulers.io());
+    }
+
+    public Maybe<JsonArray> getUsers() {
+        return Maybe.create((MaybeOnSubscribe<JsonArray>) emitter -> {
+            JsonArray result = getUsersSync();
+            if (result == null) {
+                emitter.onComplete();
+            } else {
+                emitter.onSuccess(result);
+            }
+        }).subscribeOn(Schedulers.io());
+    }
+
+    public Maybe<JsonObject> createUser(User user) {
+        return Maybe.create((MaybeOnSubscribe<JsonObject>) emitter -> {
+            JsonObject result = createUserSync(user);
+            if (result == null) {
+                emitter.onComplete();
+            } else {
+                emitter.onSuccess(result);
+            }
+        }).subscribeOn(Schedulers.io());
+    }
+
+    /* -----SYNC USER------*/
+
+    private JsonObject getUserSync(String login) throws IOException {
+        Call<JsonObject> call = api.getUser(login);
+        Response<JsonObject> response = call.execute();
+        if (response.isSuccessful()) {
+            return response.body();
+        } else {
+            return null;
+        }
+    }
+
+    private JsonArray getUsersSync() throws IOException {
+        Call<JsonArray> call = api.getUsers();
+        Response<JsonArray> response = call.execute();
+        if (response.isSuccessful()) {
+            return response.body();
+        } else {
+            return null;
+        }
+    }
+
+    private JsonObject createUserSync(User user) throws IOException {
 
         JsonElement body = new GsonBuilder()
                 .registerTypeAdapter(Date.class,
@@ -89,59 +149,7 @@ public class ApiService {
         }
     }
 
-    public Maybe<JsonObject> createUser(User user) {
-        return Maybe.create((MaybeOnSubscribe<JsonObject>) emitter -> {
-            JsonObject result = createUserSync(user);
-            if (result == null) {
-                emitter.onComplete();
-            } else {
-                emitter.onSuccess(result);
-            }
-        }).subscribeOn(Schedulers.io());
-    }
-
-    public JsonObject getUserSync(String login) throws IOException {
-        Call<JsonObject> call = api.getUser(login);
-        Response<JsonObject> response = call.execute();
-        if (response.isSuccessful()) {
-            return response.body();
-        } else {
-            return null;
-        }
-    }
-
-    public Maybe<JsonObject> getUser(String login) {
-        return Maybe.create((MaybeOnSubscribe<JsonObject>) emitter -> {
-            JsonObject result = getUserSync(login);
-            if (result == null) {
-                emitter.onComplete();
-            } else {
-                emitter.onSuccess(result);
-            }
-        }).subscribeOn(Schedulers.io());
-    }
-
-
-    public Maybe<JsonArray> getUsers() {
-        return Maybe.create((MaybeOnSubscribe<JsonArray>) emitter -> {
-            JsonArray result = getUsersSync();
-            if (result == null) {
-                emitter.onComplete();
-            } else {
-                emitter.onSuccess(result);
-            }
-        }).subscribeOn(Schedulers.io());
-    }
-
-    public JsonArray getUsersSync() throws IOException {
-        Call<JsonArray> call = api.getUsers();
-        Response<JsonArray> response = call.execute();
-        if (response.isSuccessful()) {
-            return response.body();
-        } else {
-            return null;
-        }
-    }
+    /* -----ASYNC PRODUCT------*/
 
     public Maybe<JsonArray> getProducts() {
         return Maybe.create((MaybeOnSubscribe<JsonArray>) emitter -> {
@@ -154,6 +162,19 @@ public class ApiService {
         }).subscribeOn(Schedulers.io());
     }
 
+    public Maybe<JsonArray> postProducts(List<Product> products) {
+        return Maybe.create((MaybeOnSubscribe<JsonArray>) emitter -> {
+            JsonArray result = postProductsSync(products);
+            if (result == null) {
+                emitter.onComplete();
+            } else {
+                emitter.onSuccess(result);
+            }
+        }).subscribeOn(Schedulers.io());
+    }
+
+    /* -----SYNC PRODUCT------*/
+
     private JsonArray getProductsSync() throws IOException {
         Call<JsonArray> call = api.getProducts();
         Response<JsonArray> response = call.execute();
@@ -164,6 +185,28 @@ public class ApiService {
         }
     }
 
+    private JsonArray postProductsSync(List<Product> productList) throws IOException {
+        JsonArray body = new GsonBuilder()
+                .registerTypeAdapter(Date.class,
+                        (JsonSerializer<Date>) (src, typeOfSrc, context) -> {
+                            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US);
+                            String dateFormatAsString = dateFormat.format(src);
+                            return new JsonPrimitive(dateFormatAsString);
+                        })
+                .create()
+                .toJsonTree(productList).getAsJsonArray();
+
+        Call<JsonArray> call = api.addProducts(body);
+        Response<JsonArray> response = call.execute();
+        if (response.isSuccessful()) {
+            return response.body();
+        } else {
+            return null;
+        }
+    }
+
+
+    /* -----ASYNC SHOPPING LISTS------*/
 
     public Maybe<JsonArray> getShoppingLists() {
         return Maybe.create((MaybeOnSubscribe<JsonArray>) emitter -> {
@@ -176,6 +219,19 @@ public class ApiService {
         }).subscribeOn(Schedulers.io());
     }
 
+    public Maybe<JsonArray> postShoppingLists(List<ShoppingList> shoppingLists) {
+        return Maybe.create((MaybeOnSubscribe<JsonArray>) emitter -> {
+            JsonArray result = postShoppingListsSync(shoppingLists);
+            if (result == null) {
+                emitter.onComplete();
+            } else {
+                emitter.onSuccess(result);
+            }
+        }).subscribeOn(Schedulers.io());
+    }
+
+    /* -----SYNC SHOPPING LISTS------*/
+
     private JsonArray getShoppingListsSync() throws IOException {
         Call<JsonArray> call = api.getShoppingLists();
         Response<JsonArray> response = call.execute();
@@ -186,6 +242,27 @@ public class ApiService {
         }
     }
 
+    private JsonArray postShoppingListsSync(List<ShoppingList> shoppingLists) throws IOException {
+        JsonArray body = new GsonBuilder()
+                .registerTypeAdapter(Date.class,
+                        (JsonSerializer<Date>) (src, typeOfSrc, context) -> {
+                            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US);
+                            String dateFormatAsString = dateFormat.format(src);
+                            return new JsonPrimitive(dateFormatAsString);
+                        })
+                .create()
+                .toJsonTree(shoppingLists).getAsJsonArray();
+
+        Call<JsonArray> call = api.addShoppingLists(body);
+        Response<JsonArray> response = call.execute();
+        if (response.isSuccessful()) {
+            return response.body();
+        } else {
+            return null;
+        }
+    }
+
+    /* -----ASYNC SHARED LISTS------*/
 
     public Maybe<JsonArray> getSharedLists() {
         return Maybe.create((MaybeOnSubscribe<JsonArray>) emitter -> {
@@ -198,6 +275,19 @@ public class ApiService {
         }).subscribeOn(Schedulers.io());
     }
 
+    public Maybe<JsonArray> postShared(List<SharedList> sharedLists) {
+        return Maybe.create((MaybeOnSubscribe<JsonArray>) emitter -> {
+            JsonArray result = postSharedSync(sharedLists);
+            if (result == null) {
+                emitter.onComplete();
+            } else {
+                emitter.onSuccess(result);
+            }
+        }).subscribeOn(Schedulers.io());
+    }
+
+    /* -----SYNC SHARED LISTS------*/
+
     private JsonArray getSharedListsSync() throws IOException {
         Call<JsonArray> call = api.getSharedLists();
         Response<JsonArray> response = call.execute();
@@ -207,4 +297,25 @@ public class ApiService {
             return null;
         }
     }
+
+    private JsonArray postSharedSync(List<SharedList> sharedLists) throws IOException {
+        JsonArray body = new GsonBuilder()
+                .registerTypeAdapter(Date.class,
+                        (JsonSerializer<Date>) (src, typeOfSrc, context) -> {
+                            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US);
+                            String dateFormatAsString = dateFormat.format(src);
+                            return new JsonPrimitive(dateFormatAsString);
+                        })
+                .create()
+                .toJsonTree(sharedLists).getAsJsonArray();
+
+        Call<JsonArray> call = api.addSharedLists(body);
+        Response<JsonArray> response = call.execute();
+        if (response.isSuccessful()) {
+            return response.body();
+        } else {
+            return null;
+        }
+    }
+
 }
