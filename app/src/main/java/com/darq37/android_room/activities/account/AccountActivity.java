@@ -62,16 +62,17 @@ public class AccountActivity extends AppCompatActivity {
                     String displayName = user.getDisplayName();
                     String name = String.format(res.getString(R.string.accountLogin), displayName);
                     userNameText.setText(name);
+                    sharedListDao.getAllForUserDisplayName(user.getDisplayName())
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .doOnSuccess(sharedLists -> {
+                                sharedListAdapter.setLists(sharedLists);
+                                sharedListView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                                sharedListView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
+                                sharedListView.setAdapter(sharedListAdapter);
+                            }).subscribe();
 
-                }).flatMap(user -> sharedListDao.getAllForUserDisplayName(user.getDisplayName())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSuccess(sharedLists -> {
-                    sharedListAdapter.setLists(sharedLists);
-                    sharedListView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-                    sharedListView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
-                    sharedListView.setAdapter(sharedListAdapter);
-                }))
+                })
                 .subscribe();
 
 

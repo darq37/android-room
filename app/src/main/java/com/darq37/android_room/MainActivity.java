@@ -130,9 +130,9 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void syncData(View view) {
-/*        syncUsers(view);
+        syncUsers(view);
         syncProducts(view);
-        syncSharedLists(view);*/
+        syncSharedLists(view);
         syncShoppingLists(view);
     }
 
@@ -141,31 +141,29 @@ public class MainActivity extends AppCompatActivity {
         userDao.getAll()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSuccess(users -> {
-                    apiService.postUsers(users)
-                            .doOnSuccess(array -> apiService
-                                    .getUsers()
-                                    .subscribeOn(Schedulers.io())
-                                    .observeOn(Schedulers.io())
-                                    .doOnSuccess(jsonArray -> {
-                                        Gson gson = new Gson();
-                                        User[] userArray = gson.fromJson(jsonArray, User[].class);
-                                        userDao.clearAll()
-                                                .doOnComplete(() -> userDao
-                                                        .insert(Arrays.asList(userArray))
-                                                        .subscribeOn(Schedulers.io())
-                                                        .observeOn(AndroidSchedulers.mainThread())
-                                                        .doOnSuccess(longs -> System.out.println("Users synced"))
-                                                        .subscribe())
-                                                .subscribe();
-                                    })
-                                    .doOnError(Log::getStackTraceString)
-                                    .subscribe())
-                            .doOnComplete(() -> Toast.makeText(this, "Cannot save users to the back-end", Toast.LENGTH_SHORT).show())
-                            .ignoreElement()
-                            .onErrorComplete(throwable -> true)
-                            .subscribe();
-                }).subscribe();
+                .doOnSuccess(users -> apiService.postUsers(users)
+                        .doOnSuccess(array -> apiService
+                                .getUsers()
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(Schedulers.io())
+                                .doOnSuccess(jsonArray -> {
+                                    Gson gson = new Gson();
+                                    User[] userArray = gson.fromJson(jsonArray, User[].class);
+                                    userDao.clearAll()
+                                            .doOnComplete(() -> userDao
+                                                    .insert(Arrays.asList(userArray))
+                                                    .subscribeOn(Schedulers.io())
+                                                    .observeOn(AndroidSchedulers.mainThread())
+                                                    .doOnSuccess(longs -> System.out.println("Users synced"))
+                                                    .subscribe())
+                                            .subscribe();
+                                })
+                                .doOnError(Log::getStackTraceString)
+                                .subscribe())
+                        .doOnComplete(() -> Toast.makeText(this, "Cannot save users to the back-end", Toast.LENGTH_SHORT).show())
+                        .ignoreElement()
+                        .onErrorComplete(throwable -> true)
+                        .subscribe()).subscribe();
     }
 
 
@@ -173,73 +171,69 @@ public class MainActivity extends AppCompatActivity {
         productDao.getAll()
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
-                .doOnSuccess(products -> {
-                    apiService.postProducts(products)
-                            .doOnSuccess(array ->
-                                    apiService.getProducts()
-                                            .subscribeOn(Schedulers.io())
-                                            .observeOn(Schedulers.io())
-                                            .doOnSuccess(jsonArray -> {
-                                                Gson gson = new Gson();
-                                                Product[] productArray = gson.fromJson(jsonArray, Product[].class);
-                                                productDao.clearAll()
-                                                        .doOnComplete(() -> productDao
-                                                                .insert(Arrays.asList(productArray))
-                                                                .subscribeOn(Schedulers.io())
-                                                                .observeOn(AndroidSchedulers.mainThread())
-                                                                .doOnSuccess(longs -> System.out.println("Products synced"))
-                                                                .subscribe())
-                                                        .subscribe();
-                                            })
-                                            .doOnComplete(() -> Toast.makeText(this, "Cannot get products from back-end", Toast.LENGTH_SHORT).show())
-                                            .ignoreElement()
-                                            .onErrorComplete(throwable -> true)
-                                            .subscribe())
-                            .doOnComplete(() -> Toast.makeText(this, "Cannot save products to the back-end", Toast.LENGTH_SHORT).show())
-                            .ignoreElement()
-                            .onErrorComplete(throwable -> true)
-                            .subscribe();
-                }).subscribe();
+                .doOnSuccess(products -> apiService.postProducts(products)
+                        .doOnSuccess(array ->
+                                apiService.getProducts()
+                                        .subscribeOn(Schedulers.io())
+                                        .observeOn(Schedulers.io())
+                                        .doOnSuccess(jsonArray -> {
+                                            Gson gson = new Gson();
+                                            Product[] productArray = gson.fromJson(jsonArray, Product[].class);
+                                            productDao.clearAll()
+                                                    .doOnComplete(() -> productDao
+                                                            .insert(Arrays.asList(productArray))
+                                                            .subscribeOn(Schedulers.io())
+                                                            .observeOn(AndroidSchedulers.mainThread())
+                                                            .doOnSuccess(longs -> System.out.println("Products synced"))
+                                                            .subscribe())
+                                                    .subscribe();
+                                        })
+                                        .doOnComplete(() -> Toast.makeText(this, "Cannot get products from back-end", Toast.LENGTH_SHORT).show())
+                                        .ignoreElement()
+                                        .onErrorComplete(throwable -> true)
+                                        .subscribe())
+                        .doOnComplete(() -> Toast.makeText(this, "Cannot save products to the back-end", Toast.LENGTH_SHORT).show())
+                        .ignoreElement()
+                        .onErrorComplete(throwable -> true)
+                        .subscribe()).subscribe();
     }
 
     private void syncShoppingLists(View view) {
         shoppingListDao.getAll()
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
-                .doOnSuccess(shoppingLists -> {
-                    apiService.postShoppingLists(shoppingLists)
-                            .doOnSuccess(array ->
-                                    apiService.getShoppingLists()
-                                            .subscribeOn(Schedulers.io())
-                                            .observeOn(Schedulers.io())
-                                            .doOnSuccess(jsonArray -> {
-                                                Gson gson = new Gson();
-                                                ShoppingList[] shoppingListArray = gson.fromJson(jsonArray, ShoppingList[].class);
-                                                shoppingListDao.clearAll()
-                                                        .doOnComplete(() -> shoppingListDao
-                                                                .insert(Arrays.asList(shoppingListArray))
-                                                                .subscribeOn(Schedulers.io())
-                                                                .observeOn(AndroidSchedulers.mainThread())
-                                                                .doOnSuccess(longs -> {
-                                                                    System.out.println("Shopping lists synced");
-                                                                    shoppingListDao.getAllForUser(userName)
-                                                                            .subscribeOn(Schedulers.io())
-                                                                            .observeOn(AndroidSchedulers.mainThread())
-                                                                            .doOnSuccess(lists -> shoppingListAdapter.setLists(lists))
-                                                                            .subscribe();
-                                                                })
-                                                                .subscribe())
-                                                        .subscribe();
-                                            })
-                                            .doOnComplete(() -> Toast.makeText(this, "Cannot get shopping lists from back-end", Toast.LENGTH_SHORT).show())
-                                            .ignoreElement()
-                                            .onErrorComplete(throwable -> true)
-                                            .subscribe())
-                            .doOnComplete(() -> Toast.makeText(this, "Cannot save shopping lists to the back-end", Toast.LENGTH_SHORT).show())
-                            .ignoreElement()
-                            .onErrorComplete(throwable -> true)
-                            .subscribe();
-                }).subscribe();
+                .doOnSuccess(shoppingLists -> apiService.postShoppingLists(shoppingLists)
+                        .doOnSuccess(array ->
+                                apiService.getShoppingLists()
+                                        .subscribeOn(Schedulers.io())
+                                        .observeOn(Schedulers.io())
+                                        .doOnSuccess(jsonArray -> {
+                                            Gson gson = new Gson();
+                                            ShoppingList[] shoppingListArray = gson.fromJson(jsonArray, ShoppingList[].class);
+                                            shoppingListDao.clearAll()
+                                                    .doOnComplete(() -> shoppingListDao
+                                                            .insert(Arrays.asList(shoppingListArray))
+                                                            .subscribeOn(Schedulers.io())
+                                                            .observeOn(AndroidSchedulers.mainThread())
+                                                            .doOnSuccess(longs -> {
+                                                                System.out.println("Shopping lists synced");
+                                                                shoppingListDao.getAllForUser(userName)
+                                                                        .subscribeOn(Schedulers.io())
+                                                                        .observeOn(AndroidSchedulers.mainThread())
+                                                                        .doOnSuccess(lists -> shoppingListAdapter.setLists(lists))
+                                                                        .subscribe();
+                                                            })
+                                                            .subscribe())
+                                                    .subscribe();
+                                        })
+                                        .doOnComplete(() -> Toast.makeText(this, "Cannot get shopping lists from back-end", Toast.LENGTH_SHORT).show())
+                                        .ignoreElement()
+                                        .onErrorComplete(throwable -> true)
+                                        .subscribe())
+                        .doOnComplete(() -> Toast.makeText(this, "Cannot save shopping lists to the back-end", Toast.LENGTH_SHORT).show())
+                        .ignoreElement()
+                        .onErrorComplete(throwable -> true)
+                        .subscribe()).subscribe();
 
     }
 
@@ -247,33 +241,31 @@ public class MainActivity extends AppCompatActivity {
         sharedListDao.getAll()
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
-                .doOnSuccess(sharedLists -> {
-                    apiService.postShared(sharedLists)
-                            .doOnSuccess(array ->
-                                    apiService.getSharedLists()
-                                            .subscribeOn(Schedulers.io())
-                                            .observeOn(Schedulers.io())
-                                            .doOnSuccess(jsonArray -> {
-                                                Gson gson = new Gson();
-                                                SharedList[] sharedListArray = gson.fromJson(jsonArray, SharedList[].class);
-                                                sharedListDao.clearAll()
-                                                        .doOnComplete(() -> sharedListDao
-                                                                .insert(Arrays.asList(sharedListArray))
-                                                                .subscribeOn(Schedulers.io())
-                                                                .observeOn(AndroidSchedulers.mainThread())
-                                                                .doOnSuccess(longs -> System.out.println("Shared lists synced"))
-                                                                .subscribe())
-                                                        .subscribe();
-                                            })
-                                            .doOnComplete(() -> Toast.makeText(this, "Cannot get shared lists from back-end", Toast.LENGTH_SHORT).show())
-                                            .ignoreElement()
-                                            .onErrorComplete(throwable -> true)
-                                            .subscribe())
-                            .doOnComplete(() -> Toast.makeText(this, "Cannot save shared lists to the back-end", Toast.LENGTH_SHORT).show())
-                            .ignoreElement()
-                            .onErrorComplete(throwable -> true)
-                            .subscribe();
-                }).subscribe();
+                .doOnSuccess(sharedLists -> apiService.postShared(sharedLists)
+                        .doOnSuccess(array ->
+                                apiService.getSharedLists()
+                                        .subscribeOn(Schedulers.io())
+                                        .observeOn(Schedulers.io())
+                                        .doOnSuccess(jsonArray -> {
+                                            Gson gson = new Gson();
+                                            SharedList[] sharedListArray = gson.fromJson(jsonArray, SharedList[].class);
+                                            sharedListDao.clearAll()
+                                                    .doOnComplete(() -> sharedListDao
+                                                            .insert(Arrays.asList(sharedListArray))
+                                                            .subscribeOn(Schedulers.io())
+                                                            .observeOn(AndroidSchedulers.mainThread())
+                                                            .doOnSuccess(longs -> System.out.println("Shared lists synced"))
+                                                            .subscribe())
+                                                    .subscribe();
+                                        })
+                                        .doOnComplete(() -> Toast.makeText(this, "Cannot get shared lists from back-end", Toast.LENGTH_SHORT).show())
+                                        .ignoreElement()
+                                        .onErrorComplete(throwable -> true)
+                                        .subscribe())
+                        .doOnComplete(() -> Toast.makeText(this, "Cannot save shared lists to the back-end", Toast.LENGTH_SHORT).show())
+                        .ignoreElement()
+                        .onErrorComplete(throwable -> true)
+                        .subscribe()).subscribe();
     }
 
     private void sortByAZ(View view) {

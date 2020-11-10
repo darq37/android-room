@@ -20,9 +20,13 @@ import com.darq37.android_room.database.dao.ShoppingListDao;
 import com.darq37.android_room.database.dao.UserDao;
 import com.darq37.android_room.entity.SharedList;
 import com.darq37.android_room.entity.ShoppingList;
+import com.darq37.android_room.service.ApiService;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.gson.Gson;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -40,6 +44,7 @@ public class ListDetailsActivity extends AppCompatActivity {
     private ProductListAdapter productListAdapter;
     private ShoppingList shoppingList;
     private ShoppingListDao shoppingListDao;
+    private ApiService service;
 
     public void setShoppingList(ShoppingList shoppingList) {
         this.shoppingList = shoppingList;
@@ -51,6 +56,7 @@ public class ListDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_list_details);
         Intent intent = getIntent();
         long list_id = intent.getLongExtra("list_id", 1);
+        service = ApiService.getApiService(getApplicationContext());
 
         initializeDao();
         initializeViews();
@@ -86,6 +92,41 @@ public class ListDetailsActivity extends AppCompatActivity {
 
     }
 
+    public void share(View view) {
+        String username = userToShare.getText().toString();
+        if (!username.isEmpty()) {
+            userDao.getByName(username)
+                    .subscribeOn(Schedulers.io())
+                    .doOnSuccess(res -> {
+                        SharedList sharedList = new SharedList();
+                        sharedList.setSharedList_owner(res);
+                        sharedList.setShoppingList(shoppingList);
+                        List<SharedList> list = new ArrayList<>();
+                        list.add(sharedList);
+                        service.postShared(list)
+                                .doOnSuccess(array -> {
+                                    Gson gson = new Gson();
+                                    SharedList[] sharedListArray = gson.fromJson(array, SharedList[].class);
+                                    sharedListDao.insert(sharedListArray[0])
+                                            .subscribeOn(Schedulers.io())
+                                            .observeOn(AndroidSchedulers.mainThread())
+                                            .doOnSuccess(result -> Toast.makeText(this, "List shared", Toast.LENGTH_LONG).show())
+                                            .doOnError(throwable -> failedToInsertMsg())
+                                            .subscribe();
+                                })
+                                .doOnComplete(this::syncFailedMsg)
+                                .onErrorComplete()
+                                .subscribe();
+                    })
+                    .doOnError(throwable -> noUserMsg())
+                    .subscribe();
+        }
+    }
+
+    private void syncFailedMsg() {
+        Toast.makeText(this, "Cannot sync with back-end", Toast.LENGTH_SHORT).show();
+    }
+
     private void initializeDao() {
         shoppingListDao = RoomConstant.getInstance(this).shoppingListDao();
         sharedListDao = RoomConstant.getInstance(this).sharedListDao();
@@ -100,27 +141,6 @@ public class ListDetailsActivity extends AppCompatActivity {
         shareButton = findViewById(R.id.shareButton);
         userToShare = findViewById(R.id.userToShare);
         productListAdapter = new ProductListAdapter(Collections.emptyList());
-    }
-
-    public void share(View view) {
-        String username = userToShare.getText().toString();
-        if (!username.isEmpty()) {
-            userDao.getByName(username)
-                    .subscribeOn(Schedulers.io())
-                    .doOnSuccess(res -> {
-                        SharedList sharedList = new SharedList();
-                        sharedList.setSharedList_owner(res);
-                        sharedList.setShoppingList(shoppingList);
-                        sharedListDao.insert(sharedList)
-                                .subscribeOn(Schedulers.io())
-                                .observeOn(AndroidSchedulers.mainThread())
-                                .doOnSuccess(result -> Toast.makeText(this, "List shared", Toast.LENGTH_LONG).show())
-                                .doOnError(throwable -> failedToInsertMsg())
-                                .subscribe();
-                    })
-                    .doOnError(throwable -> noUserMsg())
-                    .subscribe();
-        }
     }
 
     private void noUserMsg() {
