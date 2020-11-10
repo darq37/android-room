@@ -65,27 +65,58 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_main);
 
-        initializeViews();
+        initializeVariables();
+        findViewsById();
+        initializeDaos();
+        syncUsers();
+        setupRecyclerView();
+        setOnClickListeners();
+    }
+
+    private void initializeVariables() {
+
+        sharedPreferences = getSharedPreferences("app", MODE_PRIVATE);
+        userName = sharedPreferences.getString("user", null);
+        apiService = ApiService.getApiService(getApplicationContext());
+        shoppingListAdapter = new ShoppingListAdapter(Collections.emptyList());
         sortedAlphabetically = false;
         sortedByID = false;
 
-        Resources res = getResources();
+    }
 
+    private void findViewsById() {
+        logout = findViewById(R.id.logOutButton);
+        settingsButton = findViewById(R.id.settingsButton);
+        addNewListButton = findViewById(R.id.to_new_list_button);
+        addProductButton = findViewById(R.id.to_products_button);
+        sortByAZButton = findViewById(R.id.sortByAlphaButton);
+        sortByIdButton = findViewById(R.id.sortByIDButton);
+        syncButton = findViewById(R.id.syncButton);
+        welcomeView = findViewById(R.id.welcome);
+        recyclerView = findViewById(R.id.shoppingLists);
+    }
+
+    private void initializeDaos() {
         userDao = RoomConstant.getInstance(this).userDao();
         productDao = RoomConstant.getInstance(this).productDao();
         sharedListDao = RoomConstant.getInstance(this).sharedListDao();
         shoppingListDao = RoomConstant.getInstance(this).shoppingListDao();
+    }
 
+    private void setOnClickListeners() {
+        logout.setOnClickListener(this::logout);
+        settingsButton.setOnClickListener(this::toAccountActivity);
+        addNewListButton.setOnClickListener(this::toListActivity);
+        addProductButton.setOnClickListener(this::toProductActivity);
+        sortByIdButton.setOnClickListener(this::sortById);
+        sortByAZButton.setOnClickListener(this::sortByAZ);
+        syncButton.setOnClickListener(this::syncData);
+    }
 
-        shoppingListAdapter = new ShoppingListAdapter(Collections.emptyList());
-        sharedPreferences = getSharedPreferences("app", MODE_PRIVATE);
-        userName = sharedPreferences.getString("user", null);
-        apiService = ApiService.getApiService(getApplicationContext());
-
-
+    private void setupRecyclerView() {
+        Resources res = getResources();
         userDao.getById(userName)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -105,38 +136,17 @@ public class MainActivity extends AppCompatActivity {
                             recyclerView.setAdapter(shoppingListAdapter);
                         }).subscribe())
                 .subscribe();
-
-        logout.setOnClickListener(this::logout);
-        settingsButton.setOnClickListener(this::toAccountActivity);
-        addNewListButton.setOnClickListener(this::toListActivity);
-        addProductButton.setOnClickListener(this::toProductActivity);
-        sortByIdButton.setOnClickListener(this::sortById);
-        sortByAZButton.setOnClickListener(this::sortByAZ);
-        syncButton.setOnClickListener(this::syncData);
-
-    }
-
-    private void initializeViews() {
-        logout = findViewById(R.id.logOutButton);
-        settingsButton = findViewById(R.id.settingsButton);
-        addNewListButton = findViewById(R.id.to_new_list_button);
-        addProductButton = findViewById(R.id.to_products_button);
-        sortByAZButton = findViewById(R.id.sortByAlphaButton);
-        sortByIdButton = findViewById(R.id.sortByIDButton);
-        syncButton = findViewById(R.id.syncButton);
-        welcomeView = findViewById(R.id.welcome);
-        recyclerView = findViewById(R.id.shoppingLists);
     }
 
 
     private void syncData(View view) {
-        syncUsers(view);
-        syncProducts(view);
-        syncSharedLists(view);
-        syncShoppingLists(view);
+        syncUsers();
+        syncProducts();
+        syncSharedLists();
+        syncShoppingLists();
     }
 
-    private void syncUsers(View view) {
+    private void syncUsers() {
 
         userDao.getAll()
                 .subscribeOn(Schedulers.io())
@@ -167,7 +177,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void syncProducts(View view) {
+    private void syncProducts() {
         productDao.getAll()
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
@@ -198,7 +208,7 @@ public class MainActivity extends AppCompatActivity {
                         .subscribe()).subscribe();
     }
 
-    private void syncShoppingLists(View view) {
+    private void syncShoppingLists() {
         shoppingListDao.getAll()
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
@@ -237,7 +247,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void syncSharedLists(View view) {
+    private void syncSharedLists() {
         sharedListDao.getAll()
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
