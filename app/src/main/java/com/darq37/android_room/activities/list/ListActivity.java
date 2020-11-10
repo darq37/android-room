@@ -42,6 +42,7 @@ public class ListActivity extends AppCompatActivity {
     private UserDao userDao;
     private ProductDao productDao;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private SharedPreferences sharedPreferences;
 
 
     public void setLoggedInUser(User loggedInUser) {
@@ -52,23 +53,30 @@ public class ListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
+        sharedPreferences = getSharedPreferences("app", MODE_PRIVATE);
 
         initializeViews();
         initializeDao();
+        fillRecyclerView();
+        setOnClickListeners();
+    }
 
-        SharedPreferences sharedPreferences = getSharedPreferences("app", MODE_PRIVATE);
-        String userName = sharedPreferences.getString("user", null);
+    private void setOnClickListeners() {
+        addToListButton.setOnClickListener(this::createList);
+        swipeRefreshLayout.setOnRefreshListener(this::refreshData);
+    }
 
-
+    private void fillRecyclerView() {
         productDao.getAll()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSuccess(products -> {
-                            productAdapter.setProductList(products);
-                            productRV.setHasFixedSize(true);
-                            productRV.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-                            productRV.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
-                            productRV.setAdapter(productAdapter);
+                    productAdapter.setProductList(products);
+                    productRV.setHasFixedSize(true);
+                    productRV.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                    productRV.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
+                    productRV.setAdapter(productAdapter);
+                    String userName = sharedPreferences.getString("user", null);
 
                             userDao.getById(userName)
                                     .subscribeOn(Schedulers.io())
@@ -78,8 +86,6 @@ public class ListActivity extends AppCompatActivity {
                         }
                 )
                 .subscribe();
-        addToListButton.setOnClickListener(this::createList);
-        swipeRefreshLayout.setOnRefreshListener(this::refreshData);
     }
 
 

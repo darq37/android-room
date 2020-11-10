@@ -37,13 +37,13 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        viewInitializations();
+        initializeCiews();
         userDao = RoomConstant.getInstance(getApplicationContext()).userDao();
         signUpButton.setOnClickListener(this::performSignUp);
 
     }
 
-    void viewInitializations() {
+    void initializeCiews() {
         registerLogin = findViewById(R.id.register_login);
         registerName = findViewById(R.id.register_display_name);
         registerPassword = findViewById(R.id.register_password);

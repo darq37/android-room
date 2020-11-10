@@ -43,7 +43,29 @@ public class ProductActivity extends AppCompatActivity {
         productDao = RoomConstant.getInstance(this).productDao();
 
         initializeViews();
+        initializeRecyclerView();
+        fillRecyclerView();
 
+        setOnClickListeners();
+    }
+
+    private void setOnClickListeners() {
+        addProductButton.setOnClickListener(this::addProduct);
+        swipeRefreshLayout.setOnRefreshListener(this::refreshData);
+    }
+
+    @Override
+    protected void onResume() {
+        fillRecyclerView();
+        super.onResume();
+    }
+
+    private void initializeRecyclerView() {
+        productAdapter.setProductList(Collections.emptyList());
+        productList.setAdapter(productAdapter);
+    }
+
+    private void fillRecyclerView() {
         productDao.getAll()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -55,9 +77,6 @@ public class ProductActivity extends AppCompatActivity {
                     productList.setAdapter(productAdapter);
                 })
                 .subscribe();
-
-        addProductButton.setOnClickListener(this::addProduct);
-        swipeRefreshLayout.setOnRefreshListener(this::refreshData);
     }
 
     private void refreshData() {
@@ -84,7 +103,6 @@ public class ProductActivity extends AppCompatActivity {
         productName = findViewById(R.id.productName);
         productDescription = findViewById(R.id.productDescription);
         swipeRefreshLayout = findViewById(R.id.product_swipe_refresh);
-        productAdapter = new ProductAdapter(Collections.emptyList());
     }
 
     public void addProduct(View view) {

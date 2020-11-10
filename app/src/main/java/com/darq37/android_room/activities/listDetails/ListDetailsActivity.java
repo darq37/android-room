@@ -54,13 +54,27 @@ public class ListDetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_details);
-        Intent intent = getIntent();
-        long list_id = intent.getLongExtra("list_id", 1);
+
         service = ApiService.getApiService(getApplicationContext());
+        initializeRecyclerView();
 
         initializeDao();
         initializeViews();
 
+        fillRecyclerView();
+
+        shareButton.setOnClickListener(this::share);
+
+    }
+
+    private void initializeRecyclerView() {
+        productListAdapter = new ProductListAdapter(Collections.emptyList());
+        productList.setAdapter(productListAdapter);
+    }
+
+    private void fillRecyclerView() {
+        Intent intent = getIntent();
+        long list_id = intent.getLongExtra("list_id", 1);
         shoppingListDao.getById(list_id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -87,9 +101,13 @@ public class ListDetailsActivity extends AppCompatActivity {
                     setShoppingList(list);
                 })
                 .subscribe();
+    }
 
-        shareButton.setOnClickListener(this::share);
+    @Override
+    protected void onResume() {
 
+        fillRecyclerView();
+        super.onResume();
     }
 
     public void share(View view) {
@@ -140,7 +158,7 @@ public class ListDetailsActivity extends AppCompatActivity {
         productList = findViewById(R.id.product_list);
         shareButton = findViewById(R.id.shareButton);
         userToShare = findViewById(R.id.userToShare);
-        productListAdapter = new ProductListAdapter(Collections.emptyList());
+
     }
 
     private void noUserMsg() {

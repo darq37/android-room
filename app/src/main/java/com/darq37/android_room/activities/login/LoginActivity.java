@@ -78,8 +78,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void preparePreferences(User user) {
-
-        sharedPreferences = getSharedPreferences("app", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean("logged", true);
         editor.putString("user", user.getLogin());

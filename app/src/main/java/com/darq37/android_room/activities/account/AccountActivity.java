@@ -36,23 +36,38 @@ public class AccountActivity extends AppCompatActivity {
     private RecyclerView sharedListView;
     private SharedListAdapter sharedListAdapter;
     private User loggedUser;
+    private SharedListDao sharedListDao;
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account);
-        userDao = RoomConstant.getInstance(this).userDao();
-        SharedListDao sharedListDao = RoomConstant.getInstance(this).sharedListDao();
-        sharedListAdapter = new SharedListAdapter(Collections.emptyList());
 
-        Resources res = getResources();
+        sharedPreferences = getSharedPreferences("app", MODE_PRIVATE);
 
+        initializeDaos();
         initializeViews();
+        initializeRecyclerView();
 
-        SharedPreferences sharedPreferences = getSharedPreferences("app", MODE_PRIVATE);
+        fillRecyclerView();
+        changePasswordButton.setOnClickListener(this::changePassword);
+    }
+
+    private void initializeRecyclerView() {
+        sharedListAdapter = new SharedListAdapter(Collections.emptyList());
+        sharedListView.setAdapter(sharedListAdapter);
+    }
+
+    private void initializeDaos() {
+        userDao = RoomConstant.getInstance(this).userDao();
+        sharedListDao = RoomConstant.getInstance(this).sharedListDao();
+    }
+
+    private void fillRecyclerView() {
         String userName = sharedPreferences.getString("user", null);
-
+        Resources res = getResources();
         userDao.getById(userName)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -74,9 +89,6 @@ public class AccountActivity extends AppCompatActivity {
 
                 })
                 .subscribe();
-
-
-        changePasswordButton.setOnClickListener(this::changePassword);
     }
 
     private void initializeViews() {
