@@ -4,11 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
     tools:context=".MainActivity">
 
     <TextView
-        android:id="@+id/to_products_text2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
@@ -19,7 +17,6 @@
         app:layout_constraintTop_toBottomOf="@+id/syncButton" />
 
     <TextView
-        android:id="@+id/add_list_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -118,7 +115,6 @@
         app:srcCompat="@drawable/store" />
 
     <TextView
-        android:id="@+id/account_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/account"

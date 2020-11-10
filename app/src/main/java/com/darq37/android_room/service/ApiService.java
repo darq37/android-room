@@ -1,5 +1,6 @@
 package com.darq37.android_room.service;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 
 import com.darq37.android_room.entity.Product;
@@ -34,11 +35,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiService {
     private final Api api;
-    private Context context;
+    @SuppressLint("StaticFieldLeak")
     private static ApiService INSTANCE;
 
     private ApiService(Context context) {
-        this.context = context;
 
         OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
         clientBuilder.addInterceptor(new HttpLoggingInterceptor()

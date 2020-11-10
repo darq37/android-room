@@ -47,7 +47,7 @@ public class AccountActivity extends AppCompatActivity {
 
         sharedPreferences = getSharedPreferences("app", MODE_PRIVATE);
 
-        initializeDaos();
+        initializeDAOs();
         initializeViews();
         initializeRecyclerView();
 
@@ -60,7 +60,7 @@ public class AccountActivity extends AppCompatActivity {
         sharedListView.setAdapter(sharedListAdapter);
     }
 
-    private void initializeDaos() {
+    private void initializeDAOs() {
         userDao = RoomConstant.getInstance(this).userDao();
         sharedListDao = RoomConstant.getInstance(this).sharedListDao();
     }
